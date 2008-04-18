@@ -1,0 +1,138 @@
+<?php
+/*
+  ----------------------------------------------------------------------
+  GLPI - Gestionnaire Libre de Parc Informatique
+  Copyright (C) 2003-2008 by the INDEPNET Development Team.
+  
+  http://indepnet.net/   http://glpi-project.org/
+  ----------------------------------------------------------------------
+  
+  LICENSE
+  
+  This file is part of GLPI.
+  
+  GLPI is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+  
+  GLPI is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with GLPI; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  ------------------------------------------------------------------------
+ */
+
+// ----------------------------------------------------------------------
+// Original Author of file: DOMBRE Julien
+// Purpose of file:
+// ----------------------------------------------------------------------
+
+function plugin_room_initSession() {
+	global $DB;
+	
+	if(plugin_room_isInstalled()){
+		$_SESSION["glpiplugin_room_installed"]=1;
+	}
+}
+
+function plugin_room_isInstalled(){
+	return TableExists("glpi_plugin_room");
+}
+
+function plugin_room_Install(){
+	global $DB;
+
+	if (!TableExists('glpi_plugin_room')){
+		$query="CREATE TABLE  `glpi_plugin_room` (
+			`ID` int(11) NOT NULL auto_increment,
+			`name` varchar(255) collate utf8_unicode_ci default NULL,
+			`FK_entities` int(11) NOT NULL default '0',
+			`deleted` smallint(6) NOT NULL default '0',
+			`type` int(11) NOT NULL default '0',
+			`date_mod` datetime default NULL,
+			`helper` smallint(6) NOT NULL default '0',
+			`number` smallint(6) NOT NULL default '0',
+			`buy` datetime default NULL,
+			`access` int(11) NOT NULL default '0',
+			`printer` smallint(6) NOT NULL default '0',
+			`videoprojector` smallint(6) NOT NULL default '0',
+			`wifi` smallint(6) NOT NULL default '0',
+			`comments` text collate utf8_unicode_ci,
+			`opening` varchar(255) collate utf8_unicode_ci default NULL,
+			`limits` varchar(255) collate utf8_unicode_ci default NULL,
+			`FK_users1` int(11) NOT NULL default '0',
+			`FK_users2` int(11) NOT NULL default '0',
+			PRIMARY KEY  (`ID`),
+			KEY `FK_entities` (`FK_entities`),
+			KEY `deleted` (`deleted`),
+			KEY `type` (`type`),
+			KEY `name` (`name`),
+			KEY `buy` (`buy`),
+			KEY `FK_users1` (`FK_users1`),
+			KEY `FK_users2` (`FK_users2`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;";
+		$DB->query($query) or die("error adding glpi_plugin_room table " . $LANG["update"][90] . $DB->error());
+	}
+	if (!TableExists('glpi_plugin_room_computer')){
+		$query="CREATE TABLE `glpi_plugin_room_computer` (
+			`ID` int(11) NOT NULL auto_increment,
+			`FK_computers` int(11) NOT NULL,
+			`FK_room` int(11) NOT NULL,
+			PRIMARY KEY  (`ID`),
+			KEY `FK_computers` (`FK_computers`),
+			KEY `FK_room` (`FK_room`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		$DB->query($query) or die("error adding glpi_plugin_room_computer table " . $LANG["update"][90] . $DB->error());
+	}
+	if (!TableExists('glpi_dropdown_plugin_room_type')){
+		$query="CREATE TABLE  `glpi_dropdown_plugin_room_type` (
+		`ID` int(11) NOT NULL auto_increment,
+		`name` varchar(255) collate utf8_unicode_ci default NULL,
+		`comments` text collate utf8_unicode_ci,
+		PRIMARY KEY  (`ID`),
+		KEY `name` (`name`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		$DB->query($query) or die("error adding glpi_dropdown_plugin_room_type table " . $LANG["update"][90] . $DB->error());
+	}
+
+	if (!TableExists('glpi_dropdown_plugin_room_access')){
+		$query="CREATE TABLE  `glpi_dropdown_plugin_room_access` (
+		`ID` int(11) NOT NULL auto_increment,
+		`name` varchar(255) collate utf8_unicode_ci default NULL,
+		`comments` text collate utf8_unicode_ci,
+		PRIMARY KEY  (`ID`),
+		KEY `name` (`name`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		$DB->query($query) or die("error adding glpi_dropdown_plugin_room_access table " . $LANG["update"][90] . $DB->error());
+	}
+
+	$_SESSION["glpiplugin_room_installed"]=1;
+	plugin_init_room();
+
+	cleanCache("GLPI_HEADER_".$_SESSION["glpiID"]);
+}
+
+function plugin_room_Uninstall(){
+	global $DB;
+
+	if (isset($_SESSION["glpiplugin_room_installed"])){
+		$query='DROP TABLE `glpi_plugin_room_computer`';
+		$DB->query($query) ;
+		$query='DROP TABLE `glpi_plugin_room`';
+		$DB->query($query) ;
+		$query='DROP TABLE `glpi_dropdown_plugin_room_type`';
+		$DB->query($query) ;
+		$query='DROP TABLE `glpi_dropdown_plugin_room_access`';
+		$DB->query($query) ;
+		unset($_SESSION["glpiplugin_room_installed"]);
+		plugin_init_room();
+		cleanCache("GLPI_HEADER_".$_SESSION["glpiID"]);
+	}
+}
+
+?>
