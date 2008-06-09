@@ -32,15 +32,18 @@ Purpose of file:
 $LANGROOM[0]="Salles";
 $LANGROOM[1]="Plugin installé et à jour : Parfait !";	
 $LANGROOM[2]="Plugin non installé !";	
-$LANGROOM[3]="Moniteur";
-$LANGROOM[4]="Nombre de postes";
+$LANGROOM[3]="Ajouter une salle";
+$LANGROOM[4]="Nombre de places";
 $LANGROOM[5]="Conditions d'accès";
-$LANGROOM[6]="Impression";
+$LANGROOM[6]="Moyen d'impression";
 $LANGROOM[7]="Vidéoprojecteur";
 $LANGROOM[8]="Wifi";
-$LANGROOM[9]="Wifi";
 $LANGROOM[10]="Responsable";
 $LANGROOM[11]="Horaires d'ouverture";
 $LANGROOM[12]="Limitations";
+$LANGROOM[13]="Spécifité 1";
+$LANGROOM[14]="Spécifité 2";
+$LANGROOM[15]="Spécifité 3";
+$LANGROOM[16]="Spécifité 4";
 
 ?>

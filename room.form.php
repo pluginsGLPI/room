@@ -55,6 +55,16 @@ if (isset($_POST["add"]))
 
 	$room->delete($_POST);
 	glpi_header($CFG_GLPI["root_doc"]."/plugins/room/index.php");
+} else if (isset($_POST["purge"])) {
+	checkTypeRight(PLUGIN_ROOM_TYPE,"w");
+
+	$room->delete($_POST,1);
+	glpi_header($CFG_GLPI["root_doc"]."/plugins/room/index.php");
+} else if (isset($_POST["restore"])) {
+	checkTypeRight(PLUGIN_ROOM_TYPE,"w");
+
+	$room->restore($_POST);
+	glpi_header($CFG_GLPI["root_doc"]."/plugins/room/index.php");
 } else if (isset($_POST["update"])) {
 	checkTypeRight(PLUGIN_ROOM_TYPE,"w");
 

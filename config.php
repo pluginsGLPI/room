@@ -36,7 +36,8 @@ if(!defined('GLPI_ROOT')){
 }
 include (GLPI_ROOT . "/inc/includes.php");
 
-checkTypeRight(PLUGIN_ROOM_TYPE,"w");
+
+checkRight("config","w");
 
 	
 if (isset($_GET['install'])){

@@ -52,11 +52,11 @@ function plugin_room_Install(){
 			`ID` int(11) NOT NULL auto_increment,
 			`name` varchar(255) collate utf8_unicode_ci default NULL,
 			`FK_entities` int(11) NOT NULL default '0',
+			`recursive` smallint(6) NOT NULL default '0',
 			`deleted` smallint(6) NOT NULL default '0',
 			`type` int(11) NOT NULL default '0',
 			`date_mod` datetime default NULL,
-			`helper` smallint(6) NOT NULL default '0',
-			`number` smallint(6) NOT NULL default '0',
+			`size` smallint(6) NOT NULL default '0',
 			`buy` datetime default NULL,
 			`access` int(11) NOT NULL default '0',
 			`printer` smallint(6) NOT NULL default '0',
@@ -65,6 +65,10 @@ function plugin_room_Install(){
 			`comments` text collate utf8_unicode_ci,
 			`opening` varchar(255) collate utf8_unicode_ci default NULL,
 			`limits` varchar(255) collate utf8_unicode_ci default NULL,
+			`text1` varchar(255) collate utf8_unicode_ci default NULL,
+			`text2` varchar(255) collate utf8_unicode_ci default NULL,
+			`dropdown1` int(11) NOT NULL default '0',
+			`dropdown2` int(11) NOT NULL default '0',
 			`FK_users1` int(11) NOT NULL default '0',
 			`FK_users2` int(11) NOT NULL default '0',
 			PRIMARY KEY  (`ID`),
@@ -73,6 +77,8 @@ function plugin_room_Install(){
 			KEY `type` (`type`),
 			KEY `name` (`name`),
 			KEY `buy` (`buy`),
+			KEY `dropdown1` (`dropdown1`),
+			KEY `dropdown2` (`dropdown2`),
 			KEY `FK_users1` (`FK_users1`),
 			KEY `FK_users2` (`FK_users2`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;";
@@ -111,6 +117,28 @@ function plugin_room_Install(){
 		$DB->query($query) or die("error adding glpi_dropdown_plugin_room_access table " . $LANG["update"][90] . $DB->error());
 	}
 
+	if (!TableExists('glpi_dropdown_plugin_room_dropdown1')){
+		$query="CREATE TABLE  `glpi_dropdown_plugin_room_dropdown1` (
+		`ID` int(11) NOT NULL auto_increment,
+		`name` varchar(255) collate utf8_unicode_ci default NULL,
+		`comments` text collate utf8_unicode_ci,
+		PRIMARY KEY  (`ID`),
+		KEY `name` (`name`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		$DB->query($query) or die("error adding glpi_dropdown_plugin_room_dropdown1 table " . $LANG["update"][90] . $DB->error());
+	}
+
+	if (!TableExists('glpi_dropdown_plugin_room_dropdown2')){
+		$query="CREATE TABLE  `glpi_dropdown_plugin_room_dropdown2` (
+		`ID` int(11) NOT NULL auto_increment,
+		`name` varchar(255) collate utf8_unicode_ci default NULL,
+		`comments` text collate utf8_unicode_ci,
+		PRIMARY KEY  (`ID`),
+		KEY `name` (`name`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		$DB->query($query) or die("error adding glpi_dropdown_plugin_room_dropdown2 table " . $LANG["update"][90] . $DB->error());
+	}
+
 	$_SESSION["glpiplugin_room_installed"]=1;
 	plugin_init_room();
 
@@ -128,6 +156,10 @@ function plugin_room_Uninstall(){
 		$query='DROP TABLE `glpi_dropdown_plugin_room_type`';
 		$DB->query($query) ;
 		$query='DROP TABLE `glpi_dropdown_plugin_room_access`';
+		$DB->query($query) ;
+		$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown1`';
+		$DB->query($query) ;
+		$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown2`';
 		$DB->query($query) ;
 		unset($_SESSION["glpiplugin_room_installed"]);
 		plugin_init_room();
