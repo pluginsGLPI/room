@@ -88,10 +88,10 @@ function plugin_room_Install(){
 		$query="CREATE TABLE `glpi_plugin_room_computer` (
 			`ID` int(11) NOT NULL auto_increment,
 			`FK_computers` int(11) NOT NULL,
-			`FK_room` int(11) NOT NULL,
+			`FK_rooms` int(11) NOT NULL,
 			PRIMARY KEY  (`ID`),
 			KEY `FK_computers` (`FK_computers`),
-			KEY `FK_room` (`FK_room`)
+			KEY `FK_rooms` (`FK_rooms`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 		$DB->query($query) or die("error adding glpi_plugin_room_computer table " . $LANG["update"][90] . $DB->error());
 	}
@@ -165,6 +165,21 @@ function plugin_room_Uninstall(){
 		plugin_init_room();
 		cleanCache("GLPI_HEADER_".$_SESSION["glpiID"]);
 	}
+}
+
+function plugin_room_AddDevice($rID,$cID){
+	global $DB;
+	if ($rID>0&&$cID>0){
+		$query="INSERT INTO glpi_plugin_room_computer (FK_rooms,FK_computers) VALUES ('$rID','$cID');";
+		$result = $DB->query($query);
+	}
+}
+
+function plugin_room_DeleteDevice($ID){
+	global $DB;
+	global $DB;
+	$query="DELETE FROM glpi_plugin_room_computer WHERE ID= '$ID';";
+	$result = $DB->query($query);
 }
 
 ?>

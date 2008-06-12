@@ -41,6 +41,19 @@ class PluginRoom  extends CommonDBTM {
 		$this->entity_assign=true;
 		$this->may_be_recursive=true;
 	}	
+
+	function defineOnglets($withtemplate){
+		global $LANG,$CFG_GLPI;
+
+		$ong[1]=$LANG["title"][26];
+
+		if (haveRight("reservation_central","r")){
+			$ong[11]=$LANG["Menu"][17];
+		}
+				
+		return $ong;
+	}
+
 	function showForm($target,$ID,$withtemplate=''){
 		global $CFG_GLPI, $LANG,$LANGROOM;
 
@@ -62,6 +75,9 @@ class PluginRoom  extends CommonDBTM {
 		} 
 		if ($spotted){
 			$canedit=$this->can($ID,'w');
+
+
+			$this->showOnglets($ID, $withtemplate,$_SESSION['glpi_onglet']);
 
 			if ($canedit) {
 				echo "<form name='form' method='post' action=\"$target\" enctype=\"multipart/form-data\">";
@@ -230,15 +246,100 @@ class PluginRoom  extends CommonDBTM {
 				echo "</table></div></form>";
 				
 			} else { //  can't edit
-				echo "</table></div>";			
+				echo "</table></div>";
 			} 
+			return true;
 		}
+		return false;
 
 	}
-	function showComputers($target,$ID){
-		global $CFG_GLPI, $LANG,$LANGROOM;
+	function showComputers($target,$rID){
+		global $CFG_GLPI, $LANG,$LANGROOM,$DB;
 		if (!haveTypeRight(PLUGIN_ROOM_TYPE,"r")) return false;
 
+		if ($this->getFromDB($rID)){
+			$canedit=$this->can($rID,'w');
+	
+			$query = "SELECT glpi_computers.*, glpi_plugin_room_computer.ID AS IDD, glpi_entities.ID AS entity "
+				." FROM glpi_plugin_room_computer, glpi_computers "
+				." LEFT JOIN glpi_entities ON (glpi_entities.ID=glpi_computers.FK_entities) "
+				." WHERE glpi_computers.ID = glpi_plugin_room_computer.FK_computers AND glpi_plugin_room_computer.FK_rooms = '$rID' "
+				. getEntitiesRestrictRequest(" AND ","glpi_computers",'','',true); 
+
+			$query.=" ORDER BY glpi_entities.completename, glpi_computers.name";
+
+			echo "<form method='post' name='document_form' id='document_form'  action=\"".$CFG_GLPI["root_doc"]."/plugins/room/room.form.php\">";
+		
+			echo "<br><br><div class='center'><table class='tab_cadre_fixe'>";
+			echo "<tr><th colspan='".($canedit?3:2)."'>".$LANG["document"][19].":</th></tr><tr>";
+			if ($canedit) {
+				echo "<th>&nbsp;</th>";
+			}
+			echo "<th>".$LANG["common"][16]."</th>";
+			echo "<th>".$LANG["entity"][0]."</th>";
+			echo "</tr>";
+					
+			if ($result_linked=$DB->query($query)){
+				if ($DB->numrows($result_linked)){
+					while ($data=$DB->fetch_assoc($result_linked)){
+						$ID="";
+								
+						if($CFG_GLPI["view_ID"]||empty($data["name"])){
+							$ID= " (".$data["ID"].")";
+						}
+						$name= "<a href=\"".$CFG_GLPI["root_doc"]."/room.form.php?ID=".$data["ID"]."\">".$data["name"]."$ID</a>";
+		
+						echo "<tr class='tab_bg_1'>";
+	
+						if ($canedit){
+							echo "<td width='10'>";
+							$sel="";
+							if (isset($_GET["select"])&&$_GET["select"]=="all") $sel="checked";
+							echo "<input type='checkbox' name='item[".$data["IDD"]."]' value='1' $sel>";
+							echo "</td>";
+						}
+								
+						echo "<td ".(isset($data['deleted'])&&$data['deleted']?"class='tab_bg_2_2'":"").">".$name."</td>";
+						echo "<td class='center'>".getDropdownName("glpi_entities",$data['entity'])."</td>";
+								
+						echo "</tr>";
+					}
+				}
+			}
+		
+			if ($canedit)	{
+				echo "<tr class='tab_bg_1'><td colspan='2' class='center'>";
+		
+				echo "<input type='hidden' name='rID' value='$rID'>";
+	
+				dropdownValue("glpi_computers","cID");
+				
+				echo "</td>";
+				echo "<td class='center'>";
+				echo "<input type='submit' name='additem' value=\"".$LANG["buttons"][8]."\" class='submit'>";
+				echo "</td></tr>";
+				echo "</table></div>" ;
+				
+				echo "<div class='center'>";
+				echo "<table width='950px'>";
+				echo "<tr><td><img src=\"".$CFG_GLPI["root_doc"]."/pics/arrow-left.png\" alt=''></td><td class='center'><a onclick= \"if ( markAllRows('document_form') ) return false;\" href='".$_SERVER['PHP_SELF']."?ID=$rID&amp;select=all'>".$LANG["buttons"][18]."</a></td>";
+			
+				echo "<td>/</td><td class='center'><a onclick= \"if ( unMarkAllRows('document_form') ) return false;\" href='".$_SERVER['PHP_SELF']."?ID=$rID&amp;select=none'>".$LANG["buttons"][19]."</a>";
+				echo "</td><td align='left' width='80%'>";
+				echo "<input type='submit' name='deleteitem' value=\"".$LANG["buttons"][6]."\" class='submit'>";
+				echo "</td>";
+				echo "</table>";
+			
+				echo "</div>";
+	
+	
+			}else{
+		
+				echo "</table></div>"    ;
+			}
+			echo "</form>";
+		}
+		
 
 	}
 

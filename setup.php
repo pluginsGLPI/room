@@ -229,4 +229,20 @@ function plugin_example_addLeftJoin($type,$ref_table,$new_table,$linkfield){
 	return "";
 }
 
+
+function plugin_room_giveItem($type,$field,$data,$num,$linkfield=""){
+	global $CFG_GLPI, $INFOFORM_PAGES;
+
+	switch ($field){
+		case "glpi_plugin_room.name" :
+			$out= "<a href=\"".$CFG_GLPI["root_doc"]."/".$INFOFORM_PAGES[$type]."?ID=".$data['ID']."\">";
+			$out.= $data["ITEM_$num"];
+			if ($CFG_GLPI["view_ID"]||empty($data["ITEM_$num"])) $out.= " (".$data["ID"].")";
+			$out.= "</a>";
+			return $out;
+			break;
+	}
+	return "";
+}
+
 ?>
