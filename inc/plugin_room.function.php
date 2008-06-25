@@ -90,7 +90,7 @@ function plugin_room_Install(){
 			`FK_computers` int(11) NOT NULL,
 			`FK_rooms` int(11) NOT NULL,
 			PRIMARY KEY  (`ID`),
-			KEY `FK_computers` (`FK_computers`),
+			UNIQUE `FK_computers` (`FK_computers`),
 			KEY `FK_rooms` (`FK_rooms`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 		$DB->query($query) or die("error adding glpi_plugin_room_computer table " . $LANG["update"][90] . $DB->error());
