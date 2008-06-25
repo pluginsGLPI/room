@@ -263,8 +263,7 @@ class PluginRoom  extends CommonDBTM {
 			$query = "SELECT glpi_computers.*, glpi_plugin_room_computer.ID AS IDD, glpi_entities.ID AS entity "
 				." FROM glpi_plugin_room_computer, glpi_computers "
 				." LEFT JOIN glpi_entities ON (glpi_entities.ID=glpi_computers.FK_entities) "
-				." WHERE glpi_computers.ID = glpi_plugin_room_computer.FK_computers AND glpi_plugin_room_computer.FK_rooms = '$rID' "
-				. getEntitiesRestrictRequest(" AND ","glpi_computers",'','',true); 
+				." WHERE glpi_computers.ID = glpi_plugin_room_computer.FK_computers AND glpi_plugin_room_computer.FK_rooms = '$rID' "; 
 
 			$query.=" ORDER BY glpi_entities.completename, glpi_computers.name";
 
@@ -312,7 +311,7 @@ class PluginRoom  extends CommonDBTM {
 		
 				echo "<input type='hidden' name='rID' value='$rID'>";
 	
-				dropdownValue("glpi_computers","cID");
+				dropdownValue("glpi_computers","cID",'',1,$this->fields['FK_entities']);
 				
 				echo "</td>";
 				echo "<td class='center'>";

@@ -60,6 +60,11 @@ function plugin_init_room() {
 				$PLUGIN_HOOKS['submenu_entry']['room']['add'] = 'room.form.php';
 				$PLUGIN_HOOKS['submenu_entry']['room']['search'] = 'index.php';
 			}
+
+			if (haveTypeRight(PLUGIN_ROOM_TYPE,'w')){
+				// Massive Action definition
+				$PLUGIN_HOOKS['use_massive_action']['room']=1;
+			}
 		}
 	}
 }
@@ -185,6 +190,11 @@ function plugin_room_getSearchOption(){
 	$sopt[PLUGIN_ROOM_TYPE][30]['field']='ID';
 	$sopt[PLUGIN_ROOM_TYPE][30]['linkfield']='';
 	$sopt[PLUGIN_ROOM_TYPE][30]['name']=$LANG["common"][2];
+
+	$sopt[PLUGIN_ROOM_TYPE][31]['table']='glpi_computers_room';
+	$sopt[PLUGIN_ROOM_TYPE][31]['field']='name';
+	$sopt[PLUGIN_ROOM_TYPE][31]['linkfield']='';
+	$sopt[PLUGIN_ROOM_TYPE][31]['name']='Salle';
 	
 	$sopt[PLUGIN_ROOM_TYPE][80]['table']='glpi_entities';
 	$sopt[PLUGIN_ROOM_TYPE][80]['field']='completename';
@@ -217,15 +227,36 @@ function plugin_room_getDropdown(){
 			"glpi_dropdown_plugin_room_dropdown2"=>$LANGROOM[16],);
 }
 
-function plugin_example_addLeftJoin($type,$ref_table,$new_table,$linkfield){
+function plugin_room_addSelect($type,$ID,$num){
+	global $SEARCH_OPTION;
+	
+	$table=$SEARCH_OPTION[$type][$ID]["table"];
+	$field=$SEARCH_OPTION[$type][$ID]["field"];
+	
+	// Example of standard Select clause but use it ONLY for specific Select
+	// No need of the function if you do not have specific cases
+	switch ($table.".".$field){
+		case "glpi_computers_room.name" :
+			return " GROUP_CONCAT( DISTINCT glpi_computers.$field SEPARATOR '$$$$') AS ITEM_$num, ";
+		break;
+	}
+	return "";
+}
+
+function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield,&$already_link_tables){
 
 	// Example of standard LEFT JOIN  clause but use it ONLY for specific LEFT JOIN
 	// No need of the function if you do not have specific cases
-//	switch ($new_table){
-//		case "glpi_dropdown_plugin_room_dropdown1" :
-//			return " LEFT JOIN $new_table ON ($ref_table.$linkfield = $new_table.ID) ";
-//			break;
-//	}
+	if (in_array($new_table.$linkfield,$already_link_tables)) return "";
+	else array_push($already_link_tables,$new_table.$linkfield);
+
+	switch ($new_table){
+		case "glpi_computers_room" :
+			$out= " LEFT JOIN glpi_plugin_room_computer ON ($ref_table.ID = glpi_plugin_room_computer.FK_rooms) ";
+			$out.=addLeftJoin($type,"glpi_plugin_room_computer",$already_link_tables,"glpi_computers","FK_computers");
+			return $out;
+			break;
+	}
 	return "";
 }
 
@@ -241,8 +272,81 @@ function plugin_room_giveItem($type,$field,$data,$num,$linkfield=""){
 			$out.= "</a>";
 			return $out;
 			break;
+		case "glpi_computers_room.name" :
+
+			$out="";
+			$split=explode("$$$$",$data["ITEM_$num"]);
+	
+			$count_display=0;
+			for ($k=0;$k<count($split);$k++)
+				if (strlen(trim($split[$k]))>0){
+					if ($count_display) $out.= "<br>";
+					$count_display++;
+					$out.= $split[$k];
+				}
+			return $out;
 	}
 	return "";
 }
+
+function plugin_room_forceGroupBy($type){
+	switch ($type){
+		case PLUGIN_ROOM_TYPE :
+				// Force add GROUP BY IN REQUEST
+		return true;
+		break;
+	}
+	return false;
+	}
+
+// Define actions :
+function plugin_room_MassiveActions($type){
+	global $LANGROOM;
+	switch ($type){
+		case COMPUTER_TYPE :
+			return array(
+				"plugin_room_addComputer"=>$LANGROOM[17],
+			);
+			break;
+	}
+	return array();
+}
+
+// How to display specific actions ?
+function plugin_room_MassiveActionsDisplay($type,$action){
+	global $LANG;
+
+	switch ($type){
+		case COMPUTER_TYPE:
+			switch ($action){
+				case "plugin_room_addComputer":
+				dropdownValue("glpi_plugin_room","rID");
+				echo "&nbsp;<input type=\"submit\" name=\"massiveaction\" class=\"submit\" value=\"".$LANG["buttons"][2]."\" >";
+				break;
+			}
+			break;
+	}
+	return "";
+}
+
+// How to process specific actions ?
+function plugin_room_MassiveActionsProcess($data){
+	global $LANG;
+	
+	
+	switch ($data['action']){
+		case 'plugin_room_addComputer':
+			if ($data['device_type']==COMPUTER_TYPE && $data['rID']>0){
+				foreach ($data['item'] as $key => $val){
+					if ($val==1) {
+						plugin_room_AddDevice($data['rID'],$key);
+						
+					}
+				}
+			}
+			break;
+	}
+}
+
 
 ?>

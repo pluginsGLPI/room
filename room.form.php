@@ -45,7 +45,7 @@ if(!isset($_GET["ID"])) $_GET["ID"] = -1;
 
 $room=new PluginRoom();
 if (isset($_POST["add"])){
-	$room->check($_POST["ID"],'w');
+	$room->check(-1,'w');
 
 	$room->add($_POST);
 	glpi_header($_SERVER['HTTP_REFERER']);

@@ -45,5 +45,6 @@ $LANGROOM[13]="Spécifité 1";
 $LANGROOM[14]="Spécifité 2";
 $LANGROOM[15]="Spécifité 3";
 $LANGROOM[16]="Spécifité 4";
+$LANGROOM[17]="Ajouter à une salle";
 
 ?>
