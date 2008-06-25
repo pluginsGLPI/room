@@ -194,7 +194,12 @@ function plugin_room_getSearchOption(){
 	$sopt[PLUGIN_ROOM_TYPE][31]['table']='glpi_computers_room';
 	$sopt[PLUGIN_ROOM_TYPE][31]['field']='name';
 	$sopt[PLUGIN_ROOM_TYPE][31]['linkfield']='';
-	$sopt[PLUGIN_ROOM_TYPE][31]['name']='Salle';
+	$sopt[PLUGIN_ROOM_TYPE][31]['name']=$LANG["Menu"][0];
+
+	$sopt[PLUGIN_ROOM_TYPE][32]['table']='glpi_computers_room';
+	$sopt[PLUGIN_ROOM_TYPE][32]['field']='count';
+	$sopt[PLUGIN_ROOM_TYPE][32]['linkfield']='';
+	$sopt[PLUGIN_ROOM_TYPE][32]['name']=$LANGROOM[18];
 	
 	$sopt[PLUGIN_ROOM_TYPE][80]['table']='glpi_entities';
 	$sopt[PLUGIN_ROOM_TYPE][80]['field']='completename';
@@ -238,6 +243,9 @@ function plugin_room_addSelect($type,$ID,$num){
 	switch ($table.".".$field){
 		case "glpi_computers_room.name" :
 			return " GROUP_CONCAT( DISTINCT glpi_computers.$field SEPARATOR '$$$$') AS ITEM_$num, ";
+		break;
+		case "glpi_computers_room.count" :
+			return " COUNT( glpi_computers.ID) AS ITEM_$num, ";
 		break;
 	}
 	return "";
