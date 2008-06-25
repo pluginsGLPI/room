@@ -251,7 +251,7 @@ function plugin_room_addSelect($type,$ID,$num){
 	return "";
 }
 
-function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield,&$already_link_tables){
+function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield){
 
 	// Example of standard LEFT JOIN  clause but use it ONLY for specific LEFT JOIN
 	// No need of the function if you do not have specific cases
