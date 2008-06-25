@@ -191,12 +191,12 @@ function plugin_room_getSearchOption(){
 	$sopt[PLUGIN_ROOM_TYPE][30]['linkfield']='';
 	$sopt[PLUGIN_ROOM_TYPE][30]['name']=$LANG["common"][2];
 
-	$sopt[PLUGIN_ROOM_TYPE][31]['table']='glpi_computers_room';
+	$sopt[PLUGIN_ROOM_TYPE][31]['table']='glpi_computers';
 	$sopt[PLUGIN_ROOM_TYPE][31]['field']='name';
 	$sopt[PLUGIN_ROOM_TYPE][31]['linkfield']='';
 	$sopt[PLUGIN_ROOM_TYPE][31]['name']=$LANG["Menu"][0];
 
-	$sopt[PLUGIN_ROOM_TYPE][32]['table']='glpi_computers_room';
+	$sopt[PLUGIN_ROOM_TYPE][32]['table']='glpi_plugin_room_computer';
 	$sopt[PLUGIN_ROOM_TYPE][32]['field']='count';
 	$sopt[PLUGIN_ROOM_TYPE][32]['linkfield']='';
 	$sopt[PLUGIN_ROOM_TYPE][32]['name']=$LANGROOM[18];
@@ -241,11 +241,11 @@ function plugin_room_addSelect($type,$ID,$num){
 	// Example of standard Select clause but use it ONLY for specific Select
 	// No need of the function if you do not have specific cases
 	switch ($table.".".$field){
-		case "glpi_computers_room.name" :
+		case "glpi_computers.name" :
 			return " GROUP_CONCAT( DISTINCT glpi_computers.$field SEPARATOR '$$$$') AS ITEM_$num, ";
 		break;
-		case "glpi_computers_room.count" :
-			return " COUNT( glpi_computers.ID) AS ITEM_$num, ";
+		case "glpi_plugin_room_computer.count" :
+			return " COUNT( glpi_plugin_room_computer.ID) AS ITEM_$num, ";
 		break;
 	}
 	return "";
@@ -259,9 +259,9 @@ function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield,&$alread
 	else array_push($already_link_tables,$new_table.$linkfield);
 
 	switch ($new_table){
-		case "glpi_computers_room" :
-			$out= " LEFT JOIN glpi_plugin_room_computer ON ($ref_table.ID = glpi_plugin_room_computer.FK_rooms) ";
-			$out.=addLeftJoin($type,"glpi_plugin_room_computer",$already_link_tables,"glpi_computers","FK_computers");
+		case "glpi_computers" :
+			$out= " LEFT JOIN glpi_plugin_room_computer ON (glpi_plugin_room.ID = glpi_plugin_room_computer.FK_rooms) ";
+			$out.= " LEFT JOIN glpi_computers ON (glpi_computers.ID = glpi_plugin_room_computer.FK_computers) ";
 			return $out;
 			break;
 	}
@@ -280,7 +280,7 @@ function plugin_room_giveItem($type,$field,$data,$num,$linkfield=""){
 			$out.= "</a>";
 			return $out;
 			break;
-		case "glpi_computers_room.name" :
+		case "glpi_computers.name" :
 
 			$out="";
 			$split=explode("$$$$",$data["ITEM_$num"]);
