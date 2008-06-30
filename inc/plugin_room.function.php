@@ -69,8 +69,13 @@ function plugin_room_Install(){
 			`text2` varchar(255) collate utf8_unicode_ci default NULL,
 			`dropdown1` int(11) NOT NULL default '0',
 			`dropdown2` int(11) NOT NULL default '0',
-			`FK_users1` int(11) NOT NULL default '0',
-			`FK_users2` int(11) NOT NULL default '0',
+			`tech_num` int(11) NOT NULL default '0',
+			`FK_users` int(11) NOT NULL default '0',
+			`is_template` smallint(6) NOT NULL default '0', # not used / for reservation search engine
+			`location` smallint(6) NOT NULL default '0', # not used / for reservation search engine
+			`state` smallint(6) NOT NULL default '0', # not used / for reservation search engine
+			`FK_glpi_enterprise` smallint(6) NOT NULL default '0', # not used / for reservation search engine
+			`FK_groups` smallint(6) NOT NULL default '0', # not used / for reservation search engine
 			PRIMARY KEY  (`ID`),
 			KEY `FK_entities` (`FK_entities`),
 			KEY `deleted` (`deleted`),
@@ -79,7 +84,7 @@ function plugin_room_Install(){
 			KEY `buy` (`buy`),
 			KEY `dropdown1` (`dropdown1`),
 			KEY `dropdown2` (`dropdown2`),
-			KEY `FK_users1` (`FK_users1`),
+			KEY `tech_num` (`tech_num`),
 			KEY `FK_users2` (`FK_users2`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;";
 		$DB->query($query) or die("error adding glpi_plugin_room table " . $LANG["update"][90] . $DB->error());

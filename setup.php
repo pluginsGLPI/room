@@ -39,7 +39,7 @@ include_once ("inc/plugin_room.function.php");
 
 // Init plugin
 function plugin_init_room() {
-	global $PLUGIN_HOOKS,$CFG_GLPI;
+	global $PLUGIN_HOOKS,$CFG_GLPI,$LINK_ID_TABLE;
 
 	$PLUGIN_HOOKS['init_session']['room'] = 'plugin_room_initSession';
 
@@ -53,7 +53,9 @@ function plugin_init_room() {
 			array_push($CFG_GLPI["specif_entities_tables"],"glpi_plugin_room");
 			array_push($CFG_GLPI["deleted_tables"],"glpi_plugin_room");
 
-			pluginNewType('room',"PLUGIN_ROOM_TYPE",1050,"plugin_room","glpi_plugin_room","room.form.php");
+			pluginNewType('room',"PLUGIN_ROOM_TYPE",1050,"PluginRoom","glpi_plugin_room","room.form.php");
+
+			array_push($CFG_GLPI["reservation_types"],PLUGIN_ROOM_TYPE);
 
 			if (haveTypeRight(PLUGIN_ROOM_TYPE,'r')){
 				$PLUGIN_HOOKS['menu_entry']['room'] = true;
@@ -93,119 +95,135 @@ function plugin_room_getSearchOption(){
 	global $LANGROOM,$LANG;
 	$sopt=array();
 
-	// Part header
-	$sopt[PLUGIN_ROOM_TYPE]['common']=$LANGROOM[0];
-	
-	$sopt[PLUGIN_ROOM_TYPE][1]['table']='glpi_plugin_room';
-	$sopt[PLUGIN_ROOM_TYPE][1]['field']='name';
-	$sopt[PLUGIN_ROOM_TYPE][1]['linkfield']='name';
-	$sopt[PLUGIN_ROOM_TYPE][1]['name']=$LANG["common"][16];
-	
-	$sopt[PLUGIN_ROOM_TYPE][2]['table']='glpi_dropdown_plugin_room_type';
-	$sopt[PLUGIN_ROOM_TYPE][2]['field']='name';
-	$sopt[PLUGIN_ROOM_TYPE][2]['linkfield']='type';
-	$sopt[PLUGIN_ROOM_TYPE][2]['name']=$LANG["common"][17];
-	
-	$sopt[PLUGIN_ROOM_TYPE][3]['table']='glpi_plugin_room';
-	$sopt[PLUGIN_ROOM_TYPE][3]['field']='comments';
-	$sopt[PLUGIN_ROOM_TYPE][3]['linkfield']='comments';
-	$sopt[PLUGIN_ROOM_TYPE][3]['name']=$LANG["common"][25];
+	if (haveTypeRight(PLUGIN_ROOM_TYPE,'r')){
+		// Part header
+		$sopt[PLUGIN_ROOM_TYPE]['common']=$LANGROOM[0];
 		
-	$sopt[PLUGIN_ROOM_TYPE][5]['table']='glpi_plugin_room';
-	$sopt[PLUGIN_ROOM_TYPE][5]['field']='number';
-	$sopt[PLUGIN_ROOM_TYPE][5]['linkfield']='number';
-	$sopt[PLUGIN_ROOM_TYPE][5]['name']=$LANGROOM[4];
-
-	$sopt[PLUGIN_ROOM_TYPE][6]['table']='glpi_dropdown_plugin_room_access';
-	$sopt[PLUGIN_ROOM_TYPE][6]['field']='name';
-	$sopt[PLUGIN_ROOM_TYPE][6]['linkfield']='access';
-	$sopt[PLUGIN_ROOM_TYPE][6]['name']=$LANGROOM[5];
-
-	$sopt[PLUGIN_ROOM_TYPE][7]['table']='glpi_plugin_room';
-	$sopt[PLUGIN_ROOM_TYPE][7]['field']='buy';
-	$sopt[PLUGIN_ROOM_TYPE][7]['linkfield']='buy';
-	$sopt[PLUGIN_ROOM_TYPE][7]['name']=$LANG["financial"][14];
-
-	$sopt[PLUGIN_ROOM_TYPE][8]['table']='glpi_plugin_room';
-	$sopt[PLUGIN_ROOM_TYPE][8]['field']='printer';
-	$sopt[PLUGIN_ROOM_TYPE][8]['linkfield']='printer';
-	$sopt[PLUGIN_ROOM_TYPE][8]['name']=$LANGROOM[6];
-
-	$sopt[PLUGIN_ROOM_TYPE][9]['table']='glpi_plugin_room';
-	$sopt[PLUGIN_ROOM_TYPE][9]['field']='videoprojector';
-	$sopt[PLUGIN_ROOM_TYPE][9]['linkfield']='videoprojector';
-	$sopt[PLUGIN_ROOM_TYPE][9]['name']=$LANGROOM[7];
-
-	$sopt[PLUGIN_ROOM_TYPE][10]['table']='glpi_plugin_room';
-	$sopt[PLUGIN_ROOM_TYPE][10]['field']='wifi';
-	$sopt[PLUGIN_ROOM_TYPE][10]['linkfield']='wifi';
-	$sopt[PLUGIN_ROOM_TYPE][10]['name']=$LANGROOM[8];
-
-	$sopt[PLUGIN_ROOM_TYPE][11]['table']='glpi_plugin_room';
-	$sopt[PLUGIN_ROOM_TYPE][11]['field']='comments';
-	$sopt[PLUGIN_ROOM_TYPE][11]['linkfield']='';
-	$sopt[PLUGIN_ROOM_TYPE][11]['name']=$LANG["common"][25];
-
-	$sopt[PLUGIN_ROOM_TYPE][13]['table']='glpi_plugin_room';
-	$sopt[PLUGIN_ROOM_TYPE][13]['field']='opening';
-	$sopt[PLUGIN_ROOM_TYPE][13]['linkfield']='';
-	$sopt[PLUGIN_ROOM_TYPE][13]['name']=$LANGROOM[11];
-
-	$sopt[PLUGIN_ROOM_TYPE][12]['table']='glpi_plugin_room';
-	$sopt[PLUGIN_ROOM_TYPE][12]['field']='limits';
-	$sopt[PLUGIN_ROOM_TYPE][12]['linkfield']='';
-	$sopt[PLUGIN_ROOM_TYPE][12]['name']=$LANGROOM[12];
-
-	$sopt[PLUGIN_ROOM_TYPE][14]['table']='glpi_users';
-	$sopt[PLUGIN_ROOM_TYPE][14]['field']='name';
-	$sopt[PLUGIN_ROOM_TYPE][14]['linkfield']='FK_users1';
-	$sopt[PLUGIN_ROOM_TYPE][14]['name']=$LANGROOM[10]." 1";
-
-	$sopt[PLUGIN_ROOM_TYPE][15]['table']='glpi_users';
-	$sopt[PLUGIN_ROOM_TYPE][15]['field']='name';
-	$sopt[PLUGIN_ROOM_TYPE][15]['linkfield']='FK_users2';
-	$sopt[PLUGIN_ROOM_TYPE][15]['name']=$LANGROOM[10]." 2";
-
-	$sopt[PLUGIN_ROOM_TYPE][16]['table']='glpi_plugin_room';
-	$sopt[PLUGIN_ROOM_TYPE][16]['field']='text1';
-	$sopt[PLUGIN_ROOM_TYPE][16]['linkfield']='';
-	$sopt[PLUGIN_ROOM_TYPE][16]['name']=$LANGROOM[13];
-
-	$sopt[PLUGIN_ROOM_TYPE][17]['table']='glpi_plugin_room';
-	$sopt[PLUGIN_ROOM_TYPE][17]['field']='text2';
-	$sopt[PLUGIN_ROOM_TYPE][17]['linkfield']='';
-	$sopt[PLUGIN_ROOM_TYPE][17]['name']=$LANGROOM[14];
-
-	$sopt[PLUGIN_ROOM_TYPE][18]['table']='glpi_dropdown_plugin_room_dropdown1';
-	$sopt[PLUGIN_ROOM_TYPE][18]['field']='name';
-	$sopt[PLUGIN_ROOM_TYPE][18]['linkfield']='dropdown1';
-	$sopt[PLUGIN_ROOM_TYPE][18]['name']=$LANGROOM[15];
-
-	$sopt[PLUGIN_ROOM_TYPE][19]['table']='glpi_dropdown_plugin_room_dropdown2';
-	$sopt[PLUGIN_ROOM_TYPE][19]['field']='name';
-	$sopt[PLUGIN_ROOM_TYPE][19]['linkfield']='dropdown2';
-	$sopt[PLUGIN_ROOM_TYPE][19]['name']=$LANGROOM[16];
+		$sopt[PLUGIN_ROOM_TYPE][1]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][1]['field']='name';
+		$sopt[PLUGIN_ROOM_TYPE][1]['linkfield']='name';
+		$sopt[PLUGIN_ROOM_TYPE][1]['name']=$LANG["common"][16];
+		
+		$sopt[PLUGIN_ROOM_TYPE][2]['table']='glpi_dropdown_plugin_room_type';
+		$sopt[PLUGIN_ROOM_TYPE][2]['field']='name';
+		$sopt[PLUGIN_ROOM_TYPE][2]['linkfield']='type';
+		$sopt[PLUGIN_ROOM_TYPE][2]['name']=$LANG["common"][17];
 	
-	$sopt[PLUGIN_ROOM_TYPE][30]['table']='glpi_plugin_room';
-	$sopt[PLUGIN_ROOM_TYPE][30]['field']='ID';
-	$sopt[PLUGIN_ROOM_TYPE][30]['linkfield']='';
-	$sopt[PLUGIN_ROOM_TYPE][30]['name']=$LANG["common"][2];
-
-	$sopt[PLUGIN_ROOM_TYPE][31]['table']='glpi_computers';
-	$sopt[PLUGIN_ROOM_TYPE][31]['field']='name';
-	$sopt[PLUGIN_ROOM_TYPE][31]['linkfield']='';
-	$sopt[PLUGIN_ROOM_TYPE][31]['name']=$LANG["Menu"][0];
-
-	$sopt[PLUGIN_ROOM_TYPE][32]['table']='glpi_plugin_room_computer';
-	$sopt[PLUGIN_ROOM_TYPE][32]['field']='count';
-	$sopt[PLUGIN_ROOM_TYPE][32]['linkfield']='';
-	$sopt[PLUGIN_ROOM_TYPE][32]['name']=$LANGROOM[18];
+		$sopt[PLUGIN_ROOM_TYPE][24]['table']='glpi_users';
+		$sopt[PLUGIN_ROOM_TYPE][24]['field']='name';
+		$sopt[PLUGIN_ROOM_TYPE][24]['linkfield']='tech_num';
+		$sopt[PLUGIN_ROOM_TYPE][24]['name']=$LANG["common"][10];
 	
-	$sopt[PLUGIN_ROOM_TYPE][80]['table']='glpi_entities';
-	$sopt[PLUGIN_ROOM_TYPE][80]['field']='completename';
-	$sopt[PLUGIN_ROOM_TYPE][80]['linkfield']='FK_entities';
-	$sopt[PLUGIN_ROOM_TYPE][80]['name']=$LANG["entity"][0];
+		$sopt[PLUGIN_ROOM_TYPE][25]['table']='glpi_users';
+		$sopt[PLUGIN_ROOM_TYPE][25]['field']='name';
+		$sopt[PLUGIN_ROOM_TYPE][25]['linkfield']='FK_users';
+		$sopt[PLUGIN_ROOM_TYPE][25]['name']=$LANG["common"][18];
+		
+		$sopt[PLUGIN_ROOM_TYPE][3]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][3]['field']='comments';
+		$sopt[PLUGIN_ROOM_TYPE][3]['linkfield']='comments';
+		$sopt[PLUGIN_ROOM_TYPE][3]['name']=$LANG["common"][25];
+			
+		$sopt[PLUGIN_ROOM_TYPE][5]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][5]['field']='number';
+		$sopt[PLUGIN_ROOM_TYPE][5]['linkfield']='number';
+		$sopt[PLUGIN_ROOM_TYPE][5]['name']=$LANGROOM[4];
 	
+		$sopt[PLUGIN_ROOM_TYPE][6]['table']='glpi_dropdown_plugin_room_access';
+		$sopt[PLUGIN_ROOM_TYPE][6]['field']='name';
+		$sopt[PLUGIN_ROOM_TYPE][6]['linkfield']='access';
+		$sopt[PLUGIN_ROOM_TYPE][6]['name']=$LANGROOM[5];
+	
+		$sopt[PLUGIN_ROOM_TYPE][7]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][7]['field']='buy';
+		$sopt[PLUGIN_ROOM_TYPE][7]['linkfield']='buy';
+		$sopt[PLUGIN_ROOM_TYPE][7]['name']=$LANG["financial"][14];
+	
+		$sopt[PLUGIN_ROOM_TYPE][8]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][8]['field']='printer';
+		$sopt[PLUGIN_ROOM_TYPE][8]['linkfield']='printer';
+		$sopt[PLUGIN_ROOM_TYPE][8]['name']=$LANGROOM[6];
+	
+		$sopt[PLUGIN_ROOM_TYPE][9]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][9]['field']='videoprojector';
+		$sopt[PLUGIN_ROOM_TYPE][9]['linkfield']='videoprojector';
+		$sopt[PLUGIN_ROOM_TYPE][9]['name']=$LANGROOM[7];
+	
+		$sopt[PLUGIN_ROOM_TYPE][10]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][10]['field']='wifi';
+		$sopt[PLUGIN_ROOM_TYPE][10]['linkfield']='wifi';
+		$sopt[PLUGIN_ROOM_TYPE][10]['name']=$LANGROOM[8];
+	
+		$sopt[PLUGIN_ROOM_TYPE][11]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][11]['field']='comments';
+		$sopt[PLUGIN_ROOM_TYPE][11]['linkfield']='';
+		$sopt[PLUGIN_ROOM_TYPE][11]['name']=$LANG["common"][25];
+	
+		$sopt[PLUGIN_ROOM_TYPE][13]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][13]['field']='opening';
+		$sopt[PLUGIN_ROOM_TYPE][13]['linkfield']='';
+		$sopt[PLUGIN_ROOM_TYPE][13]['name']=$LANGROOM[11];
+	
+		$sopt[PLUGIN_ROOM_TYPE][12]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][12]['field']='limits';
+		$sopt[PLUGIN_ROOM_TYPE][12]['linkfield']='';
+		$sopt[PLUGIN_ROOM_TYPE][12]['name']=$LANGROOM[12];
+	
+		$sopt[PLUGIN_ROOM_TYPE][14]['table']='glpi_users';
+		$sopt[PLUGIN_ROOM_TYPE][14]['field']='name';
+		$sopt[PLUGIN_ROOM_TYPE][14]['linkfield']='FK_users1';
+		$sopt[PLUGIN_ROOM_TYPE][14]['name']=$LANGROOM[10]." 1";
+	
+		$sopt[PLUGIN_ROOM_TYPE][15]['table']='glpi_users';
+		$sopt[PLUGIN_ROOM_TYPE][15]['field']='name';
+		$sopt[PLUGIN_ROOM_TYPE][15]['linkfield']='FK_users2';
+		$sopt[PLUGIN_ROOM_TYPE][15]['name']=$LANGROOM[10]." 2";
+	
+		$sopt[PLUGIN_ROOM_TYPE][16]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][16]['field']='text1';
+		$sopt[PLUGIN_ROOM_TYPE][16]['linkfield']='';
+		$sopt[PLUGIN_ROOM_TYPE][16]['name']=$LANGROOM[13];
+	
+		$sopt[PLUGIN_ROOM_TYPE][17]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][17]['field']='text2';
+		$sopt[PLUGIN_ROOM_TYPE][17]['linkfield']='';
+		$sopt[PLUGIN_ROOM_TYPE][17]['name']=$LANGROOM[14];
+	
+		$sopt[PLUGIN_ROOM_TYPE][18]['table']='glpi_dropdown_plugin_room_dropdown1';
+		$sopt[PLUGIN_ROOM_TYPE][18]['field']='name';
+		$sopt[PLUGIN_ROOM_TYPE][18]['linkfield']='dropdown1';
+		$sopt[PLUGIN_ROOM_TYPE][18]['name']=$LANGROOM[15];
+	
+		$sopt[PLUGIN_ROOM_TYPE][19]['table']='glpi_dropdown_plugin_room_dropdown2';
+		$sopt[PLUGIN_ROOM_TYPE][19]['field']='name';
+		$sopt[PLUGIN_ROOM_TYPE][19]['linkfield']='dropdown2';
+		$sopt[PLUGIN_ROOM_TYPE][19]['name']=$LANGROOM[16];
+		
+		$sopt[PLUGIN_ROOM_TYPE][30]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][30]['field']='ID';
+		$sopt[PLUGIN_ROOM_TYPE][30]['linkfield']='';
+		$sopt[PLUGIN_ROOM_TYPE][30]['name']=$LANG["common"][2];
+	
+		$sopt[PLUGIN_ROOM_TYPE][31]['table']='glpi_computers';
+		$sopt[PLUGIN_ROOM_TYPE][31]['field']='name';
+		$sopt[PLUGIN_ROOM_TYPE][31]['linkfield']='';
+		$sopt[PLUGIN_ROOM_TYPE][31]['name']=$LANG["Menu"][0];
+	
+		$sopt[PLUGIN_ROOM_TYPE][32]['table']='glpi_plugin_room_computer';
+		$sopt[PLUGIN_ROOM_TYPE][32]['field']='count';
+		$sopt[PLUGIN_ROOM_TYPE][32]['linkfield']='';
+		$sopt[PLUGIN_ROOM_TYPE][32]['name']=$LANGROOM[18];
+		
+		$sopt[PLUGIN_ROOM_TYPE][80]['table']='glpi_entities';
+		$sopt[PLUGIN_ROOM_TYPE][80]['field']='completename';
+		$sopt[PLUGIN_ROOM_TYPE][80]['linkfield']='FK_entities';
+		$sopt[PLUGIN_ROOM_TYPE][80]['name']=$LANG["entity"][0];
+	
+		$sopt[COMPUTER_TYPE][PLUGIN_ROOM_TYPE]['table']='glpi_plugin_room';
+		$sopt[COMPUTER_TYPE][PLUGIN_ROOM_TYPE]['field']='name';
+		$sopt[COMPUTER_TYPE][PLUGIN_ROOM_TYPE]['linkfield']='';
+		$sopt[COMPUTER_TYPE][PLUGIN_ROOM_TYPE]['name']=$LANGROOM[0];
+	}	
 	return $sopt;
 }
 
@@ -227,7 +245,7 @@ function plugin_room_getDropdown(){
 	global $LANG,$LANGROOM;
 	// Table => Name
 	return array( "glpi_dropdown_plugin_room_type"=>$LANG["common"][17],
-			"glpi_dropdown_plugin_room_acess"=>$LANGROOM[5],
+			"glpi_dropdown_plugin_room_access"=>$LANGROOM[5],
 			"glpi_dropdown_plugin_room_dropdown1"=>$LANGROOM[15],
 			"glpi_dropdown_plugin_room_dropdown2"=>$LANGROOM[16],);
 }
@@ -260,6 +278,11 @@ function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield){
 		case "glpi_computers" :
 			$out= " LEFT JOIN glpi_plugin_room_computer ON (glpi_plugin_room.ID = glpi_plugin_room_computer.FK_rooms) ";
 			$out.= " LEFT JOIN glpi_computers ON (glpi_computers.ID = glpi_plugin_room_computer.FK_computers) ";
+			return $out;
+			break;
+		case "glpi_plugin_room" : // From computers
+			$out= " LEFT JOIN glpi_plugin_room_computer ON (glpi_computers.ID = glpi_plugin_room_computer.FK_computers) ";
+			$out.= " LEFT JOIN glpi_plugin_room ON (glpi_plugin_room.ID = glpi_plugin_room_computer.FK_rooms) ";
 			return $out;
 			break;
 	}

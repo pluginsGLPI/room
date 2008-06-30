@@ -146,6 +146,16 @@ class PluginRoom  extends CommonDBTM {
 				dropdownValue("glpi_dropdown_plugin_room_access","access",$this->fields["access"]);
 				echo "</td></tr>";
 
+				echo "<tr class='tab_bg_1'><td>".$LANG["common"][18].":		</td>";
+				echo "<td>";
+				dropdownUsersID("FK_users",$this->fields["FK_users"],"all",1,$this->fields["FK_entities"]);
+				echo "</td>";
+
+				echo "<td>".$LANG["common"][10].":		</td>";
+				echo "<td>";
+				dropdownUsersID("tech_num",$this->fields["tech_num"],"interface",1,$this->fields["FK_entities"]);
+				echo "</td></tr>";
+
 				echo "<tr class='tab_bg_1'><td>".$LANGROOM[4].":		</td>";
 				echo "<td>";
 				dropdownInteger("size",$this->fields["size"],0,500);
@@ -286,7 +296,7 @@ class PluginRoom  extends CommonDBTM {
 						if($CFG_GLPI["view_ID"]||empty($data["name"])){
 							$ID= " (".$data["ID"].")";
 						}
-						$name= "<a href=\"".$CFG_GLPI["root_doc"]."/room.form.php?ID=".$data["ID"]."\">".$data["name"]."$ID</a>";
+						$name= "<a href=\"".$CFG_GLPI["root_doc"]."/front/computer.form.php?ID=".$data["ID"]."\">".$data["name"]."$ID</a>";
 		
 						echo "<tr class='tab_bg_1'>";
 	
