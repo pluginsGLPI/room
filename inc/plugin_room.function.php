@@ -166,6 +166,10 @@ function plugin_room_Uninstall(){
 		$DB->query($query) ;
 		$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown2`';
 		$DB->query($query) ;
+
+		$query="DELETE FROM `glpi_display` WHERE type=".COMPUTER_TYPE." WHERE num='1050'";
+		$DB->query($query) ;
+
 		unset($_SESSION["glpiplugin_room_installed"]);
 		plugin_init_room();
 		cleanCache("GLPI_HEADER_".$_SESSION["glpiID"]);
