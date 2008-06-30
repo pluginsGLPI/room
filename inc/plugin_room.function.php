@@ -85,7 +85,7 @@ function plugin_room_Install(){
 			KEY `dropdown1` (`dropdown1`),
 			KEY `dropdown2` (`dropdown2`),
 			KEY `tech_num` (`tech_num`),
-			KEY `FK_users2` (`FK_users2`)
+			KEY `FK_users` (`FK_users`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;";
 		$DB->query($query) or die("error adding glpi_plugin_room table " . $LANG["update"][90] . $DB->error());
 	}

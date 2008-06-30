@@ -259,6 +259,9 @@ function plugin_room_addSelect($type,$ID,$num){
 	// Example of standard Select clause but use it ONLY for specific Select
 	// No need of the function if you do not have specific cases
 	switch ($table.".".$field){
+		case "glpi_plugin_room.name":
+			return $table.".".$field." AS ITEM_$num, ".$table.".ID AS ITEM_".$num."_2, ";
+			break;
 		case "glpi_computers.name" :
 			return " GROUP_CONCAT( DISTINCT glpi_computers.$field SEPARATOR '$$$$') AS ITEM_$num, ";
 		break;
@@ -295,11 +298,14 @@ function plugin_room_giveItem($type,$field,$data,$num,$linkfield=""){
 
 	switch ($field){
 		case "glpi_plugin_room.name" :
-			$out= "<a href=\"".$CFG_GLPI["root_doc"]."/".$INFOFORM_PAGES[$type]."?ID=".$data['ID']."\">";
-			$out.= $data["ITEM_$num"];
-			if ($CFG_GLPI["view_ID"]||empty($data["ITEM_$num"])) $out.= " (".$data["ID"].")";
-			$out.= "</a>";
-			return $out;
+			if (!empty($data["ITEM_".$num."_2"])){
+				$out= "<a href=\"".$CFG_GLPI["root_doc"]."/".$INFOFORM_PAGES[PLUGIN_ROOM_TYPE]."?ID=".$data["ITEM_".$num."_2"]."\">";
+				$out.= $data["ITEM_$num"];
+				if ($CFG_GLPI["view_ID"]||empty($data["ITEM_$num"])) $out.= " (".$data["ITEM_".$num."_2"].")";
+				$out.= "</a>";
+				return $out;
+			}
+			
 			break;
 		case "glpi_computers.name" :
 
