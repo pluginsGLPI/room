@@ -125,8 +125,8 @@ function plugin_room_getSearchOption(){
 		$sopt[PLUGIN_ROOM_TYPE][3]['name']=$LANG["common"][25];
 			
 		$sopt[PLUGIN_ROOM_TYPE][5]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][5]['field']='number';
-		$sopt[PLUGIN_ROOM_TYPE][5]['linkfield']='number';
+		$sopt[PLUGIN_ROOM_TYPE][5]['field']='size';
+		$sopt[PLUGIN_ROOM_TYPE][5]['linkfield']='size';
 		$sopt[PLUGIN_ROOM_TYPE][5]['name']=$LANGROOM[4];
 	
 		$sopt[PLUGIN_ROOM_TYPE][6]['table']='glpi_dropdown_plugin_room_access';
@@ -168,17 +168,7 @@ function plugin_room_getSearchOption(){
 		$sopt[PLUGIN_ROOM_TYPE][12]['field']='limits';
 		$sopt[PLUGIN_ROOM_TYPE][12]['linkfield']='';
 		$sopt[PLUGIN_ROOM_TYPE][12]['name']=$LANGROOM[12];
-	
-		$sopt[PLUGIN_ROOM_TYPE][14]['table']='glpi_users';
-		$sopt[PLUGIN_ROOM_TYPE][14]['field']='name';
-		$sopt[PLUGIN_ROOM_TYPE][14]['linkfield']='FK_users1';
-		$sopt[PLUGIN_ROOM_TYPE][14]['name']=$LANGROOM[10]." 1";
-	
-		$sopt[PLUGIN_ROOM_TYPE][15]['table']='glpi_users';
-		$sopt[PLUGIN_ROOM_TYPE][15]['field']='name';
-		$sopt[PLUGIN_ROOM_TYPE][15]['linkfield']='FK_users2';
-		$sopt[PLUGIN_ROOM_TYPE][15]['name']=$LANGROOM[10]." 2";
-	
+		
 		$sopt[PLUGIN_ROOM_TYPE][16]['table']='glpi_plugin_room';
 		$sopt[PLUGIN_ROOM_TYPE][16]['field']='text1';
 		$sopt[PLUGIN_ROOM_TYPE][16]['linkfield']='';

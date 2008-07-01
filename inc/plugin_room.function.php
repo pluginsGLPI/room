@@ -167,7 +167,7 @@ function plugin_room_Uninstall(){
 		$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown2`';
 		$DB->query($query) ;
 
-		$query="DELETE FROM `glpi_display` WHERE type=".COMPUTER_TYPE." WHERE num='1050'";
+		$query="DELETE FROM `glpi_display` WHERE type=".COMPUTER_TYPE." AND num='1050'";
 		$DB->query($query) ;
 
 		unset($_SESSION["glpiplugin_room_installed"]);
@@ -179,8 +179,13 @@ function plugin_room_Uninstall(){
 function plugin_room_AddDevice($rID,$cID){
 	global $DB;
 	if ($rID>0&&$cID>0){
-		$query="INSERT INTO glpi_plugin_room_computer (FK_rooms,FK_computers) VALUES ('$rID','$cID');";
-		$result = $DB->query($query);
+		$query="SELECT ID FROM glpi_plugin_room_computer WHERE FK_computers='$cID'";
+		if ($result = $DB->query($query)){
+			if ($DB->numrows($result)==0){
+				$query="INSERT INTO glpi_plugin_room_computer (FK_rooms,FK_computers) VALUES ('$rID','$cID');";
+				$result = $DB->query($query);
+			}
+		}
 	}
 }
 
