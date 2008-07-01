@@ -209,10 +209,15 @@ function plugin_room_getSearchOption(){
 		$sopt[PLUGIN_ROOM_TYPE][80]['linkfield']='FK_entities';
 		$sopt[PLUGIN_ROOM_TYPE][80]['name']=$LANG["entity"][0];
 	
-		$sopt[COMPUTER_TYPE][PLUGIN_ROOM_TYPE]['table']='glpi_plugin_room';
-		$sopt[COMPUTER_TYPE][PLUGIN_ROOM_TYPE]['field']='name';
-		$sopt[COMPUTER_TYPE][PLUGIN_ROOM_TYPE]['linkfield']='';
-		$sopt[COMPUTER_TYPE][PLUGIN_ROOM_TYPE]['name']=$LANGROOM[0];
+		$sopt[COMPUTER_TYPE][1050]['table']='glpi_plugin_room';
+		$sopt[COMPUTER_TYPE][1050]['field']='name';
+		$sopt[COMPUTER_TYPE][1050]['linkfield']='';
+		$sopt[COMPUTER_TYPE][1050]['name']=$LANGROOM[0];
+
+		$sopt[COMPUTER_TYPE][1051]['table']='glpi_dropdown_plugin_room_type';
+		$sopt[COMPUTER_TYPE][1051]['field']='name';
+		$sopt[COMPUTER_TYPE][1051]['linkfield']='';
+		$sopt[COMPUTER_TYPE][1051]['name']=$LANGROOM[9];
 	}	
 	return $sopt;
 }
@@ -276,6 +281,10 @@ function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield){
 		case "glpi_plugin_room" : // From computers
 			$out= " LEFT JOIN glpi_plugin_room_computer ON (glpi_computers.ID = glpi_plugin_room_computer.FK_computers) ";
 			$out.= " LEFT JOIN glpi_plugin_room ON (glpi_plugin_room.ID = glpi_plugin_room_computer.FK_rooms) ";
+			return $out;
+			break;
+		case "glpi_dropdown_plugin_room_type" : // From computers
+			$out= " LEFT JOIN glpi_dropdown_plugin_room_type ON (glpi_dropdown_plugin_room_type.ID = glpi_plugin_room.type) ";
 			return $out;
 			break;
 	}

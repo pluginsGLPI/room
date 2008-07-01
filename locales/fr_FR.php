@@ -38,6 +38,7 @@ $LANGROOM[5]="Conditions d'accès";
 $LANGROOM[6]="Moyen d'impression";
 $LANGROOM[7]="Vidéoprojecteur";
 $LANGROOM[8]="Wifi";
+$LANGROOM[9]="Type de Salle";
 $LANGROOM[10]="Responsable";
 $LANGROOM[11]="Horaires d'ouverture";
 $LANGROOM[12]="Limitations";
