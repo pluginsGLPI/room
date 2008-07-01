@@ -267,7 +267,7 @@ function plugin_room_addSelect($type,$ID,$num){
 	return "";
 }
 
-function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield){
+function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield,&$already_link_tables){
 
 	// Example of standard LEFT JOIN  clause but use it ONLY for specific LEFT JOIN
 	// No need of the function if you do not have specific cases
@@ -284,7 +284,8 @@ function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield){
 			return $out;
 			break;
 		case "glpi_dropdown_plugin_room_type" : // From computers
-			$out= " LEFT JOIN glpi_dropdown_plugin_room_type ON (glpi_dropdown_plugin_room_type.ID = glpi_plugin_room.type) ";
+			$out=addLeftJoin($type,$ref_table,$already_link_tables,"glpi_plugin_room",$linkfield);
+			$out.= " LEFT JOIN glpi_dropdown_plugin_room_type ON (glpi_dropdown_plugin_room_type.ID = glpi_plugin_room.type) ";
 			return $out;
 			break;
 	}
