@@ -67,6 +67,8 @@ function plugin_init_room() {
 				// Massive Action definition
 				$PLUGIN_HOOKS['use_massive_action']['room']=1;
 			}
+			$PLUGIN_HOOKS['headings']['room'] = 'plugin_get_headings_room';
+			$PLUGIN_HOOKS['headings_action']['room'] = 'plugin_headings_actions_room';
 		}
 	}
 }
@@ -199,7 +201,7 @@ function plugin_room_getSearchOption(){
 		$sopt[PLUGIN_ROOM_TYPE][31]['linkfield']='';
 		$sopt[PLUGIN_ROOM_TYPE][31]['name']=$LANG["Menu"][0];
 	
-		$sopt[PLUGIN_ROOM_TYPE][32]['table']='glpi_computers';
+		$sopt[PLUGIN_ROOM_TYPE][32]['table']='glpi_plugin_room_computer';
 		$sopt[PLUGIN_ROOM_TYPE][32]['field']='count';
 		$sopt[PLUGIN_ROOM_TYPE][32]['linkfield']='';
 		$sopt[PLUGIN_ROOM_TYPE][32]['name']=$LANGROOM[18];
@@ -260,8 +262,8 @@ function plugin_room_addSelect($type,$ID,$num){
 		case "glpi_computers.name" :
 			return " GROUP_CONCAT( DISTINCT glpi_computers.$field SEPARATOR '$$$$') AS ITEM_$num, ";
 		break;
-		case "glpi_computers.count" :
-			return " COUNT( DISTINCT glpi_computers.ID) AS ITEM_$num, ";
+		case "glpi_plugin_room_computer.count" :
+			return " COUNT( glpi_plugin_room_computer.ID) AS ITEM_$num, ";
 		break;
 	}
 	return "";
@@ -381,6 +383,34 @@ function plugin_room_MassiveActionsProcess($data){
 			}
 			break;
 	}
+}
+
+
+function plugin_get_headings_room($type,$withtemplate){
+	global $LANGROOM;
+	switch ($type){
+		case COMPUTER_TYPE :
+			// template case
+			if ($withtemplate){
+				return array();
+			} else { // Non template case
+				return array(1 => $LANGROOM[19]);
+                        }
+			break;
+	}
+	return false;
+}
+
+// Define headings actions added by the plugin	 
+function plugin_headings_actions_room($type){
+
+	switch ($type){
+		case COMPUTER_TYPE :
+			return array(1 => "plugin_room_showComputerRoom");
+
+			break;
+	}
+	return false;
 }
 
 

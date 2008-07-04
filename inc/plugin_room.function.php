@@ -196,4 +196,32 @@ function plugin_room_DeleteDevice($ID){
 	$result = $DB->query($query);
 }
 
+
+// Example of an action heading
+function plugin_room_showComputerRoom($type,$ID,$withtemplate=0){
+	global $DB,$LANGROOM,$CFG_GLPI;
+	if (!$withtemplate){
+
+		if ($ID>0){
+			$query="SELECT glpi_plugin_room.*
+				FROM glpi_plugin_room_computer 
+				INNER JOIN glpi_plugin_room ON (glpi_plugin_room.ID = glpi_plugin_room_computer.FK_rooms) 
+				WHERE FK_computers='$ID'";
+			if ($result = $DB->query($query)){
+				if ($DB->numrows($result)>0){
+					$data=$DB->fetch_assoc($result);
+					echo "<div align='center'>".$LANGROOM[20]." ";
+					if (haveTypeRight(PLUGIN_ROOM_TYPE,'r')){
+						echo "<a href=\"".$CFG_GLPI["root_doc"]."/plugins/room/room.form.php?ID=".$data["ID"]."\">".$data['name']."</a>";
+					} else {
+						echo $data['name'];
+					}
+					echo "</div>";
+				}
+			}
+		}
+
+	}
+}
+
 ?>
