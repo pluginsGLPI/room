@@ -214,12 +214,12 @@ function plugin_room_getSearchOption(){
 		$sopt[COMPUTER_TYPE][1050]['table']='glpi_plugin_room';
 		$sopt[COMPUTER_TYPE][1050]['field']='name';
 		$sopt[COMPUTER_TYPE][1050]['linkfield']='';
-		$sopt[COMPUTER_TYPE][1050]['name']=$LANGROOM[0];
+		$sopt[COMPUTER_TYPE][1050]['name']=$LANGROOM[0]." - ".$LANG["common"][16];
 
 		$sopt[COMPUTER_TYPE][1051]['table']='glpi_dropdown_plugin_room_type';
 		$sopt[COMPUTER_TYPE][1051]['field']='name';
 		$sopt[COMPUTER_TYPE][1051]['linkfield']='';
-		$sopt[COMPUTER_TYPE][1051]['name']=$LANGROOM[9];
+		$sopt[COMPUTER_TYPE][1051]['name']=$LANGROOM[0]." - ".$LANGROOM[9];
 	}	
 	return $sopt;
 }
