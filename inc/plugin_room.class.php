@@ -42,6 +42,13 @@ class PluginRoom  extends CommonDBTM {
 		$this->may_be_recursive=true;
 	}	
 
+    function cleanDBonPurge($ID) {
+                global $DB,$CFG_GLPI;
+                $query = "DELETE FROM glpi_plugin_room_computer WHERE (FK_rooms = '$ID')";
+                $result = $DB->query($query);
+
+	}
+
 	function defineOnglets($withtemplate){
 		global $LANG,$CFG_GLPI;
 
