@@ -57,6 +57,7 @@ function plugin_room_Install(){
 			`type` int(11) NOT NULL default '0',
 			`date_mod` datetime default NULL,
 			`size` smallint(6) NOT NULL default '0',
+			`count_linked` smallint(6) NOT NULL default '0',
 			`buy` datetime default NULL,
 			`access` int(11) NOT NULL default '0',
 			`printer` smallint(6) NOT NULL default '0',
@@ -184,6 +185,7 @@ function plugin_room_AddDevice($rID,$cID){
 			if ($DB->numrows($result)==0){
 				$query="INSERT INTO glpi_plugin_room_computer (FK_rooms,FK_computers) VALUES ('$rID','$cID');";
 				$result = $DB->query($query);
+				plugin_room_updateCountDevices($rID);
 			}
 		}
 	}
@@ -191,9 +193,22 @@ function plugin_room_AddDevice($rID,$cID){
 
 function plugin_room_DeleteDevice($ID){
 	global $DB;
+	$query="SELECT FK_rooms FROM glpi_plugin_room_computer WHERE ID='$ID'";
+	if ($result = $DB->query($query)){
+		$IDroom=$DB->result($result,0,0);
+		$query="DELETE FROM glpi_plugin_room_computer WHERE ID= '$ID';";
+		$result = $DB->query($query);
+		plugin_room_updateCountDevices($IDroom);
+	}
+}
+
+function plugin_room_updateCountDevices($ID){
 	global $DB;
-	$query="DELETE FROM glpi_plugin_room_computer WHERE ID= '$ID';";
-	$result = $DB->query($query);
+	$query="SELECT count(ID) FROM glpi_plugin_room_computer WHERE FK_rooms='$ID'";
+	if ($result = $DB->query($query)){
+		$query2="UPDATE glpi_plugin_room SET count_linked='".$DB->result($result,0,0)."'  WHERE ID='$ID'";
+		$DB->query($query2);
+	}
 }
 
 

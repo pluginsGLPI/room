@@ -201,10 +201,11 @@ function plugin_room_getSearchOption(){
 		$sopt[PLUGIN_ROOM_TYPE][31]['linkfield']='';
 		$sopt[PLUGIN_ROOM_TYPE][31]['name']=$LANG["Menu"][0];
 	
-		$sopt[PLUGIN_ROOM_TYPE][32]['table']='glpi_computers';
-		$sopt[PLUGIN_ROOM_TYPE][32]['field']='count';
+		$sopt[PLUGIN_ROOM_TYPE][32]['table']='glpi_plugin_room';
+		$sopt[PLUGIN_ROOM_TYPE][32]['field']='count_linked';
 		$sopt[PLUGIN_ROOM_TYPE][32]['linkfield']='';
 		$sopt[PLUGIN_ROOM_TYPE][32]['name']=$LANGROOM[18];
+		$sopt[PLUGIN_ROOM_TYPE][32]['meta']=1;
 		
 		$sopt[PLUGIN_ROOM_TYPE][80]['table']='glpi_entities';
 		$sopt[PLUGIN_ROOM_TYPE][80]['field']='completename';
