@@ -54,6 +54,7 @@ function plugin_init_room() {
 			array_push($CFG_GLPI["deleted_tables"],"glpi_plugin_room");
 
 			pluginNewType('room',"PLUGIN_ROOM_TYPE",1050,"PluginRoom","glpi_plugin_room","room.form.php");
+			$CFG_GLPI["recursive_type"][PLUGIN_ROOM_TYPE]="glpi_plugin_room";
 
 			array_push($CFG_GLPI["reservation_types"],PLUGIN_ROOM_TYPE);
 
