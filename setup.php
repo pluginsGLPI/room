@@ -39,7 +39,7 @@ include_once ("inc/plugin_room.function.php");
 
 // Init plugin
 function plugin_init_room() {
-	global $PLUGIN_HOOKS,$CFG_GLPI,$LINK_ID_TABLE;
+	global $PLUGIN_HOOKS,$CFG_GLPI,$LINK_ID_TABLE,$LANGROOM;
 
 	$PLUGIN_HOOKS['init_session']['room'] = 'plugin_room_initSession';
 
@@ -53,8 +53,7 @@ function plugin_init_room() {
 			array_push($CFG_GLPI["specif_entities_tables"],"glpi_plugin_room");
 			array_push($CFG_GLPI["deleted_tables"],"glpi_plugin_room");
 
-			pluginNewType('room',"PLUGIN_ROOM_TYPE",1050,"PluginRoom","glpi_plugin_room","room.form.php");
-			$CFG_GLPI["recursive_type"][PLUGIN_ROOM_TYPE]="glpi_plugin_room";
+			pluginNewType('room',"PLUGIN_ROOM_TYPE",1050,"PluginRoom","glpi_plugin_room","room.form.php",$LANGROOM[0],true);
 
 			array_push($CFG_GLPI["reservation_types"],PLUGIN_ROOM_TYPE);
 
@@ -79,8 +78,8 @@ function plugin_version_room(){
 	global $LANGROOM;
 
 	return array( 'name'    => $LANGROOM[0],
-		'minGlpiVersion' => '0.71', // Optional but recommended
-		'version' => '0.1');
+		'minGlpiVersion' => '0.72', // Optional but recommended
+		'version' => '1.1');
 }
 
 // Define rights for the plugin types

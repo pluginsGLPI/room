@@ -45,7 +45,7 @@ function plugin_room_isInstalled(){
 }
 
 function plugin_room_Install(){
-	global $DB;
+	global $DB, $LANG;
 
 	if (!TableExists('glpi_plugin_room')){
 		$query="CREATE TABLE  `glpi_plugin_room` (

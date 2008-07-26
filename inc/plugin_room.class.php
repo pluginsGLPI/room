@@ -42,6 +42,24 @@ class PluginRoom  extends CommonDBTM {
 		$this->may_be_recursive=true;
 	}	
 
+	function prepareInputForUpdate($input) {
+		// Backup initial values
+		if (isset($input['buy']) && empty($input['buy'])) {
+			$input['buy']="NULL";
+		}
+
+		return $input;
+	}
+
+	function prepareInputForAdd($input) {
+		// Backup initial values
+		if (isset($input['buy']) && empty($input['buy'])) {
+			unset($input['buy']);
+		}
+
+		return $input;
+	}
+
     function cleanDBonPurge($ID) {
                 global $DB,$CFG_GLPI;
                 $query = "DELETE FROM glpi_plugin_room_computer WHERE (FK_rooms = '$ID')";
@@ -170,7 +188,7 @@ class PluginRoom  extends CommonDBTM {
 
 				echo "<tr class='tab_bg_1'><td>".$LANG["financial"][14].":		</td>";
 				echo "<td>";
-				showCalendarForm('','buy',$this->fields["buy"],$canedit);
+				showDateFormItem("buy",$this->fields["buy"],true,$canedit);
 				echo "</td>";
 
 				echo "<td>".$LANGROOM[6].":		</td>";
