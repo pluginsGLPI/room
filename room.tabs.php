@@ -34,22 +34,35 @@
 // ----------------------------------------------------------------------
 
 
-$NEEDED_ITEMS=array('search');
+
+$NEEDED_ITEMS=array('reservation','plugin');
 
 define('GLPI_ROOT', '../..');
 include (GLPI_ROOT . "/inc/includes.php");
 
-checkTypeRight(PLUGIN_ROOM_TYPE,"r");
+include_once ("inc/plugin_room.class.php");
+include_once ("inc/plugin_room.function.php");
 
-commonHeader($LANG['plugin_room'][0],$_SERVER['PHP_SELF'],"plugins","room");
 
-$_GET['target']=$_SERVER['PHP_SELF'];
+if (!isset($_POST['ID'])) exit();
 
-manageGetValuesInSearch(PLUGIN_ROOM_TYPE);
+$room=new PluginRoom();
+switch ($_POST['glpi_tab'] ){
+	case -1 :
+		$room->showComputers($_POST['target'],$_POST["ID"]);
+		showDeviceReservations($_POST['target'],PLUGIN_ROOM_TYPE,$_POST["ID"]);
+		break;
+	case 11 :
+		showDeviceReservations($_POST['target'],PLUGIN_ROOM_TYPE,$_POST["ID"]);
+		break;
+	default :
+		if ($_POST["ID"]){
+			if (!displayPluginAction(PLUGIN_ROOM_TYPE,$_POST["ID"],$_POST['glpi_tab'] )){
+				$room->showComputers($_POST['target'],$_POST["ID"]);
+			}
+		}
+		break;
+}
 
-searchForm(PLUGIN_ROOM_TYPE,$_GET);
 
-showList(PLUGIN_ROOM_TYPE,$_GET);
-
-commonFooter();
 ?>

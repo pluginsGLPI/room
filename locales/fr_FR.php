@@ -29,25 +29,25 @@ Purpose of file:
 /**************** Plugin Addressing **************/
 
 
-$LANGROOM[0]="Salles";
-$LANGROOM[1]="Plugin installé et à jour : Parfait !";	
-$LANGROOM[2]="Plugin non installé !";	
-$LANGROOM[3]="Ajouter une salle";
-$LANGROOM[4]="Nombre de places";
-$LANGROOM[5]="Conditions d'accès";
-$LANGROOM[6]="Moyen d'impression";
-$LANGROOM[7]="Vidéoprojecteur";
-$LANGROOM[8]="Wifi";
-$LANGROOM[9]="Type de Salle";
-$LANGROOM[10]="Responsable";
-$LANGROOM[11]="Horaires d'ouverture";
-$LANGROOM[12]="Limitations";
-$LANGROOM[13]="Spécificité 1";
-$LANGROOM[14]="Spécificité 2";
-$LANGROOM[15]="Spécificité 3";
-$LANGROOM[16]="Spécificité 4";
-$LANGROOM[17]="Ajouter à une salle";
-$LANGROOM[18]="Nombre d'ordinateurs";
-$LANGROOM[19]="Salle";
-$LANGROOM[20]="Cet ordinateur se trouve dans la salle :";
+$LANG['plugin_room'][0]="Salles";
+$LANG['plugin_room'][1]="Plugin installé et à jour : Parfait !";	
+$LANG['plugin_room'][2]="Plugin non installé !";	
+$LANG['plugin_room'][3]="Ajouter une salle";
+$LANG['plugin_room'][4]="Nombre de places";
+$LANG['plugin_room'][5]="Conditions d'accès";
+$LANG['plugin_room'][6]="Moyen d'impression";
+$LANG['plugin_room'][7]="Vidéoprojecteur";
+$LANG['plugin_room'][8]="Wifi";
+$LANG['plugin_room'][9]="Type de Salle";
+$LANG['plugin_room'][10]="Responsable";
+$LANG['plugin_room'][11]="Horaires d'ouverture";
+$LANG['plugin_room'][12]="Limitations";
+$LANG['plugin_room'][13]="Spécificité 1";
+$LANG['plugin_room'][14]="Spécificité 2";
+$LANG['plugin_room'][15]="Spécificité 3";
+$LANG['plugin_room'][16]="Spécificité 4";
+$LANG['plugin_room'][17]="Ajouter à une salle";
+$LANG['plugin_room'][18]="Nombre d'ordinateurs";
+$LANG['plugin_room'][19]="Salle";
+$LANG['plugin_room'][20]="Cet ordinateur se trouve dans la salle :";
 ?>

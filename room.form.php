@@ -35,10 +35,13 @@
 
 
 
-$NEEDED_ITEMS=array('reservation');
+$NEEDED_ITEMS=array('reservation','plugin');
 
 define('GLPI_ROOT', '../..');
 include (GLPI_ROOT . "/inc/includes.php");
+
+include_once ("inc/plugin_room.class.php");
+include_once ("inc/plugin_room.function.php");
 
 
 if(!isset($_GET["ID"])) $_GET["ID"] = -1;
@@ -95,27 +98,10 @@ if (isset($_POST["add"])){
 		$_SESSION['glpi_onglet']=$_GET['onglet'];
 	}
 
-	commonHeader($LANGROOM[0],$_SERVER['PHP_SELF'],"plugins","room");
+	commonHeader($LANG['plugin_room'][0],$_SERVER['PHP_SELF'],"plugins","room");
 
-	if ($room->showForm($_SERVER['PHP_SELF'],$_GET["ID"])){
-		switch ($_SESSION['glpi_onglet']){
-			case -1 :
-				$room->showComputers($_SERVER['PHP_SELF'],$_GET["ID"]);
-				showDeviceReservations($_SERVER['PHP_SELF'],PLUGIN_ROOM_TYPE,$_GET["ID"]);
-				break;
-			case 11 :
-				showDeviceReservations($_SERVER['PHP_SELF'],PLUGIN_ROOM_TYPE,$_GET["ID"]);
-				break;
-			default :
-				if ($_GET["ID"]){
-					if (!displayPluginAction(PLUGIN_ROOM_TYPE,$_GET["ID"],$_SESSION['glpi_onglet'])){
-						$room->showComputers($_SERVER['PHP_SELF'],$_GET["ID"]);
-					}
-				}
-				break;
-		}
+	$room->showForm($_SERVER['PHP_SELF'],$_GET["ID"]);
 
-	}
 	commonFooter();
 }
 

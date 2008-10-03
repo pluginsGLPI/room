@@ -67,7 +67,7 @@ class PluginRoom  extends CommonDBTM {
 
 	}
 
-	function defineOnglets($withtemplate){
+	function defineTabs($withtemplate){
 		global $LANG,$CFG_GLPI;
 
 		$ong[1]=$LANG["title"][26];
@@ -80,7 +80,7 @@ class PluginRoom  extends CommonDBTM {
 	}
 
 	function showForm($target,$ID,$withtemplate=''){
-		global $CFG_GLPI, $LANG,$LANGROOM;
+		global $CFG_GLPI, $LANG;
 
 		if (!haveTypeRight(PLUGIN_ROOM_TYPE,"r")) return false;
 
@@ -102,7 +102,7 @@ class PluginRoom  extends CommonDBTM {
 			$canedit=$this->can($ID,'w');
 
 
-			$this->showOnglets($ID, $withtemplate,$_SESSION['glpi_onglet']);
+			$this->showTabs($ID, $withtemplate,$_SESSION['glpi_onglet']);
 
 			if ($canedit) {
 				echo "<form name='form' method='post' action=\"$target\" enctype=\"multipart/form-data\">";
@@ -110,7 +110,7 @@ class PluginRoom  extends CommonDBTM {
 					echo "<input type='hidden' name='FK_entities' value='".$_SESSION["glpiactive_entity"]."'>";
 				}
 			}
-			echo "<div class='center'><table class='tab_cadre_fixe'>";
+			echo "<div class='center' id='tabsbody'><table class='tab_cadre_fixe'>";
 			echo "<tr>";
 			if ($ID>0) {
 				echo "<th colspan='2'>";
@@ -135,7 +135,7 @@ class PluginRoom  extends CommonDBTM {
 				echo "</th>";
 			} else {
 				echo "<th colspan='2'>";
-				echo $LANGROOM[3];
+				echo $LANG['plugin_room'][3];
 				if (isMultiEntitiesMode()){
 					echo "&nbsp;(".getDropdownName("glpi_entities",$this->fields["FK_entities"]).")";
 				}
@@ -166,7 +166,7 @@ class PluginRoom  extends CommonDBTM {
 				dropdownValue("glpi_dropdown_plugin_room_type","type",$this->fields["type"]);
 				echo "</td>";
 
-				echo "<td>".$LANGROOM[5].":		</td>";
+				echo "<td>".$LANG['plugin_room'][5].":		</td>";
 				echo "<td>";
 				dropdownValue("glpi_dropdown_plugin_room_access","access",$this->fields["access"]);
 				echo "</td></tr>";
@@ -181,7 +181,7 @@ class PluginRoom  extends CommonDBTM {
 				dropdownUsersID("tech_num",$this->fields["tech_num"],"interface",1,$this->fields["FK_entities"]);
 				echo "</td></tr>";
 
-				echo "<tr class='tab_bg_1'><td>".$LANGROOM[4].":		</td>";
+				echo "<tr class='tab_bg_1'><td>".$LANG['plugin_room'][4].":		</td>";
 				echo "<td>";
 				dropdownInteger("size",$this->fields["size"],0,500);
 				echo "</td><td colspan='2'>&nbsp;</td></tr>";
@@ -191,57 +191,57 @@ class PluginRoom  extends CommonDBTM {
 				showDateFormItem("buy",$this->fields["buy"],true,$canedit);
 				echo "</td>";
 
-				echo "<td>".$LANGROOM[6].":		</td>";
+				echo "<td>".$LANG['plugin_room'][6].":		</td>";
 				echo "<td>";
 				dropdownYesNo("printer",$this->fields["printer"]);
 				echo "</td></tr>";
 
-				echo "<tr class='tab_bg_1'><td>".$LANGROOM[7].":		</td>";
+				echo "<tr class='tab_bg_1'><td>".$LANG['plugin_room'][7].":		</td>";
 				echo "<td>";
 				dropdownYesNo("videoprojector",$this->fields["videoprojector"]);
 				echo "</td>";
 
-				echo "<td>".$LANGROOM[8].":		</td>";
+				echo "<td>".$LANG['plugin_room'][8].":		</td>";
 				echo "<td>";
 				dropdownYesNo("wifi",$this->fields["wifi"]);
 				echo "</td></tr>";
 
-				echo "<tr class='tab_bg_1'><td>".$LANGROOM[13].":		</td>";
+				echo "<tr class='tab_bg_1'><td>".$LANG['plugin_room'][13].":		</td>";
 				echo "<td>";
 				autocompletionTextField("text1","glpi_plugin_room","text1",$this->fields["text1"],50,$this->fields["FK_entities"]);
 				echo "</td>";
 
-				echo "<td>".$LANGROOM[15].":		</td>";
+				echo "<td>".$LANG['plugin_room'][15].":		</td>";
 				echo "<td>";
 				dropdownValue("glpi_dropdown_plugin_room_dropdown1","dropdown1",$this->fields["dropdown1"]);
 				echo "</td></tr>";
 				
-				echo "<tr class='tab_bg_1'><td>".$LANGROOM[14].":		</td>";
+				echo "<tr class='tab_bg_1'><td>".$LANG['plugin_room'][14].":		</td>";
 				echo "<td>";
 				autocompletionTextField("text2","glpi_plugin_room","text2",$this->fields["text2"],50,$this->fields["FK_entities"]);
 				echo "</td>";
 
-				echo "<td>".$LANGROOM[16].":		</td>";
+				echo "<td>".$LANG['plugin_room'][16].":		</td>";
 				echo "<td>";
 				dropdownValue("glpi_dropdown_plugin_room_dropdown2","dropdown2",$this->fields["dropdown2"]);
 				echo "</td></tr>";
 
-				echo "<tr class='tab_bg_1'><td>".$LANGROOM[11].":		</td>";
+				echo "<tr class='tab_bg_1'><td>".$LANG['plugin_room'][11].":		</td>";
 				echo "<td colspan='3'>";
 				autocompletionTextField("opening","glpi_plugin_room","opening",$this->fields["opening"],80,$this->fields["FK_entities"]);
 				echo "</td></tr>";
 
-				echo "<tr class='tab_bg_1'><td>".$LANGROOM[12].":		</td>";
+				echo "<tr class='tab_bg_1'><td>".$LANG['plugin_room'][12].":		</td>";
 				echo "<td colspan='3'>";
 				autocompletionTextField("limits","glpi_plugin_room","limits",$this->fields["limits"],80,$this->fields["FK_entities"]);
 				echo "</td></tr>";
 
 				echo "<tr>";
-				echo "<td class='tab_bg_1' valign='top' colspan='2'>";
+				echo "<td class='tab_bg_1' valign='top'>";
 	
 				// table commentaires
-				echo $LANG["common"][25].":	</td>";
-				echo "<td colspan='2'  class='tab_bg_1'><textarea cols='70' rows='4' name='comments' >".$this->fields["comments"]."</textarea>";
+				echo $LANG["common"][25].":</td>";
+				echo "<td colspan='3'  class='tab_bg_1'><textarea cols='70' rows='4' name='comments' >".$this->fields["comments"]."</textarea>";
 	
 				echo "</td>";
 				echo "</tr>";
@@ -283,13 +283,17 @@ class PluginRoom  extends CommonDBTM {
 			} else { //  can't edit
 				echo "</table></div>";
 			} 
+
+			echo "<div id='tabcontent'></div>";
+			echo "<script type='text/javascript'>loadDefaultTab();</script>";
+
 			return true;
 		}
 		return false;
 
 	}
 	function showComputers($target,$rID){
-		global $CFG_GLPI, $LANG,$LANGROOM,$DB;
+		global $CFG_GLPI, $LANG,$DB;
 		if (!haveTypeRight(PLUGIN_ROOM_TYPE,"r")) return false;
 
 		if ($this->getFromDB($rID)){
@@ -355,7 +359,7 @@ class PluginRoom  extends CommonDBTM {
 				echo "</table></div>" ;
 				
 				echo "<div class='center'>";
-				echo "<table width='950px'>";
+				echo "<table width='950px' align='center'>";
 				echo "<tr><td><img src=\"".$CFG_GLPI["root_doc"]."/pics/arrow-left.png\" alt=''></td><td class='center'><a onclick= \"if ( markAllRows('document_form') ) return false;\" href='".$_SERVER['PHP_SELF']."?ID=$rID&amp;select=all'>".$LANG["buttons"][18]."</a></td>";
 			
 				echo "<td>/</td><td class='center'><a onclick= \"if ( unMarkAllRows('document_form') ) return false;\" href='".$_SERVER['PHP_SELF']."?ID=$rID&amp;select=none'>".$LANG["buttons"][19]."</a>";
