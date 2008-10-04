@@ -42,8 +42,6 @@ function plugin_init_room() {
 
 	if (isset($_SESSION["glpiID"])){
 
-		$PLUGIN_HOOKS['config_page']['room'] = 'config.php';
-
 		// Plugin Installed 
 		if (isset($_SESSION["glpiplugin_room_installed"])){
 			// Room may be deleted and specific to an entity
