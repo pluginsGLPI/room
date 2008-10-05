@@ -38,33 +38,27 @@
 function plugin_init_room() {
 	global $PLUGIN_HOOKS,$CFG_GLPI,$LINK_ID_TABLE,$LANG;
 
-	$PLUGIN_HOOKS['init_session']['room'] = 'plugin_room_initSession';
-
 	if (isset($_SESSION["glpiID"])){
+		// Room may be deleted and specific to an entity
+		array_push($CFG_GLPI["specif_entities_tables"],"glpi_plugin_room");
+		array_push($CFG_GLPI["deleted_tables"],"glpi_plugin_room");
 
-		// Plugin Installed 
-		if (isset($_SESSION["glpiplugin_room_installed"])){
-			// Room may be deleted and specific to an entity
-			array_push($CFG_GLPI["specif_entities_tables"],"glpi_plugin_room");
-			array_push($CFG_GLPI["deleted_tables"],"glpi_plugin_room");
+		pluginNewType('room',"PLUGIN_ROOM_TYPE",1050,"PluginRoom","glpi_plugin_room","room.form.php",$LANG['plugin_room'][0],true);
 
-			pluginNewType('room',"PLUGIN_ROOM_TYPE",1050,"PluginRoom","glpi_plugin_room","room.form.php",$LANG['plugin_room'][0],true);
+		array_push($CFG_GLPI["reservation_types"],PLUGIN_ROOM_TYPE);
 
-			array_push($CFG_GLPI["reservation_types"],PLUGIN_ROOM_TYPE);
+		if (haveTypeRight(PLUGIN_ROOM_TYPE,'r')){
+			$PLUGIN_HOOKS['menu_entry']['room'] = true;
+			$PLUGIN_HOOKS['submenu_entry']['room']['add'] = 'room.form.php';
+			$PLUGIN_HOOKS['submenu_entry']['room']['search'] = 'index.php';
+		} 
 
-			if (haveTypeRight(PLUGIN_ROOM_TYPE,'r')){
-				$PLUGIN_HOOKS['menu_entry']['room'] = true;
-				$PLUGIN_HOOKS['submenu_entry']['room']['add'] = 'room.form.php';
-				$PLUGIN_HOOKS['submenu_entry']['room']['search'] = 'index.php';
-			} 
-
-			if (haveTypeRight(PLUGIN_ROOM_TYPE,'w')){
-				// Massive Action definition
-				$PLUGIN_HOOKS['use_massive_action']['room']=1;
-			}
-			$PLUGIN_HOOKS['headings']['room'] = 'plugin_get_headings_room';
-			$PLUGIN_HOOKS['headings_action']['room'] = 'plugin_headings_actions_room';
+		if (haveTypeRight(PLUGIN_ROOM_TYPE,'w')){
+			// Massive Action definition
+			$PLUGIN_HOOKS['use_massive_action']['room']=1;
 		}
+		$PLUGIN_HOOKS['headings']['room'] = 'plugin_get_headings_room';
+		$PLUGIN_HOOKS['headings_action']['room'] = 'plugin_headings_actions_room';
 	}
 }
 // Get the name and the version of the plugin - Needed
@@ -74,7 +68,9 @@ function plugin_version_room(){
 	return array( 'name'    => $LANG['plugin_room'][0],
 		'version' => '2.0',
 		'author'=>'Julien Dombre',
-		'homepage'=>'http://glpi-project.org',);
+		'homepage'=>'http://glpi-project.org',
+		'minGlpiVersion' => '0.72',// For compatibility / no install in version < 0.72
+		);
 }
 
 function plugin_room_install(){
@@ -178,7 +174,6 @@ function plugin_room_install(){
 		$DB->query($query) or die("error adding glpi_dropdown_plugin_room_dropdown2 table " . $LANG["update"][90] . $DB->error());
 	}
 
-	$_SESSION["glpiplugin_room_installed"]=1;
 	plugin_init_room();
 
 	cleanCache("GLPI_HEADER_".$_SESSION["glpiID"]);
@@ -188,27 +183,25 @@ function plugin_room_install(){
 function plugin_room_uninstall(){
 	global $DB;
 
-	if (isset($_SESSION["glpiplugin_room_installed"])){
-		$query='DROP TABLE `glpi_plugin_room_computer`';
-		$DB->query($query) ;
-		$query='DROP TABLE `glpi_plugin_room`';
-		$DB->query($query) ;
-		$query='DROP TABLE `glpi_dropdown_plugin_room_type`';
-		$DB->query($query) ;
-		$query='DROP TABLE `glpi_dropdown_plugin_room_access`';
-		$DB->query($query) ;
-		$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown1`';
-		$DB->query($query) ;
-		$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown2`';
-		$DB->query($query) ;
+	$query='DROP TABLE `glpi_plugin_room_computer`';
+	$DB->query($query) ;
+	$query='DROP TABLE `glpi_plugin_room`';
+	$DB->query($query) ;
+	$query='DROP TABLE `glpi_dropdown_plugin_room_type`';
+	$DB->query($query) ;
+	$query='DROP TABLE `glpi_dropdown_plugin_room_access`';
+	$DB->query($query) ;
+	$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown1`';
+	$DB->query($query) ;
+	$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown2`';
+	$DB->query($query) ;
 
-		$query="DELETE FROM `glpi_display` WHERE type=".COMPUTER_TYPE." AND num='1050'";
-		$DB->query($query) ;
+	$query="DELETE FROM `glpi_display` WHERE type=".COMPUTER_TYPE." AND num='1050'";
+	$DB->query($query) ;
 
-		unset($_SESSION["glpiplugin_room_installed"]);
-		plugin_init_room();
-		cleanCache("GLPI_HEADER_".$_SESSION["glpiID"]);
-	}
+	plugin_init_room();
+	cleanCache("GLPI_HEADER_".$_SESSION["glpiID"]);
+
 	return true;
 }
 
