@@ -322,7 +322,7 @@ class PluginRoom  extends CommonDBTM {
 					while ($data=$DB->fetch_assoc($result_linked)){
 						$ID="";
 								
-						if($CFG_GLPI["view_ID"]||empty($data["name"])){
+						if($_SESSION["glpiview_ID"]||empty($data["name"])){
 							$ID= " (".$data["ID"].")";
 						}
 						$name= "<a href=\"".$CFG_GLPI["root_doc"]."/front/computer.form.php?ID=".$data["ID"]."\">".$data["name"]."$ID</a>";
