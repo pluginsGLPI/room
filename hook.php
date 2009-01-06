@@ -145,6 +145,7 @@ function plugin_room_getSearchOption(){
 		$sopt[PLUGIN_ROOM_TYPE][31]['field']='name';
 		$sopt[PLUGIN_ROOM_TYPE][31]['linkfield']='';
 		$sopt[PLUGIN_ROOM_TYPE][31]['name']=$LANG["Menu"][0];
+		$sopt[PLUGIN_ROOM_TYPE][31]['forcegroupby']=true;
 	
 		$sopt[PLUGIN_ROOM_TYPE][32]['table']='glpi_plugin_room';
 		$sopt[PLUGIN_ROOM_TYPE][32]['field']='count_linked';
@@ -241,10 +242,13 @@ function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield,&$alread
 }
 
 
-function plugin_room_giveItem($type,$field,$data,$num,$linkfield=""){
-	global $CFG_GLPI, $INFOFORM_PAGES;
+function plugin_room_giveItem($type,$ID,$data,$num){
+	global $CFG_GLPI, $INFOFORM_PAGES,$SEARCH_OPTION;
 
-	switch ($field){
+	$table=$SEARCH_OPTION[$type][$ID]["table"];
+	$field=$SEARCH_OPTION[$type][$ID]["field"];
+
+	switch ($table.'.'.$field){
 		case "glpi_plugin_room.name" :
 			if (!empty($data["ITEM_".$num."_2"])){
 				$out= "<a href=\"".$CFG_GLPI["root_doc"]."/".$INFOFORM_PAGES[PLUGIN_ROOM_TYPE]."?ID=".$data["ITEM_".$num."_2"]."\">";
