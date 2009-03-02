@@ -43,8 +43,6 @@ checkTypeRight(PLUGIN_ROOM_TYPE,"r");
 
 commonHeader($LANG['plugin_room'][0],$_SERVER['PHP_SELF'],"plugins","room");
 
-$_GET['target']=$_SERVER['PHP_SELF'];
-
 manageGetValuesInSearch(PLUGIN_ROOM_TYPE);
 
 searchForm(PLUGIN_ROOM_TYPE,$_GET);

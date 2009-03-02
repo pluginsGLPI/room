@@ -39,13 +39,20 @@ function plugin_init_room() {
 	global $PLUGIN_HOOKS,$CFG_GLPI,$LINK_ID_TABLE,$LANG;
 
 	if (isset($_SESSION["glpiID"])){
-		// Room may be deleted and specific to an entity
-		array_push($CFG_GLPI["specif_entities_tables"],"glpi_plugin_room");
-		array_push($CFG_GLPI["deleted_tables"],"glpi_plugin_room");
 
-		pluginNewType('room',"PLUGIN_ROOM_TYPE",1050,"PluginRoom","glpi_plugin_room","room.form.php",$LANG['plugin_room'][0],true);
+		// Params : plugin name - string type - number - attributes
+		registerPluginType('room', 'PLUGIN_ROOM_TYPE', 1050, array(
+			'classname'  => 'PluginRoom',
+			'tablename'  => 'glpi_plugin_room',
+			'formpage'   => 'room.form.php',
+			'searchpage' => 'index.php',
+			'typename'   => $LANG['plugin_room'][0],
+			'deleted_tables' => true,
+			'reservation_types' => true,
+			'specif_entities_tables' => true,
+			'recursive_type' => true
+			));
 
-		array_push($CFG_GLPI["reservation_types"],PLUGIN_ROOM_TYPE);
 
 		if (haveTypeRight(PLUGIN_ROOM_TYPE,'r')){
 			$PLUGIN_HOOKS['menu_entry']['room'] = true;
