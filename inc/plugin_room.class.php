@@ -68,7 +68,7 @@ class PluginRoom  extends CommonDBTM {
 
 	}
 
-	function defineTabs($withtemplate){
+	function defineTabs($ID,$withtemplate){
 		global $LANG,$CFG_GLPI;
 
 		$ong[1]=$LANG["title"][26];
