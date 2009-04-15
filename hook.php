@@ -162,6 +162,9 @@ function plugin_room_getSearchOption(){
 		$sopt[COMPUTER_TYPE][1050]['field']='name';
 		$sopt[COMPUTER_TYPE][1050]['linkfield']='';
 		$sopt[COMPUTER_TYPE][1050]['name']=$LANG['plugin_room'][0]." - ".$LANG["common"][16];
+		$sopt[COMPUTER_TYPE][1050]['forcegroupby']=true;
+		$sopt[COMPUTER_TYPE][1050]['datatype']='itemlink';
+		$sopt[COMPUTER_TYPE][1050]['itemlink_type']=PLUGIN_ROOM_TYPE;
 
 		$sopt[COMPUTER_TYPE][1051]['table']='glpi_dropdown_plugin_room_type';
 		$sopt[COMPUTER_TYPE][1051]['field']='name';
@@ -203,9 +206,6 @@ function plugin_room_addSelect($type,$ID,$num){
 	// Example of standard Select clause but use it ONLY for specific Select
 	// No need of the function if you do not have specific cases
 	switch ($table.".".$field){
-		case "glpi_plugin_room.name":
-			return $table.".".$field." AS ITEM_$num, ".$table.".ID AS ITEM_".$num."_2, ";
-			break;
 		case "glpi_computers.name" :
 			return " GROUP_CONCAT( DISTINCT glpi_computers.$field SEPARATOR '$$$$') AS ITEM_$num, ";
 		break;
