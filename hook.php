@@ -50,6 +50,8 @@ function plugin_room_getSearchOption(){
 		$sopt[PLUGIN_ROOM_TYPE][1]['field']='name';
 		$sopt[PLUGIN_ROOM_TYPE][1]['linkfield']='name';
 		$sopt[PLUGIN_ROOM_TYPE][1]['name']=$LANG["common"][16];
+		$sopt[PLUGIN_ROOM_TYPE][1]['datatype']='itemlink';
+		$sopt[PLUGIN_ROOM_TYPE][1]['itemlink_type']=PLUGIN_ROOM_TYPE;
 		
 		$sopt[PLUGIN_ROOM_TYPE][2]['table']='glpi_dropdown_plugin_room_type';
 		$sopt[PLUGIN_ROOM_TYPE][2]['field']='name';
