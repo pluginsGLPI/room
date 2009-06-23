@@ -148,6 +148,8 @@ function plugin_room_getSearchOption(){
 		$sopt[PLUGIN_ROOM_TYPE][31]['linkfield']='';
 		$sopt[PLUGIN_ROOM_TYPE][31]['name']=$LANG["Menu"][0];
 		$sopt[PLUGIN_ROOM_TYPE][31]['forcegroupby']=true;
+		$sopt[PLUGIN_ROOM_TYPE][31]['datatype']='itemlink';
+		$sopt[PLUGIN_ROOM_TYPE][31]['itemlink_type']=COMPUTER_TYPE;
 	
 		$sopt[PLUGIN_ROOM_TYPE][32]['table']='glpi_plugin_room';
 		$sopt[PLUGIN_ROOM_TYPE][32]['field']='count_linked';
@@ -208,9 +210,6 @@ function plugin_room_addSelect($type,$ID,$num){
 	// Example of standard Select clause but use it ONLY for specific Select
 	// No need of the function if you do not have specific cases
 	switch ($table.".".$field){
-		case "glpi_computers.name" :
-			return " GROUP_CONCAT( DISTINCT glpi_computers.$field SEPARATOR '$$$$') AS ITEM_$num, ";
-		break;
 		case "glpi_computers.count" :
 			return " COUNT( glpi_computers.ID) AS ITEM_$num, ";
 		break;
@@ -243,40 +242,6 @@ function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield,&$alread
 	return "";
 }
 
-
-function plugin_room_giveItem($type,$ID,$data,$num){
-	global $CFG_GLPI, $INFOFORM_PAGES,$SEARCH_OPTION;
-
-	$table=$SEARCH_OPTION[$type][$ID]["table"];
-	$field=$SEARCH_OPTION[$type][$ID]["field"];
-
-	switch ($table.'.'.$field){
-		case "glpi_plugin_room.name" :
-			if (!empty($data["ITEM_".$num."_2"])){
-				$out= "<a href=\"".$CFG_GLPI["root_doc"]."/".$INFOFORM_PAGES[PLUGIN_ROOM_TYPE]."?ID=".$data["ITEM_".$num."_2"]."\">";
-				$out.= $data["ITEM_$num"];
-				if ($_SESSION["glpiview_ID"]||empty($data["ITEM_$num"])) $out.= " (".$data["ITEM_".$num."_2"].")";
-				$out.= "</a>";
-				return $out;
-			}
-			
-			break;
-		case "glpi_computers.name" :
-
-			$out="";
-			$split=explode("$$$$",$data["ITEM_$num"]);
-	
-			$count_display=0;
-			for ($k=0;$k<count($split);$k++)
-				if (strlen(trim($split[$k]))>0){
-					if ($count_display) $out.= "<br>";
-					$count_display++;
-					$out.= $split[$k];
-				}
-			return $out;
-	}
-	return "";
-}
 
 function plugin_room_forceGroupBy($type){
 	switch ($type){
