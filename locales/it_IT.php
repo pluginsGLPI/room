@@ -29,25 +29,25 @@ Purpose of file:
 /**************** Plugin Addressing **************/
 
 
-$LANGROOM[0]="Locali";
-$LANGROOM[1]="Plugin installato e configurato: perfetto!";	
-$LANGROOM[2]="Plugin non installato!";	
-$LANGROOM[3]="Aggiungi un locale";
-$LANGROOM[4]="Posti a sedere";
-$LANGROOM[5]="Modalità di accesso";
-$LANGROOM[6]="Stampante";
-$LANGROOM[7]="Videoproiettore";
-$LANGROOM[8]="Servizio WiFi";
-$LANGROOM[9]="Tipologia di Locale";
-$LANGROOM[10]="Responsabile";
-$LANGROOM[11]="Orari di apertura";
-$LANGROOM[12]="Limitazioni";
-$LANGROOM[13]="Caratteristica 1";
-$LANGROOM[14]="Caratteristica 2";
-$LANGROOM[15]="Caratteristica 3";
-$LANGROOM[16]="Caratteristica 4";
-$LANGROOM[17]="Aggiungi un locale";
-$LANGROOM[18]="Numero PC";
-$LANGROOM[19]="Locale";
-$LANGROOM[20]="Computer presenti in sala:";
+$LANG['plugin_room'][0]="Locali";
+$LANG['plugin_room'][1]="Plugin installato e configurato: perfetto!";
+$LANG['plugin_room'][2]="Plugin non installato!";
+$LANG['plugin_room'][3]="Aggiungi un locale";
+$LANG['plugin_room'][4]="Posti a sedere";
+$LANG['plugin_room'][5]="Modalità di accesso";
+$LANG['plugin_room'][6]="Stampante";
+$LANG['plugin_room'][7]="Videoproiettore";
+$LANG['plugin_room'][8]="Servizio WiFi";
+$LANG['plugin_room'][9]="Tipologia di Locale";
+$LANG['plugin_room'][10]="Responsabile";
+$LANG['plugin_room'][11]="Orari di apertura";
+$LANG['plugin_room'][12]="Limitazioni";
+$LANG['plugin_room'][13]="Caratteristica 1";
+$LANG['plugin_room'][14]="Caratteristica 2";
+$LANG['plugin_room'][15]="Caratteristica 3";
+$LANG['plugin_room'][16]="Caratteristica 4";
+$LANG['plugin_room'][17]="Aggiungi un locale";
+$LANG['plugin_room'][18]="Numero PC";
+$LANG['plugin_room'][19]="Locale";
+$LANG['plugin_room'][20]="Computer presenti in sala:";
 ?>

@@ -303,7 +303,7 @@ function plugin_room_MassiveActionsProcess($data){
 }
 
 
-function plugin_get_headings_room($type,$withtemplate){
+function plugin_get_headings_room($type,$ID,$withtemplate){
 	global $LANG;
 	switch ($type){
 		case COMPUTER_TYPE :
