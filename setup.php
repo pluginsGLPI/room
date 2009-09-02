@@ -73,7 +73,7 @@ function plugin_version_room(){
 	global $LANG;
 
 	return array( 'name'    => $LANG['plugin_room'][0],
-		'version' => '2.0',
+		'version' => '2.1',
 		'author'=>'Julien Dombre',
 		'homepage'=>'http://glpi-project.org',
 		'minGlpiVersion' => '0.72',// For compatibility / no install in version < 0.72
