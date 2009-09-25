@@ -183,7 +183,6 @@ function plugin_room_install(){
 
 	plugin_init_room();
 
-	cleanCache("GLPI_HEADER_".$_SESSION["glpiID"]);
 	return true;
 }
 
