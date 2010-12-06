@@ -34,15 +34,164 @@
 // ----------------------------------------------------------------------
 
 
-include_once ("inc/plugin_room.class.php");
-include_once ("inc/plugin_room.function.php");
 
+function plugin_room_install(){
+	global $DB, $LANG;
+
+	include_once (GLPI_ROOT."/plugins/room/inc/profile.class.php");
+
+	if (!TableExists('glpi_plugin_room_rooms')){
+		$query="CREATE TABLE  `glpi_plugin_room_rooms` (
+			`id` int(11) NOT NULL auto_increment,
+			`name` varchar(255) collate utf8_unicode_ci default NULL,
+			`entities_id` int(11) NOT NULL default '0',
+			`locations_id` int(11) NOT NULL default '0',
+			`recursive` smallint(6) NOT NULL default '0',
+			`deleted` smallint(6) NOT NULL default '0',
+			`type` int(11) NOT NULL default '0',
+			`date_mod` datetime default NULL,
+			`size` smallint(6) NOT NULL default '0',
+			`count_linked` smallint(6) NOT NULL default '0',
+			`buy` datetime default NULL,
+			`access` int(11) NOT NULL default '0',
+			`printer` smallint(6) NOT NULL default '0',
+			`videoprojector` smallint(6) NOT NULL default '0',
+			`wifi` smallint(6) NOT NULL default '0',
+			`comments` text collate utf8_unicode_ci,
+			`opening` varchar(255) collate utf8_unicode_ci default NULL,
+			`limits` varchar(255) collate utf8_unicode_ci default NULL,
+			`text1` varchar(255) collate utf8_unicode_ci default NULL,
+			`text2` varchar(255) collate utf8_unicode_ci default NULL,
+			`dropdown1` int(11) NOT NULL default '0',
+			`dropdown2` int(11) NOT NULL default '0',
+			`tech_num` int(11) NOT NULL default '0',
+			`FK_users` int(11) NOT NULL default '0',
+			`is_template` smallint(6) NOT NULL default '0', # not used / for reservation search engine
+			`location` smallint(6) NOT NULL default '0', # not used / for reservation search engine
+			`state` smallint(6) NOT NULL default '0', # not used / for reservation search engine
+			`FK_glpi_enterprise` smallint(6) NOT NULL default '0', # not used / for reservation search engine
+			`FK_groups` smallint(6) NOT NULL default '0', # not used / for reservation search engine
+			PRIMARY KEY  (`id`),
+			KEY `entities_id` (`entities_id`),
+			KEY `deleted` (`deleted`),
+			KEY `type` (`type`),
+			KEY `name` (`name`),
+			KEY `buy` (`buy`),
+			KEY `dropdown1` (`dropdown1`),
+			KEY `dropdown2` (`dropdown2`),
+			KEY `tech_num` (`tech_num`),
+			KEY `FK_users` (`FK_users`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;";
+		$DB->query($query) or die("error adding glpi_plugin_room table " . $LANG["update"][90] . $DB->error());
+	}
+	if (!TableExists('glpi_plugin_room_computer')){
+		$query="CREATE TABLE `glpi_plugin_room_computer` (
+			`ID` int(11) NOT NULL auto_increment,
+			`FK_computers` int(11) NOT NULL,
+			`FK_rooms` int(11) NOT NULL,
+			PRIMARY KEY  (`ID`),
+			UNIQUE `FK_computers` (`FK_computers`),
+			KEY `FK_rooms` (`FK_rooms`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		$DB->query($query) or die("error adding glpi_plugin_room_computer table " . $LANG["update"][90] . $DB->error());
+	}
+	if (!TableExists('glpi_plugin_room_profiles')){
+		$query="CREATE TABLE `glpi_plugin_room_profiles` (
+			`id` int(11) NOT NULL auto_increment,
+			`profiles_id` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_profiles (id)',
+			`room` char(1) collate utf8_unicode_ci default NULL,
+			PRIMARY KEY  (`id`),
+			KEY `profiles_id` (`profiles_id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		$DB->query($query) or die("error adding glpi_plugin_room_profiles table " . $LANG["update"][90] . $DB->error());
+		// je pense qu'il faut aussi ici faire des insertions dans glpi_displaypreferences
+	}
+	if (!TableExists('glpi_plugin_room_roomtypes')){
+		$query="CREATE TABLE  `glpi_plugin_room_roomtypes` (
+		`id` int(11) NOT NULL auto_increment,
+		`name` varchar(255) collate utf8_unicode_ci default NULL,
+		`comment` text collate utf8_unicode_ci,
+		PRIMARY KEY  (`ID`),
+		KEY `name` (`name`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		$DB->query($query) or die("error adding glpi_plugin_room_roomtypes table " . $LANG["update"][90] . $DB->error());
+	}
+
+	if (!TableExists('glpi_plugin_room_roomaccessconds')){
+		$query="CREATE TABLE  `glpi_plugin_room_roomaccessconds` (
+		`id` int(11) NOT NULL auto_increment,
+		`name` varchar(255) collate utf8_unicode_ci default NULL,
+		`comment` text collate utf8_unicode_ci,
+		PRIMARY KEY  (`ID`),
+		KEY `name` (`name`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		$DB->query($query) or die("error adding glpi_plugin_room_roomaccessconds table " . $LANG["update"][90] . $DB->error());
+	}
+
+	if (!TableExists('glpi_dropdown_plugin_room_dropdown1')){
+		$query="CREATE TABLE  `glpi_dropdown_plugin_room_dropdown1` (
+		`ID` int(11) NOT NULL auto_increment,
+		`name` varchar(255) collate utf8_unicode_ci default NULL,
+		`comments` text collate utf8_unicode_ci,
+		PRIMARY KEY  (`ID`),
+		KEY `name` (`name`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		$DB->query($query) or die("error adding glpi_dropdown_plugin_room_dropdown1 table " . $LANG["update"][90] . $DB->error());
+	}
+
+	if (!TableExists('glpi_dropdown_plugin_room_dropdown2')){
+		$query="CREATE TABLE  `glpi_dropdown_plugin_room_dropdown2` (
+		`ID` int(11) NOT NULL auto_increment,
+		`name` varchar(255) collate utf8_unicode_ci default NULL,
+		`comments` text collate utf8_unicode_ci,
+		PRIMARY KEY  (`ID`),
+		KEY `name` (`name`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		$DB->query($query) or die("error adding glpi_dropdown_plugin_room_dropdown2 table " . $LANG["update"][90] . $DB->error());
+	}
+
+	PluginRoomProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
+
+	return true;
+}
+
+function plugin_room_uninstall(){
+	global $DB;
+
+	$query='DROP TABLE `glpi_plugin_room_computer`';
+	$DB->query($query) ;
+	$query='DROP TABLE `glpi_plugin_room_rooms`';
+	$DB->query($query) ;
+	$query='DROP TABLE `glpi_plugin_room_profiles`';
+	$DB->query($query) ;
+	$query='DROP TABLE `glpi_plugin_room_roomtypes`';
+	$DB->query($query) ;
+	$query='DROP TABLE `glpi_plugin_room_roomaccessconds`';
+	$DB->query($query) ;
+	$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown1`';
+	$DB->query($query) ;
+	$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown2`';
+	$DB->query($query) ;
+
+	$tables_glpi = array("glpi_displaypreferences",
+					"glpi_documents_items",
+					"glpi_bookmarks",
+					"glpi_logs");
+
+	foreach($tables_glpi as $table_glpi)
+		$DB->query("DELETE FROM `$table_glpi` WHERE `itemtype` = 'room';");
+
+	return true;
+}
 
 // Define search option for types of the plugins
-function plugin_room_getSearchOption(){
+/*
+function plugin_room_getAddSearchOption($itemtype){
 	global $LANG;
+
 	$sopt=array();
-	if (haveTypeRight(PLUGIN_ROOM_TYPE,'r')){
+
+	if (haveRight("room",'r')){
 		// Part header
 		$sopt[PLUGIN_ROOM_TYPE]['common']=$LANG['plugin_room'][0];
 		
@@ -159,7 +308,7 @@ function plugin_room_getSearchOption(){
 		
 		$sopt[PLUGIN_ROOM_TYPE][80]['table']='glpi_entities';
 		$sopt[PLUGIN_ROOM_TYPE][80]['field']='completename';
-		$sopt[PLUGIN_ROOM_TYPE][80]['linkfield']='FK_entities';
+		$sopt[PLUGIN_ROOM_TYPE][80]['linkfield']='entities_id';
 		$sopt[PLUGIN_ROOM_TYPE][80]['name']=$LANG["entity"][0];
 	
 		$sopt[COMPUTER_TYPE][1050]['table']='glpi_plugin_room';
@@ -177,30 +326,46 @@ function plugin_room_getSearchOption(){
 	}	
 	return $sopt;
 }
+*/
 
 // Define dropdown relations
 function plugin_room_getDatabaseRelations(){
-	// 
-	return array(	"glpi_dropdown_plugin_room_type"=>array("glpi_plugin_room"=>"type"),
-			"glpi_dropdown_plugin_room_access"=>array("glpi_plugin_room"=>"access"),
-			"glpi_dropdown_plugin_room_dropdown1"=>array("glpi_plugin_room"=>"dropdown1"),
-			"glpi_dropdown_plugin_room_dropdown2"=>array("glpi_plugin_room"=>"dropdown2"),
-			"glpi_entities"=>array("glpi_plugin_room"=>"FK_entities"),
-			"glpi_users"=>array("glpi_plugin_room"=>array('FK_users1','FK_users2')),
-		);
+	$plugin = new Plugin();
+
+	if ($plugin->isActivated("room"))
+		return array("glpi_plugin_room_roomtypes"=>array("glpi_plugin_room_rooms"=>"type"),
+			"glpi_plugin_room_roomaccessconds"=>array("glpi_plugin_room_rooms"=>"access"),
+			"glpi_dropdown_plugin_room_dropdown1"=>array("glpi_plugin_room_rooms"=>"dropdown1"),
+			"glpi_dropdown_plugin_room_dropdown2"=>array("glpi_plugin_room_rooms"=>"dropdown2"),
+			"glpi_entities"=>array("glpi_plugin_room_rooms"=>"entities_id"),
+			"glpi_profiles" => array ("glpi_plugin_room_profiles" => "profiles_id"),
+			"glpi_users"=>array("glpi_plugin_room_rooms"=>array('FK_users','tech_num')));
+	else
+		return array();
 }
 
 
 // Define Dropdown tables to be manage in GLPI :
+// Definit les tables qui sont gérables via les intitulés
 function plugin_room_getDropdown(){
 	global $LANG;
-	// Table => Name
+/*
 	return array( "glpi_dropdown_plugin_room_type"=>$LANG["common"][17],
 			"glpi_dropdown_plugin_room_access"=>$LANG['plugin_room'][5],
 			"glpi_dropdown_plugin_room_dropdown1"=>$LANG['plugin_room'][15],
 			"glpi_dropdown_plugin_room_dropdown2"=>$LANG['plugin_room'][16],);
+*/
+	$plugin = new Plugin();
+
+	if ($plugin->isActivated("room"))
+		return array('PluginRoomRoomType'=>$LANG['plugin_room'][9],'PluginRoomRoomAccessCond'=>$LANG['plugin_room'][5]);
+	else
+		return array();
 }
 
+// Aucune idee de ce que cela fait
+// peut-etre ajouter un critère de recherche ?
+/*
 function plugin_room_addSelect($type,$ID,$num){
 	global $SEARCH_OPTION;
 	
@@ -216,6 +381,7 @@ function plugin_room_addSelect($type,$ID,$num){
 	}
 	return "";
 }
+*/
 
 function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield,&$already_link_tables){
 
@@ -224,18 +390,18 @@ function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield,&$alread
 
 	switch ($new_table){
 		case "glpi_computers" :
-			$out= " LEFT JOIN glpi_plugin_room_computer ON (glpi_plugin_room.ID = glpi_plugin_room_computer.FK_rooms) ";
-			$out.= " LEFT JOIN glpi_computers ON (glpi_computers.ID = glpi_plugin_room_computer.FK_computers) ";
+			$out= " LEFT JOIN glpi_plugin_room_computer ON (glpi_plugin_room_rooms.id = glpi_plugin_room_computer.FK_rooms) ";
+			$out.= " LEFT JOIN glpi_computers ON (glpi_computers.id = glpi_plugin_room_computer.FK_computers) ";
 			return $out;
 			break;
-		case "glpi_plugin_room" : // From computers
-			$out= " LEFT JOIN glpi_plugin_room_computer ON (glpi_computers.ID = glpi_plugin_room_computer.FK_computers) ";
-			$out.= " LEFT JOIN glpi_plugin_room ON (glpi_plugin_room.ID = glpi_plugin_room_computer.FK_rooms) ";
+		case "glpi_plugin_room_rooms" : // From computers
+			$out= " LEFT JOIN glpi_plugin_room_computer ON (glpi_computers.id = glpi_plugin_room_computer.FK_computers) ";
+			$out.= " LEFT JOIN glpi_plugin_room_rooms ON (glpi_plugin_room_rooms.id = glpi_plugin_room_computer.FK_rooms) ";
 			return $out;
 			break;
-		case "glpi_dropdown_plugin_room_type" : // From computers
-			$out=addLeftJoin($type,$ref_table,$already_link_tables,"glpi_plugin_room",$linkfield);
-			$out.= " LEFT JOIN glpi_dropdown_plugin_room_type ON (glpi_dropdown_plugin_room_type.ID = glpi_plugin_room.type) ";
+		case "glpi_plugin_room_roomtypes" : // From computers
+			$out=Search::addLeftJoin($type,$ref_table,$already_link_tables,"glpi_plugin_room_rooms",$linkfield);
+			$out.= " LEFT JOIN glpi_plugin_room_roomtypes ON (glpi_plugin_room_roomtypes.ID = glpi_plugin_room_rooms.type) ";
 			return $out;
 			break;
 	}
@@ -243,16 +409,19 @@ function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield,&$alread
 }
 
 
-function plugin_room_forceGroupBy($type){
+function plugin_room_forceGroupBy($type) {
+	return true;
 	switch ($type){
-		case PLUGIN_ROOM_TYPE :
+		case 'PluginRoomRoom' :
 				// Force add GROUP BY IN REQUEST
 		return true;
 		break;
 	}
 	return false;
-	}
+}
 
+
+/*
 // Define actions :
 function plugin_room_MassiveActions($type){
 	global $LANG;
@@ -265,7 +434,9 @@ function plugin_room_MassiveActions($type){
 	}
 	return array();
 }
+*/
 
+/*
 // How to display specific actions ?
 function plugin_room_MassiveActionsDisplay($type,$action){
 	global $LANG;
@@ -282,7 +453,9 @@ function plugin_room_MassiveActionsDisplay($type,$action){
 	}
 	return "";
 }
+*/
 
+/*
 // How to process specific actions ?
 function plugin_room_MassiveActionsProcess($data){
 	global $LANG;
@@ -301,33 +474,79 @@ function plugin_room_MassiveActionsProcess($data){
 			break;
 	}
 }
+*/
 
+// Actions sur les formulaires des objets du cœur - Item headings actions
+//#######################################################################
 
-function plugin_get_headings_room($type,$ID,$withtemplate){
+// Define headings added by the plugin
+// Fonction acivant l'onglet et retournant le contenu de l'entete de l'onglet du plugin.
+// Cette fonction est automatiquement appelée via un hook déclaré dans setup.php.
+// Cette fonction est systématiquement éxécutée à l'affichage de l'onglet.
+function plugin_get_headings_room($item,$withtemplate) {
 	global $LANG;
-	switch ($type){
-		case COMPUTER_TYPE :
-			// template case
-			if ($withtemplate){
-				return array();
-			} else { // Non template case
-				return array(1 => $LANG['plugin_room'][19]);
-                        }
+
+	//if (get_class($item)||get_class($item)=='Profile'||get_class($item)=='Computer') {
+	if (get_class($item)=='Profile'||get_class($item)=='Computer') {
+		// template case
+		if ($item->getField('id') && !$withtemplate) {
+        			return array(1 => $LANG['plugin_room']['profile'][1]);
+		}
+	}
+
+	return false;
+
+}
+
+
+// Définition des fonctions appelées lors de l'affichage de l'onglet du plugins
+// Cette fonction retourne un tableau avec toutes les fonctions à appeller pour
+// remplir le corps de l'onglet en fonction du contexte d'éxécution.
+// (Profils / Computer /....)
+// Cette fonction est systématiquement éxécutée à l'affichage de l'onglet.
+// Cette fonction est automatiquement appelée via un hook déclaré dans setup.php.
+// Define headings actions added by the plugin	 
+function plugin_headings_actions_room($item){
+	
+	switch (get_class($item)){
+		case 'Computer' :
+			return array(1 => "plugin_headings_room");
+
+			break;
+		case 'Profile' :
+			return array(1 => 'plugin_headings_room');
 			break;
 	}
 	return false;
 }
 
-// Define headings actions added by the plugin	 
-function plugin_headings_actions_room($type){
+// action heading
+// Fonction permettant de remplir le corps de l'onglet du plugin
+// Cette fonction est appelée par la fonction <plugin_headings_actions_room($item)>
+function plugin_headings_room($item,$withtemplate=0) {
+	global $CFG_GLPI;
 
-	switch ($type){
-		case COMPUTER_TYPE :
-			return array(1 => "plugin_room_showComputerRoom");
+	$PluginRoomProfile=new PluginRoomProfile();
+	$Room=new PluginRoomRoom();
+  
+	switch (get_class($item)) {
+		case 'Profile' :
+			if (!$PluginRoomProfile->getFromDBByProfile($item->getField('id')))
+			$PluginRoomProfile->createAccess($item->getField('id'));
+			// Appel du formulaire
+			$PluginRoomProfile->showForm($item->getField('id'), array('target' => $CFG_GLPI["root_doc"]."/plugins/room/front/profile.form.php"));
+			break;
+		case 'Computer' :
+			echo "Plugin room / CLASS=".get_class($item)." id=".$item->getField('id');
+			$Room->plugin_room_showComputerRoom(get_class($item),$item->getField('id'));
 
 			break;
-	}
-	return false;
+		default :
+			if (get_class($item)) {
+				$Room->showForm($item->getField('id'));
+			break;
+		};
+   	}
 }
 
 
