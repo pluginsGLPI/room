@@ -33,8 +33,6 @@
 // Purpose of file:
 // ----------------------------------------------------------------------
 
-
-
 function plugin_room_install(){
 	global $DB, $LANG;
 
@@ -86,10 +84,10 @@ function plugin_room_install(){
 	}
 	if (!TableExists('glpi_plugin_room_computer')){
 		$query="CREATE TABLE `glpi_plugin_room_computer` (
-			`ID` int(11) NOT NULL auto_increment,
+			`id` int(11) NOT NULL auto_increment,
 			`FK_computers` int(11) NOT NULL,
 			`FK_rooms` int(11) NOT NULL,
-			PRIMARY KEY  (`ID`),
+			PRIMARY KEY  (`id`),
 			UNIQUE `FK_computers` (`FK_computers`),
 			KEY `FK_rooms` (`FK_rooms`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
@@ -111,7 +109,7 @@ function plugin_room_install(){
 		`id` int(11) NOT NULL auto_increment,
 		`name` varchar(255) collate utf8_unicode_ci default NULL,
 		`comment` text collate utf8_unicode_ci,
-		PRIMARY KEY  (`ID`),
+		PRIMARY KEY  (`id`),
 		KEY `name` (`name`)
 		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 		$DB->query($query) or die("error adding glpi_plugin_room_roomtypes table " . $LANG["update"][90] . $DB->error());
@@ -122,7 +120,7 @@ function plugin_room_install(){
 		`id` int(11) NOT NULL auto_increment,
 		`name` varchar(255) collate utf8_unicode_ci default NULL,
 		`comment` text collate utf8_unicode_ci,
-		PRIMARY KEY  (`ID`),
+		PRIMARY KEY  (`id`),
 		KEY `name` (`name`)
 		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 		$DB->query($query) or die("error adding glpi_plugin_room_roomaccessconds table " . $LANG["update"][90] . $DB->error());
@@ -182,6 +180,154 @@ function plugin_room_uninstall(){
 		$DB->query("DELETE FROM `$table_glpi` WHERE `itemtype` = 'room';");
 
 	return true;
+}
+
+
+// Define dropdown relations
+function plugin_room_getDatabaseRelations(){
+	$plugin = new Plugin();
+
+	if ($plugin->isActivated("room")) {
+		return array("glpi_plugin_room_roomtypes"=>array("glpi_plugin_room_rooms"=>"type"),
+			"glpi_plugin_room_roomaccessconds"=>array("glpi_plugin_room_rooms"=>"access"),
+			"glpi_dropdown_plugin_room_dropdown1"=>array("glpi_plugin_room_rooms"=>"dropdown1"),
+			"glpi_dropdown_plugin_room_dropdown2"=>array("glpi_plugin_room_rooms"=>"dropdown2"),
+			"glpi_entities"=>array("glpi_plugin_room_rooms"=>"entities_id"),
+			"glpi_profiles" => array ("glpi_plugin_room_profiles" => "profiles_id"),
+			"glpi_users"=>array("glpi_plugin_room_rooms"=>array('FK_users','tech_num')));
+	}
+	else
+		return array();
+}
+
+
+// Define Dropdown tables to be manage in GLPI :
+// Definit les tables qui sont gérables via les intitulés
+function plugin_room_getDropdown(){
+	global $LANG;
+/*
+	return array( "glpi_dropdown_plugin_room_type"=>$LANG["common"][17],
+			"glpi_dropdown_plugin_room_access"=>$LANG['plugin_room'][5],
+			"glpi_dropdown_plugin_room_dropdown1"=>$LANG['plugin_room'][15],
+			"glpi_dropdown_plugin_room_dropdown2"=>$LANG['plugin_room'][16],);
+*/
+	$plugin = new Plugin();
+
+	if ($plugin->isActivated("room"))
+		return array('PluginRoomRoomType'=>$LANG['plugin_room'][9],'PluginRoomRoomAccessCond'=>$LANG['plugin_room'][5]);
+	else
+		return array();
+}
+
+
+/*function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield,&$already_link_tables){
+
+	// Example of standard LEFT JOIN  clause but use it ONLY for specific LEFT JOIN
+	// No need of the function if you do not have specific cases
+
+	switch ($new_table){
+		case "glpi_computers" :
+			$out= " LEFT JOIN glpi_plugin_room_computer ON (glpi_plugin_room_rooms.id = glpi_plugin_room_computer.FK_rooms) ";
+			$out.= " LEFT JOIN glpi_computers ON (glpi_computers.id = glpi_plugin_room_computer.FK_computers) ";
+			return $out;
+			break;
+		case "glpi_plugin_room_rooms" : // From computers
+			$out= " LEFT JOIN glpi_plugin_room_computer ON (glpi_computers.id = glpi_plugin_room_computer.FK_computers) ";
+			$out.= " LEFT JOIN glpi_plugin_room_rooms ON (glpi_plugin_room_rooms.id = glpi_plugin_room_computer.FK_rooms) ";
+			return $out;
+			break;
+		case "glpi_plugin_room_roomtypes" : // From computers
+			$out=Search::addLeftJoin($type,$ref_table,$already_link_tables,"glpi_plugin_room_rooms",$linkfield);
+			$out.= " LEFT JOIN glpi_plugin_room_roomtypes ON (glpi_plugin_room_roomtypes.ID = glpi_plugin_room_rooms.type) ";
+			return $out;
+			break;
+	}
+	return "";
+}
+*/
+
+function plugin_room_forceGroupBy($type) {
+	return true;
+	switch ($type){
+		case 'PluginRoomRoom' :
+				// Force add GROUP BY IN REQUEST
+		return true;
+		break;
+	}
+	return false;
+}
+
+
+
+// Actions sur les formulaires des objets du cœur - Item headings actions
+//#######################################################################
+
+// Define headings added by the plugin
+// Fonction acivant l'onglet et retournant le contenu de l'entete de l'onglet du plugin.
+// Cette fonction est automatiquement appelée via un hook déclaré dans setup.php.
+// Cette fonction est systématiquement éxécutée à l'affichage de l'onglet.
+function plugin_get_headings_room($item,$withtemplate) {
+	global $LANG;
+
+	if (get_class($item)=='Profile'||get_class($item)=='Computer') {
+		// template case
+		if ($item->getField('id') && !$withtemplate) {
+        			return array(1 => $LANG['plugin_room']['profile'][1]);
+		}
+	}
+
+	return false;
+
+}
+
+
+// Définition des fonctions appelées lors de l'affichage de l'onglet du plugins
+// Cette fonction retourne un tableau avec toutes les fonctions à appeller pour
+// remplir le corps de l'onglet en fonction du contexte d'éxécution.
+// (Profils / Computer /....)
+// Cette fonction est systématiquement éxécutée à l'affichage de l'onglet.
+// Cette fonction est automatiquement appelée via un hook déclaré dans setup.php.
+// Define headings actions added by the plugin	 
+function plugin_headings_actions_room($item){
+	
+	switch (get_class($item)){
+		case 'Computer' :
+			return array(1 => "plugin_headings_room");
+
+			break;
+		case 'Profile' :
+			return array(1 => 'plugin_headings_room');
+			break;
+	}
+	return false;
+}
+
+// action heading
+// Fonction permettant de remplir le corps de l'onglet du plugin
+// Cette fonction est appelée par la fonction <plugin_headings_actions_room($item)>
+function plugin_headings_room($item,$withtemplate=0) {
+	global $CFG_GLPI;
+
+	$PluginRoomProfile=new PluginRoomProfile();
+	$Room=new PluginRoomRoom();
+  
+	switch (get_class($item)) {
+		case 'Profile' :
+			if (!$PluginRoomProfile->getFromDBByProfile($item->getField('id')))
+			$PluginRoomProfile->createAccess($item->getField('id'));
+			// Appel du formulaire
+			$PluginRoomProfile->showForm($item->getField('id'), array('target' => $CFG_GLPI["root_doc"]."/plugins/room/front/profile.form.php"));
+			break;
+		case 'Computer' :
+			$Room->plugin_room_showComputerRoom(get_class($item),$item->getField('id'));
+
+			break;
+		default :
+			if (get_class($item)) {
+				$Room->showForm($item->getField('id'));
+			break;
+		};
+   	}
 }
 
 // Define search option for types of the plugins
@@ -328,41 +474,6 @@ function plugin_room_getAddSearchOption($itemtype){
 }
 */
 
-// Define dropdown relations
-function plugin_room_getDatabaseRelations(){
-	$plugin = new Plugin();
-
-	if ($plugin->isActivated("room"))
-		return array("glpi_plugin_room_roomtypes"=>array("glpi_plugin_room_rooms"=>"type"),
-			"glpi_plugin_room_roomaccessconds"=>array("glpi_plugin_room_rooms"=>"access"),
-			"glpi_dropdown_plugin_room_dropdown1"=>array("glpi_plugin_room_rooms"=>"dropdown1"),
-			"glpi_dropdown_plugin_room_dropdown2"=>array("glpi_plugin_room_rooms"=>"dropdown2"),
-			"glpi_entities"=>array("glpi_plugin_room_rooms"=>"entities_id"),
-			"glpi_profiles" => array ("glpi_plugin_room_profiles" => "profiles_id"),
-			"glpi_users"=>array("glpi_plugin_room_rooms"=>array('FK_users','tech_num')));
-	else
-		return array();
-}
-
-
-// Define Dropdown tables to be manage in GLPI :
-// Definit les tables qui sont gérables via les intitulés
-function plugin_room_getDropdown(){
-	global $LANG;
-/*
-	return array( "glpi_dropdown_plugin_room_type"=>$LANG["common"][17],
-			"glpi_dropdown_plugin_room_access"=>$LANG['plugin_room'][5],
-			"glpi_dropdown_plugin_room_dropdown1"=>$LANG['plugin_room'][15],
-			"glpi_dropdown_plugin_room_dropdown2"=>$LANG['plugin_room'][16],);
-*/
-	$plugin = new Plugin();
-
-	if ($plugin->isActivated("room"))
-		return array('PluginRoomRoomType'=>$LANG['plugin_room'][9],'PluginRoomRoomAccessCond'=>$LANG['plugin_room'][5]);
-	else
-		return array();
-}
-
 // Aucune idee de ce que cela fait
 // peut-etre ajouter un critère de recherche ?
 /*
@@ -382,43 +493,6 @@ function plugin_room_addSelect($type,$ID,$num){
 	return "";
 }
 */
-
-function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield,&$already_link_tables){
-
-	// Example of standard LEFT JOIN  clause but use it ONLY for specific LEFT JOIN
-	// No need of the function if you do not have specific cases
-
-	switch ($new_table){
-		case "glpi_computers" :
-			$out= " LEFT JOIN glpi_plugin_room_computer ON (glpi_plugin_room_rooms.id = glpi_plugin_room_computer.FK_rooms) ";
-			$out.= " LEFT JOIN glpi_computers ON (glpi_computers.id = glpi_plugin_room_computer.FK_computers) ";
-			return $out;
-			break;
-		case "glpi_plugin_room_rooms" : // From computers
-			$out= " LEFT JOIN glpi_plugin_room_computer ON (glpi_computers.id = glpi_plugin_room_computer.FK_computers) ";
-			$out.= " LEFT JOIN glpi_plugin_room_rooms ON (glpi_plugin_room_rooms.id = glpi_plugin_room_computer.FK_rooms) ";
-			return $out;
-			break;
-		case "glpi_plugin_room_roomtypes" : // From computers
-			$out=Search::addLeftJoin($type,$ref_table,$already_link_tables,"glpi_plugin_room_rooms",$linkfield);
-			$out.= " LEFT JOIN glpi_plugin_room_roomtypes ON (glpi_plugin_room_roomtypes.ID = glpi_plugin_room_rooms.type) ";
-			return $out;
-			break;
-	}
-	return "";
-}
-
-
-function plugin_room_forceGroupBy($type) {
-	return true;
-	switch ($type){
-		case 'PluginRoomRoom' :
-				// Force add GROUP BY IN REQUEST
-		return true;
-		break;
-	}
-	return false;
-}
 
 
 /*
@@ -475,79 +549,5 @@ function plugin_room_MassiveActionsProcess($data){
 	}
 }
 */
-
-// Actions sur les formulaires des objets du cœur - Item headings actions
-//#######################################################################
-
-// Define headings added by the plugin
-// Fonction acivant l'onglet et retournant le contenu de l'entete de l'onglet du plugin.
-// Cette fonction est automatiquement appelée via un hook déclaré dans setup.php.
-// Cette fonction est systématiquement éxécutée à l'affichage de l'onglet.
-function plugin_get_headings_room($item,$withtemplate) {
-	global $LANG;
-
-	//if (get_class($item)||get_class($item)=='Profile'||get_class($item)=='Computer') {
-	if (get_class($item)=='Profile'||get_class($item)=='Computer') {
-		// template case
-		if ($item->getField('id') && !$withtemplate) {
-        			return array(1 => $LANG['plugin_room']['profile'][1]);
-		}
-	}
-
-	return false;
-
-}
-
-
-// Définition des fonctions appelées lors de l'affichage de l'onglet du plugins
-// Cette fonction retourne un tableau avec toutes les fonctions à appeller pour
-// remplir le corps de l'onglet en fonction du contexte d'éxécution.
-// (Profils / Computer /....)
-// Cette fonction est systématiquement éxécutée à l'affichage de l'onglet.
-// Cette fonction est automatiquement appelée via un hook déclaré dans setup.php.
-// Define headings actions added by the plugin	 
-function plugin_headings_actions_room($item){
-	
-	switch (get_class($item)){
-		case 'Computer' :
-			return array(1 => "plugin_headings_room");
-
-			break;
-		case 'Profile' :
-			return array(1 => 'plugin_headings_room');
-			break;
-	}
-	return false;
-}
-
-// action heading
-// Fonction permettant de remplir le corps de l'onglet du plugin
-// Cette fonction est appelée par la fonction <plugin_headings_actions_room($item)>
-function plugin_headings_room($item,$withtemplate=0) {
-	global $CFG_GLPI;
-
-	$PluginRoomProfile=new PluginRoomProfile();
-	$Room=new PluginRoomRoom();
-  
-	switch (get_class($item)) {
-		case 'Profile' :
-			if (!$PluginRoomProfile->getFromDBByProfile($item->getField('id')))
-			$PluginRoomProfile->createAccess($item->getField('id'));
-			// Appel du formulaire
-			$PluginRoomProfile->showForm($item->getField('id'), array('target' => $CFG_GLPI["root_doc"]."/plugins/room/front/profile.form.php"));
-			break;
-		case 'Computer' :
-			echo "Plugin room / CLASS=".get_class($item)." id=".$item->getField('id');
-			$Room->plugin_room_showComputerRoom(get_class($item),$item->getField('id'));
-
-			break;
-		default :
-			if (get_class($item)) {
-				$Room->showForm($item->getField('id'));
-			break;
-		};
-   	}
-}
-
 
 ?>

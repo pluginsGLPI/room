@@ -31,11 +31,11 @@
 // Purpose of file: plugin webapplications v1.6.0 - GLPI 0.78
 // ----------------------------------------------------------------------
  */
- 
+
 define('GLPI_ROOT', '../../..');
 include (GLPI_ROOT . "/inc/includes.php");
 
+//Plugin::load('room',true);
 $dropdown = new PluginRoomRoomAccessCond();
 include (GLPI_ROOT . "/front/dropdown.common.form.php");
-
 ?>

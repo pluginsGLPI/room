@@ -44,11 +44,6 @@ plugin_room_haveRight('room',"r");
 commonHeader($LANG['plugin_room'][0],$_SERVER['PHP_SELF'],"plugins","room");
 
 Search::show('PluginRoomRoom');
-//manageGetValuesInSearch(PLUGIN_ROOM_TYPE);
-//$PluginRoomRoom=new PluginRoomRoom ();
-//searchForm(PLUGIN_ROOM_TYPE,$_GET);
-
-//showList(PLUGIN_ROOM_TYPE,$_GET);
 
 commonFooter();
 ?>

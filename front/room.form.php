@@ -34,7 +34,6 @@
 // ----------------------------------------------------------------------
 
 // Ce fichier sert à ouvrir le formulaire de l'objet Salle
-
 $NEEDED_ITEMS=array('reservation','plugin');
 
 define('GLPI_ROOT', '../../..');
@@ -77,15 +76,14 @@ if (isset($_POST["add"])){ // Ajout d'une salle
 	$room->check($_POST["id"],'w');
 
 	$room->update($_POST);
-	echo "Update de la salle";
 	glpi_header($_SERVER['HTTP_REFERER']);
 
 } else if (isset($_POST["additem"])){ // Ajout de la liaison à un ordinateur
 
-	$room->check($_POST["id"],'w');
+	$room->check($_POST["room_id"],'w');
 
-	if ($_POST['id']>0){ //&&$_POST['cID']>0
-		plugin_room_AddDevice($_POST["id"]);
+	if ($_POST['room_id']>0&&$_POST['computers_id']>0) {
+		$room->plugin_room_AddDevice($_POST["room_id"],$_POST["computers_id"]);
 	}
 	glpi_header($_SERVER['HTTP_REFERER']);
 
@@ -111,7 +109,6 @@ if (isset($_POST["add"])){ // Ajout d'une salle
 
 	commonHeader($LANG['plugin_room'][0],"plugins","room");
 
-//	$room->showForm($_SERVER['PHP_SELF'],$_GET["id"]);
 	$room->showForm($_GET["id"]);
 
 	commonFooter();

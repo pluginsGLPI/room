@@ -177,25 +177,25 @@ class PluginRoomRoom  extends CommonDBTM {
 		// Dropdown du type
 		echo "<tr class='tab_bg_1'><td>".$LANG["common"][17].":		</td>";
 		echo "<td>";
-		Dropdown::show('PluginRoomRoomType', array('value' => $this->fields["type"]));
+		Dropdown::show('PluginRoomRoomType', array('name'=>"type",'value' => $this->fields["type"]));
 		echo "</td>";
 
 		// Dropdown des Conditions d'accès
 		echo "<td>".$LANG['plugin_room'][5].":		</td>";
 		echo "<td>";
-		Dropdown::show('PluginRoomRoomAccessCond', array('value' => $this->fields["access"]));
+		Dropdown::show('PluginRoomRoomAccessCond', array('name'=>"access",'value' => $this->fields["access"]));
 		echo "</td></tr>";
 
 		// Dropdown de l'usager
 		echo "<tr class='tab_bg_1'><td>".$LANG["common"][18].":		</td>";
 		echo "<td>";
-		User::Dropdown(array('value' => $this->fields["FK_users"],'entity' => $this->fields["entities_id"],'right' => 'all'));
+		User::Dropdown(array('name'=>"FK_users",'value' => $this->fields["FK_users"],'entity' => $this->fields["entities_id"],'right' => 'all'));
 		echo "</td>";
 
 		// Dropdown du Responsable technique
 		echo "<td>".$LANG["common"][10].":		</td>";
 		echo "<td>";
-		User::Dropdown(array('value' => $this->fields["tech_num"], 'entity' => $this->fields["entities_id"], 'right' => 'interface'));
+		User::Dropdown(array('name'=>"tech_num",'value' => $this->fields["tech_num"], 'entity' => $this->fields["entities_id"], 'right' => 'interface'));
 		echo "</td></tr>";
 
 		// Nombres de place
@@ -279,33 +279,32 @@ class PluginRoomRoom  extends CommonDBTM {
 
 		return true;
 		
-//		return false;
 	}
 
 	// cette fonction doit servir à remplir la rubrique ordinateur de la fiche room
 	// A REVOIR ELLE NE GENERE PAS D4 ERREUR MAIS NE FAIT RIEN NON PLUS
-	function showComputers($target,$rID){
+	function showComputers($target,$room_id){
 		global $CFG_GLPI, $LANG,$DB;
 
 		if (!plugin_room_haveRight('room',"r")) return false;
 
-		if ($this->getFromDB($rID)){
-			$canedit=$this->can($rID,'w');
+		if ($this->getFromDB($room_id)){
+			$canedit=$this->can($room_id,'w');
 	
-			$query = "SELECT glpi_computers.*, glpi_plugin_room_computer.ID AS ID, glpi_entities.ID AS entity "
+			$query = "SELECT glpi_computers.*, glpi_plugin_room_computer.id AS idd, glpi_entities.id AS entity "
 				." FROM glpi_plugin_room_computer, glpi_computers "
-				." LEFT JOIN glpi_entities ON (glpi_entities.ID=glpi_computers.FK_entities) "
-				." WHERE glpi_computers.ID = glpi_plugin_room_computer.FK_computers AND glpi_plugin_room_computer.FK_rooms = '$rID' "; 
+				." LEFT JOIN glpi_entities ON (glpi_entities.id=glpi_computers.entities_id) "
+				." WHERE glpi_computers.id = glpi_plugin_room_computer.FK_computers AND glpi_plugin_room_computer.FK_rooms = '$room_id' "; 
 
 			$query.=" ORDER BY glpi_entities.completename, glpi_computers.name";
 
-			echo "<form method='post' name='document_form' id='document_form'  action=\"".$CFG_GLPI["root_doc"]."/plugins/room/front/room.form.php\">";
+			echo "<form method='post' name='document_form' id='document_form' class='yann' action=\"".$CFG_GLPI["root_doc"]."/plugins/room/front/room.form.php\">";
 		
 			echo "<br><br><div class='center'><table class='tab_cadre_fixe'>";
 			echo "<tr><th colspan='".($canedit?3:2)."'>".$LANG["document"][19].":</th></tr><tr>";
-//			if ($canedit) {
+			if ($canedit) {
 				echo "<th>&nbsp;</th>";
-//			}
+			}
 			echo "<th>".$LANG["common"][16]."</th>";
 			echo "<th>".$LANG["entity"][0]."</th>";
 			echo "</tr>";
@@ -316,9 +315,9 @@ class PluginRoomRoom  extends CommonDBTM {
 						$ID="";
 								
 						if($_SESSION["glpiis_ids_visible"]||empty($data["name"])){
-							$ID= " (".$data["ID"].")";
+							$ID= " (".$data["id"].")";
 						}
-						$name= "<a href=\"".$CFG_GLPI["root_doc"]."/front/computer.form.php?ID=".$data["ID"]."\">".$data["name"]."$ID</a>";
+						$name= "<a href=\"".$CFG_GLPI["root_doc"]."/front/computer.form.php?id=".$data["id"]."\">".$data["name"]."$ID</a>";
 		
 						echo "<tr class='tab_bg_1'>";
 	
@@ -326,12 +325,12 @@ class PluginRoomRoom  extends CommonDBTM {
 							echo "<td width='10'>";
 							$sel="";
 							if (isset($_GET["select"])&&$_GET["select"]=="all") $sel="checked";
-							echo "<input type='checkbox' name='item[".$data["IDD"]."]' value='1' $sel>";
+							echo "<input type='checkbox' name='item[".$data["idd"]."]' value='1' $sel>";
 							echo "</td>";
 						}
 								
 						echo "<td ".(isset($data['deleted'])&&$data['deleted']?"class='tab_bg_2_2'":"").">".$name."</td>";
-						echo "<td class='center'>".getDropdownName("glpi_entities",$data['entity'])."</td>";
+						echo "<td class='center'>".Dropdown::getDropdownName("glpi_entities",$data['entity'])."</td>";
 								
 						echo "</tr>";
 					}
@@ -341,27 +340,23 @@ class PluginRoomRoom  extends CommonDBTM {
 			if ($canedit)	{
 				echo "<tr class='tab_bg_1'><td colspan='2' class='center'>";
 		
-				echo "<input type='hidden' name='rID' value='$rID'>";
-				//Dropdown::show("glpi_computers","cID",$this->fields["entities_id"]);
-				//dropdownValue("glpi_computers","cID",'',1,$this->fields['FK_entities']);
-				
+				echo "<input type='hidden' name='room_id' value='$room_id'>";
+				Dropdown::show("Computer");
 				echo "</td>";
 				echo "<td class='center'>";
 				echo "<input type='submit' name='additem' value=\"".$LANG["buttons"][8]."\" class='submit'>";
 				echo "</td></tr>";
 				echo "</table></div>" ;
 				
-				echo "<div class='center'>";
+				/*echo "<div class='center'>";
 				echo "<table width='950px' align='center'>";
-				echo "<tr><td><img src=\"".$CFG_GLPI["root_doc"]."/pics/arrow-left.png\" alt=''></td><td class='center'><a onclick= \"if ( markCheckboxes('document_form') ) return false;\" href='".$_SERVER['PHP_SELF']."?ID=$rID&amp;select=all'>".$LANG["buttons"][18]."</a></td>";
+				echo "<tr><td><img src=\"".$CFG_GLPI["root_doc"]."/pics/arrow-left.png\" alt=''></td><td class='center'><a onclick= \"if ( markCheckboxes('document_form') ) return false;\" href='".$_SERVER['PHP_SELF']."?ID=$room_id&amp;select=all'>".$LANG["buttons"][18]."</a></td>";
 			
-				echo "<td>/</td><td class='center'><a onclick= \"if ( unMarkCheckboxes('document_form') ) return false;\" href='".$_SERVER['PHP_SELF']."?ID=$rID&amp;select=none'>".$LANG["buttons"][19]."</a>";
+				echo "<td>/</td><td class='center'><a onclick= \"if ( unMarkCheckboxes('document_form') ) return false;\" href='".$_SERVER['PHP_SELF']."?ID=$room_id&amp;select=none'>".$LANG["buttons"][19]."</a>";
 				echo "</td><td align='left' width='80%'>";
 				echo "<input type='submit' name='deleteitem' value=\"".$LANG["buttons"][6]."\" class='submit'>";
 				echo "</td>";
-				//echo "</table>";
-			
-				echo "</div>";
+				echo "</div>";*/
 	
 	
 			}else{
@@ -369,11 +364,12 @@ class PluginRoomRoom  extends CommonDBTM {
 				echo "</table></div>"    ;
 			}
 
-			//echo "</form>";
+			echo "</form>";
 		}
 		
 
 	}
+
 
 	// cette fonction sert à remplir la rubrique room de l'onglet ajouté à la fiche ordinateur
 	function plugin_room_showComputerRoom($itemtype,$ID,$withtemplate='') {
@@ -385,7 +381,7 @@ class PluginRoomRoom  extends CommonDBTM {
       
       		$Room=new PluginRoomRoom();
 
-//		if ($ID>0){
+		if ($ID>0){
 			$query="SELECT `glpi_plugin_room_rooms`.* "
 				."FROM `glpi_plugin_room_computer` "
 				." LEFT JOIN `glpi_plugin_room_rooms` ON (`glpi_plugin_room_rooms`.`id` = `glpi_plugin_room_computer`.`FK_rooms`) "
@@ -401,13 +397,16 @@ class PluginRoomRoom  extends CommonDBTM {
 			echo "<div align='center'><table class='tab_cadre_fixe'>";
       			echo "<tr><th colspan='".(1+$colsup)."'>".$LANG['plugin_room'][20]."</th></tr>";
 			echo "<th>".$LANG['plugin_room'][19]."</th>";
-      			echo "<th>".$LANG['plugin_room'][10]."</th>";
+      			echo "<th>".$LANG['plugin_room'][10]."</th></tr>";
+			echo "<th>";
 			if ($result = $DB->query($query)){
 				if ($DB->numrows($result)>0){
 					$data=$DB->fetch_assoc($result);
 
 //					if (haveTypeRight(PLUGIN_ROOM_TYPE,'r')){
-						echo "<a href=\"".$CFG_GLPI["root_doc"]."/plugins/room/front/room.form.php?ID=".$data["ID"]."\">".$data['name']."</a>";
+						echo "<a href=\"".$CFG_GLPI["root_doc"]."/plugins/room/front/room.form.php?id=".$data["id"]."\">".$data['name']."</a>";
+						echo "</th>";
+						echo "<th>ICI IL FAUT AFFICHER LE RESPONSABLE</th>";
 //					} else {
 //						echo $data['name'];
 //					}
@@ -415,7 +414,7 @@ class PluginRoomRoom  extends CommonDBTM {
 				}
 			}
 			echo "</tr></table>";
-//		}
+		}
 
 	}
 
@@ -431,15 +430,15 @@ class PluginRoomRoom  extends CommonDBTM {
 		return TableExists("glpi_plugin_room_rooms");
 	}
 
-	function plugin_room_AddDevice($rID,$cID){
+	function plugin_room_AddDevice($room_id,$computer_id){
 		global $DB;
-		if ($rID>0&&$cID>0){
-			$query="SELECT ID FROM glpi_plugin_room_computer WHERE FK_computers='$cID'";
+		if ($room_id>0&&$computer_id>0){
+			$query="SELECT ID FROM glpi_plugin_room_computer WHERE FK_computers='$computer_id'";
 			if ($result = $DB->query($query)){
 				if ($DB->numrows($result)==0){
-					$query="INSERT INTO glpi_plugin_room_computer (FK_rooms,FK_computers) VALUES ('$rID','$cID');";
+					$query="INSERT INTO glpi_plugin_room_computer (FK_rooms,FK_computers) VALUES ('$room_id','$computer_id');";
 					$result = $DB->query($query);
-					plugin_room_updateCountDevices($rID);
+					$this->plugin_room_updateCountDevices($room_id);
 				}
 			}
 		}

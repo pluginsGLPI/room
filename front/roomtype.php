@@ -1,4 +1,3 @@
- 
 <?php
 /*
  * @version $Id: HEADER 1 2010-03-03 21:49 Tsmr $
@@ -32,11 +31,11 @@
 // Purpose of file: plugin webapplications v1.6.0 - GLPI 0.78
 // ----------------------------------------------------------------------
  */
-
+ 
 define('GLPI_ROOT', '../../..');
 include (GLPI_ROOT . "/inc/includes.php");
 
+//Plugin::load('room',true);
 $dropdown = new PluginRoomRoomType();
-include (GLPI_ROOT . "/front/dropdown.common.php");
-
+include (GLPI_ROOT . "/front/dropdown.common.form.php");
 ?>

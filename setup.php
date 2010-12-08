@@ -47,7 +47,6 @@ function plugin_init_room() {
 			));
 
 		// Activation d'un onglet room dans les profils ?
-		// array('Class','fonction') ?
 		$PLUGIN_HOOKS['change_profile']['room'] = array('PluginRoomProfile','changeProfile');
 
 		if (plugin_room_haveRight('room','r')){
@@ -59,10 +58,12 @@ function plugin_init_room() {
 			$PLUGIN_HOOKS['submenu_entry']['room']['search'] = 'index.php';
 		} 
 
-/*		if (plugin_room_haveRight('room','w')){
+/*
+		if (plugin_room_haveRight('room','w')){
 			// Massive Action definition
 			$PLUGIN_HOOKS['use_massive_action']['room']=1;
-		}*/
+		}
+*/
 		
 		// Gestion des onglets
 		// Définition de la fonction appelée pour remplir l'entete de l'onglet du plugin
@@ -78,7 +79,7 @@ function plugin_version_room(){
 	global $LANG;
 
 	return array( 'name'    => $LANG['plugin_room'][0],
-		'version' => '2.1.0',
+		'version' => '3.0.0-BETA',
 		'author'=>'Julien Dombre / Modif bogucool',
 		'homepage'=>'http://glpi-project.org',
 		'minGlpiVersion' => '0.78',// For compatibility / no install in version < 0.78
@@ -100,6 +101,8 @@ function plugin_room_check_config(){
 	return true;
 }
 
+// Je n'arrive pas à faire fonctionner correctement cette fonction
+// $_SESSION["glpi_plugin_room_profile"][$module] ne semble jamais défini ou non null
 function plugin_room_haveRight($module,$right){
 	$matches=array(
 			""  => array("","r","w"),
@@ -108,11 +111,10 @@ function plugin_room_haveRight($module,$right){
 			"1" => array("1"),
 			"0" => array("0","1"),
 		      );
-//	if (isset($_SESSION["glpi_plugin_room_profile"][$module])&&in_array($_SESSION["glpi_plugin_room_profile"][$module],$matches[$right]))
+	//if (isset($_SESSION["glpi_plugin_room_profile"][$module])&&in_array($_SESSION["glpi_plugin_room_profile"][$module],$matches[$right]))
 		return true;
-//
-//	else
-//		return false;
+	//else {
+	//	return false;
+	//}
 }
-
 ?>

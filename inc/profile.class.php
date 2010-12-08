@@ -136,9 +136,10 @@ class PluginRoomProfile extends CommonDBTM {
 		echo "</tr>";
 
 		echo "<input type='hidden' name='id' value=".$this->fields["id"].">";
-      
+
 		$options['candel'] = false;
-      $this->showFormButtons($options);
+
+		$this->showFormButtons($options);
 	}
 }
 

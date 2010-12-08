@@ -1,4 +1,3 @@
- 
 <?php
 /*
  * @version $Id: HEADER 1 2010-03-03 21:49 Tsmr $
@@ -36,7 +35,7 @@
 define('GLPI_ROOT', '../../..');
 include (GLPI_ROOT . "/inc/includes.php");
 
+//Plugin::load('room',true);
 $dropdown = new PluginRoomRoomAccessCond();
-include (GLPI_ROOT . "/front/dropdown.common.php");
-
+include (GLPI_ROOT . "/front/dropdown.common.form.php");
 ?>

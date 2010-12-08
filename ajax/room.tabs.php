@@ -1,4 +1,3 @@
- 
 <?php
 /*
  * @version $Id: HEADER 1 2010-03-03 21:49 Tsmr $
@@ -43,19 +42,16 @@ if (!isset($_POST['id'])) {
 if (!isset($_POST["withtemplate"])) $_POST["withtemplate"] = "";
 
 $Room = new PluginRoomRoom();
-//include (GLPI_ROOT . "/ajax/dropdown.common.tabs.php");
 
 switch ($_REQUEST['glpi_tab'] ){
-	case -1 :
+	case -1 : // Onglet Tous
 		$Room->showComputers($_POST['target'],$_POST["id"]);
-		//showDeviceReservations($_POST['target'],'PluginRoomRoom',$_POST["id"]);
-		Reservation::showForItem('Computer',$_POST["id"]);
-		break;
-	case 11 :
-		//showDeviceReservations($_POST['target'],'PluginRoomRoom',$_POST["id"]);
 		Reservation::showForItem('PluginRoomRoom',$_POST["id"]);
 		break;
-	default :
+	case 11 : // Onglet Réservation
+		Reservation::showForItem('PluginRoomRoom',$_POST["id"]);
+		break;
+	default : // Logiquement Onglet Principal
 		if ($_POST["id"]){
 			if (!Plugin::displayAction($Room,$_POST["id"],$_REQUEST['glpi_tab'] )){
 				$Room->showComputers($_POST['target'],$_POST["id"]);

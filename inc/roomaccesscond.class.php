@@ -40,9 +40,9 @@ if (!defined('GLPI_ROOT')) {
 class PluginRoomRoomAccessCond extends CommonDropdown {
 
 	static function getTypeName() {
-      global $LANG;
+		global $LANG;
 
-      return $LANG['plugin_room'][5];
+		return $LANG['plugin_room'][5];
    }
    
    function canCreate() {
