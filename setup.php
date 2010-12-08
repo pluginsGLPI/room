@@ -113,10 +113,10 @@ function plugin_room_haveRight($module,$right){
 			"1" => array("1"),
 			"0" => array("0","1"),
 		      );
-	//if (isset($_SESSION["glpi_plugin_room_profile"][$module])&&in_array($_SESSION["glpi_plugin_room_profile"][$module],$matches[$right]))
+	if (isset($_SESSION["glpi_plugin_room_profile"][$module])&&in_array($_SESSION["glpi_plugin_room_profile"][$module],$matches[$right]))
 		return true;
-	//else {
-	//	return false;
-	//}
+	else {
+		return false;
+	}
 }
 ?>

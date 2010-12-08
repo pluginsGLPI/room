@@ -220,7 +220,7 @@ function plugin_room_getDropdown(){
 }
 
 
-/*function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield,&$already_link_tables){
+function plugin_room_addLeftJoin($type,$ref_table,$new_table,$linkfield,&$already_link_tables){
 
 	// Example of standard LEFT JOIN  clause but use it ONLY for specific LEFT JOIN
 	// No need of the function if you do not have specific cases
@@ -244,7 +244,7 @@ function plugin_room_getDropdown(){
 	}
 	return "";
 }
-*/
+
 
 function plugin_room_forceGroupBy($type) {
 	return true;
@@ -331,152 +331,33 @@ function plugin_headings_room($item,$withtemplate=0) {
 }
 
 // Define search option for types of the plugins
-/*
-function plugin_room_getAddSearchOption($itemtype){
+function plugin_room_getAddSearchOptions($itemtype){
 	global $LANG;
-
 	$sopt=array();
+	if ($itemtype=="Computer") {
+		if (plugin_room_haveRight("room",'r')){
+			$sopt[1050]['table']='glpi_plugin_room_rooms';
+			$sopt[1050]['field']='name';
+			$sopt[1050]['linkfield']='';
+			$sopt[1050]['name']=$LANG['plugin_room'][0]." - ".$LANG["common"][16];
+			$sopt[1050]['forcegroupby']=true;
+			$sopt[1050]['datatype']='itemlink';
+			$sopt[1050]['itemlink_type']='PluginRoomRoom';
 
-	if (haveRight("room",'r')){
-		// Part header
-		$sopt[PLUGIN_ROOM_TYPE]['common']=$LANG['plugin_room'][0];
-		
-		$sopt[PLUGIN_ROOM_TYPE][1]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][1]['field']='name';
-		$sopt[PLUGIN_ROOM_TYPE][1]['linkfield']='name';
-		$sopt[PLUGIN_ROOM_TYPE][1]['name']=$LANG["common"][16];
-		$sopt[PLUGIN_ROOM_TYPE][1]['datatype']='itemlink';
-		$sopt[PLUGIN_ROOM_TYPE][1]['itemlink_type']=PLUGIN_ROOM_TYPE;
-		
-		$sopt[PLUGIN_ROOM_TYPE][2]['table']='glpi_dropdown_plugin_room_type';
-		$sopt[PLUGIN_ROOM_TYPE][2]['field']='name';
-		$sopt[PLUGIN_ROOM_TYPE][2]['linkfield']='type';
-		$sopt[PLUGIN_ROOM_TYPE][2]['name']=$LANG["common"][17];
-	
-		$sopt[PLUGIN_ROOM_TYPE][24]['table']='glpi_users';
-		$sopt[PLUGIN_ROOM_TYPE][24]['field']='name';
-		$sopt[PLUGIN_ROOM_TYPE][24]['linkfield']='tech_num';
-		$sopt[PLUGIN_ROOM_TYPE][24]['name']=$LANG["common"][10];
-	
-		$sopt[PLUGIN_ROOM_TYPE][25]['table']='glpi_users';
-		$sopt[PLUGIN_ROOM_TYPE][25]['field']='name';
-		$sopt[PLUGIN_ROOM_TYPE][25]['linkfield']='FK_users';
-		$sopt[PLUGIN_ROOM_TYPE][25]['name']=$LANG["common"][18];
-		
-		$sopt[PLUGIN_ROOM_TYPE][3]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][3]['field']='comments';
-		$sopt[PLUGIN_ROOM_TYPE][3]['linkfield']='comments';
-		$sopt[PLUGIN_ROOM_TYPE][3]['name']=$LANG["common"][25];
-			
-		$sopt[PLUGIN_ROOM_TYPE][5]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][5]['field']='size';
-		$sopt[PLUGIN_ROOM_TYPE][5]['linkfield']='size';
-		$sopt[PLUGIN_ROOM_TYPE][5]['name']=$LANG['plugin_room'][4];
-	
-		$sopt[PLUGIN_ROOM_TYPE][6]['table']='glpi_dropdown_plugin_room_access';
-		$sopt[PLUGIN_ROOM_TYPE][6]['field']='name';
-		$sopt[PLUGIN_ROOM_TYPE][6]['linkfield']='access';
-		$sopt[PLUGIN_ROOM_TYPE][6]['name']=$LANG['plugin_room'][5];
-	
-		$sopt[PLUGIN_ROOM_TYPE][7]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][7]['field']='buy';
-		$sopt[PLUGIN_ROOM_TYPE][7]['linkfield']='buy';
-		$sopt[PLUGIN_ROOM_TYPE][7]['name']=$LANG["financial"][14];
-	
-		$sopt[PLUGIN_ROOM_TYPE][8]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][8]['field']='printer';
-		$sopt[PLUGIN_ROOM_TYPE][8]['linkfield']='printer';
-		$sopt[PLUGIN_ROOM_TYPE][8]['name']=$LANG['plugin_room'][6];
-	
-		$sopt[PLUGIN_ROOM_TYPE][9]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][9]['field']='videoprojector';
-		$sopt[PLUGIN_ROOM_TYPE][9]['linkfield']='videoprojector';
-		$sopt[PLUGIN_ROOM_TYPE][9]['name']=$LANG['plugin_room'][7];
-	
-		$sopt[PLUGIN_ROOM_TYPE][10]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][10]['field']='wifi';
-		$sopt[PLUGIN_ROOM_TYPE][10]['linkfield']='wifi';
-		$sopt[PLUGIN_ROOM_TYPE][10]['name']=$LANG['plugin_room'][8];
-	
-		$sopt[PLUGIN_ROOM_TYPE][11]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][11]['field']='comments';
-		$sopt[PLUGIN_ROOM_TYPE][11]['linkfield']='';
-		$sopt[PLUGIN_ROOM_TYPE][11]['name']=$LANG["common"][25];
-	
-		$sopt[PLUGIN_ROOM_TYPE][13]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][13]['field']='opening';
-		$sopt[PLUGIN_ROOM_TYPE][13]['linkfield']='';
-		$sopt[PLUGIN_ROOM_TYPE][13]['name']=$LANG['plugin_room'][11];
-	
-		$sopt[PLUGIN_ROOM_TYPE][12]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][12]['field']='limits';
-		$sopt[PLUGIN_ROOM_TYPE][12]['linkfield']='';
-		$sopt[PLUGIN_ROOM_TYPE][12]['name']=$LANG['plugin_room'][12];
-		
-		$sopt[PLUGIN_ROOM_TYPE][16]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][16]['field']='text1';
-		$sopt[PLUGIN_ROOM_TYPE][16]['linkfield']='';
-		$sopt[PLUGIN_ROOM_TYPE][16]['name']=$LANG['plugin_room'][13];
-	
-		$sopt[PLUGIN_ROOM_TYPE][17]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][17]['field']='text2';
-		$sopt[PLUGIN_ROOM_TYPE][17]['linkfield']='';
-		$sopt[PLUGIN_ROOM_TYPE][17]['name']=$LANG['plugin_room'][14];
-	
-		$sopt[PLUGIN_ROOM_TYPE][18]['table']='glpi_dropdown_plugin_room_dropdown1';
-		$sopt[PLUGIN_ROOM_TYPE][18]['field']='name';
-		$sopt[PLUGIN_ROOM_TYPE][18]['linkfield']='dropdown1';
-		$sopt[PLUGIN_ROOM_TYPE][18]['name']=$LANG['plugin_room'][15];
-	
-		$sopt[PLUGIN_ROOM_TYPE][19]['table']='glpi_dropdown_plugin_room_dropdown2';
-		$sopt[PLUGIN_ROOM_TYPE][19]['field']='name';
-		$sopt[PLUGIN_ROOM_TYPE][19]['linkfield']='dropdown2';
-		$sopt[PLUGIN_ROOM_TYPE][19]['name']=$LANG['plugin_room'][16];
-		
-		$sopt[PLUGIN_ROOM_TYPE][30]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][30]['field']='ID';
-		$sopt[PLUGIN_ROOM_TYPE][30]['linkfield']='';
-		$sopt[PLUGIN_ROOM_TYPE][30]['name']=$LANG["common"][2];
-	
-		$sopt[PLUGIN_ROOM_TYPE][31]['table']='glpi_computers';
-		$sopt[PLUGIN_ROOM_TYPE][31]['field']='name';
-		$sopt[PLUGIN_ROOM_TYPE][31]['linkfield']='';
-		$sopt[PLUGIN_ROOM_TYPE][31]['name']=$LANG["Menu"][0];
-		$sopt[PLUGIN_ROOM_TYPE][31]['forcegroupby']=true;
-		$sopt[PLUGIN_ROOM_TYPE][31]['datatype']='itemlink';
-		$sopt[PLUGIN_ROOM_TYPE][31]['itemlink_type']=COMPUTER_TYPE;
-	
-		$sopt[PLUGIN_ROOM_TYPE][32]['table']='glpi_plugin_room';
-		$sopt[PLUGIN_ROOM_TYPE][32]['field']='count_linked';
-		$sopt[PLUGIN_ROOM_TYPE][32]['linkfield']='';
-		$sopt[PLUGIN_ROOM_TYPE][32]['name']=$LANG['plugin_room'][18];
-		$sopt[PLUGIN_ROOM_TYPE][32]['meta']=1;
-		
-		$sopt[PLUGIN_ROOM_TYPE][80]['table']='glpi_entities';
-		$sopt[PLUGIN_ROOM_TYPE][80]['field']='completename';
-		$sopt[PLUGIN_ROOM_TYPE][80]['linkfield']='entities_id';
-		$sopt[PLUGIN_ROOM_TYPE][80]['name']=$LANG["entity"][0];
-	
-		$sopt[COMPUTER_TYPE][1050]['table']='glpi_plugin_room';
-		$sopt[COMPUTER_TYPE][1050]['field']='name';
-		$sopt[COMPUTER_TYPE][1050]['linkfield']='';
-		$sopt[COMPUTER_TYPE][1050]['name']=$LANG['plugin_room'][0]." - ".$LANG["common"][16];
-		$sopt[COMPUTER_TYPE][1050]['forcegroupby']=true;
-		$sopt[COMPUTER_TYPE][1050]['datatype']='itemlink';
-		$sopt[COMPUTER_TYPE][1050]['itemlink_type']=PLUGIN_ROOM_TYPE;
-
-		$sopt[COMPUTER_TYPE][1051]['table']='glpi_dropdown_plugin_room_type';
-		$sopt[COMPUTER_TYPE][1051]['field']='name';
-		$sopt[COMPUTER_TYPE][1051]['linkfield']='';
-		$sopt[COMPUTER_TYPE][1051]['name']=$LANG['plugin_room'][0]." - ".$LANG['plugin_room'][9];
-	}	
+			$sopt[1051]['table']='glpi_plugin_room_roomtypes';
+			$sopt[1051]['field']='name';
+			$sopt[1051]['linkfield']='';
+			$sopt[1051]['name']=$LANG['plugin_room'][0]." - ".$LANG['plugin_room'][9];
+			$sopt[1050]['forcegroupby']=true;
+		}
+	}
 	return $sopt;
 }
-*/
+
 
 // Aucune idee de ce que cela fait
 // peut-etre ajouter un critère de recherche ?
-/*
+
 function plugin_room_addSelect($type,$ID,$num){
 	global $SEARCH_OPTION;
 	
@@ -492,7 +373,7 @@ function plugin_room_addSelect($type,$ID,$num){
 	}
 	return "";
 }
-*/
+
 
 
 

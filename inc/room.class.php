@@ -77,6 +77,131 @@ class PluginRoomRoom  extends CommonDBTM {
 		return $input;
 	}
 
+	// Cette fonction propose des critères de filtrage pour la page des salles
+	function getSearchOptions() {
+      	global $LANG;
+
+      	$tab = array();
+    
+		$tab['common']=$LANG['plugin_room'][0];
+		
+		$tab[1]['table']=$this->getTable();
+		$tab[1]['field']='name';
+		$tab[1]['linkfield']='name';
+		$tab[1]['name']=$LANG["common"][16];
+		$tab[1]['datatype']='itemlink';
+		$tab[1]['itemlink_type']=$this->getType();
+		
+		$tab[2]['table']='glpi_plugin_room_roomtypes';
+		$tab[2]['field']='name';
+		$tab[2]['linkfield']='type';
+		$tab[2]['name']=$LANG["common"][17];
+	
+		$tab[24]['table']='glpi_users';
+		$tab[24]['field']='name';
+		$tab[24]['linkfield']='tech_num';
+		$tab[24]['name']=$LANG["common"][10];
+	
+		$tab[25]['table']='glpi_users';
+		$tab[25]['linkfield']='FK_users';
+		$tab[25]['name']=$LANG["common"][18];
+		
+		$tab[3]['table']=$this->getTable();
+		$tab[3]['field']='comments';
+		$tab[3]['linkfield']='comments';
+		$tab[3]['name']=$LANG["common"][25];
+			
+		$tab[5]['table']=$this->getTable();
+		$tab[5]['field']='size';
+		$tab[5]['linkfield']='size';
+		$tab[5]['name']=$LANG['plugin_room'][4];
+	
+		$tab[6]['table']='glpi_plugin_room_roomaccessconds';
+		$tab[6]['field']='name';
+		$tab[6]['linkfield']='access';
+		$tab[6]['name']=$LANG['plugin_room'][5];
+	
+		$tab[7]['table']=$this->getTable();
+		$tab[7]['field']='buy';
+		$tab[7]['linkfield']='buy';
+		$tab[7]['name']=$LANG["financial"][14];
+	
+		$tab[8]['table']=$this->getTable();
+		$tab[8]['field']='printer';
+		$tab[8]['linkfield']='printer';
+		$tab[8]['name']=$LANG['plugin_room'][6];
+	
+		$tab[9]['table']=$this->getTable();
+		$tab[9]['field']='videoprojector';
+		$tab[9]['linkfield']='videoprojector';
+		$tab[9]['name']=$LANG['plugin_room'][7];
+	
+		$tab[10]['table']=$this->getTable();
+		$tab[10]['field']='wifi';
+		$tab[10]['linkfield']='wifi';
+		$tab[10]['name']=$LANG['plugin_room'][8];
+	
+		$tab[11]['table']=$this->getTable();
+		$tab[11]['field']='comments';
+		$tab[11]['linkfield']='';
+		$tab[11]['name']=$LANG["common"][25];
+	
+		$tab[13]['table']=$this->getTable();
+		$tab[13]['field']='opening';
+		$tab[13]['linkfield']='';
+		$tab[13]['name']=$LANG['plugin_room'][11];
+	
+		$tab[12]['table']=$this->getTable();
+		$tab[12]['field']='limits';
+		$tab[12]['linkfield']='';
+		$tab[12]['name']=$LANG['plugin_room'][12];
+		
+		$tab[16]['table']=$this->getTable();
+		$tab[16]['field']='text1';
+		$tab[16]['linkfield']='';
+		$tab[16]['name']=$LANG['plugin_room'][13];
+	
+		$tab[17]['table']=$this->getTable();
+		$tab[17]['field']='text2';
+		$tab[17]['linkfield']='';
+		$tab[17]['name']=$LANG['plugin_room'][14];
+	
+		$tab[18]['table']='glpi_plugin_room_dropdown1';
+		$tab[18]['field']='name';
+		$tab[18]['linkfield']='dropdown1';
+		$tab[18]['name']=$LANG['plugin_room'][15];
+	
+		$tab[19]['table']='glpi_plugin_room_dropdown2';
+		$tab[19]['field']='name';
+		$tab[19]['linkfield']='dropdown2';
+		$tab[19]['name']=$LANG['plugin_room'][16];
+		
+		$tab[30]['table']=$this->getTable();
+		$tab[30]['field']='id';
+		$tab[30]['linkfield']='';
+		$tab[30]['name']=$LANG["common"][2];
+	
+		$tab[31]['table']=$this->getTable();
+		$tab[31]['field']='name';
+		$tab[31]['linkfield']='';
+		$tab[31]['name']=$LANG["Menu"][0];
+		$tab[31]['forcegroupby']=true;
+		$tab[31]['datatype']='itemlink';
+		$tab[31]['itemlink_type']=$this->getType();
+	
+		$tab[32]['table']=$this->getTable();
+		$tab[32]['field']='count_linked';
+		$tab[32]['linkfield']='';
+		$tab[32]['name']=$LANG['plugin_room'][18];
+		$tab[32]['meta']=1;
+		
+		$tab[80]['table']='glpi_entities';
+		$tab[80]['field']='completename';
+		$tab[80]['linkfield']='entities_id';
+		$tab[80]['name']=$LANG["entity"][0];
+		return $tab;
+   }
+
 	# Cette fonction définie les onglets à afficher sur la fiche de l'objet
 	# Cette fonction retourne un tableau [id de l'onglet->titre onglet]
 	function defineTabs($option=array()){
