@@ -40,37 +40,39 @@
 function plugin_init_room() {
 	global $PLUGIN_HOOKS,$CFG_GLPI,$LINK_ID_TABLE,$LANG;
 
-	if (isset($_SESSION["glpiID"])){
-		// Déclaration d'un nouvel objet d'inventaire Room
-		Plugin::registerClass('PluginRoomRoom',array(
-			'reservation_types' => true,
-			));
 
-		// Activation d'un onglet room dans les profils ?
-		$PLUGIN_HOOKS['change_profile']['room'] = array('PluginRoomProfile','changeProfile');
+	// Activation d'un onglet room dans les profils ?
+	$PLUGIN_HOOKS['change_profile']['room'] = array('PluginRoomProfile','changeProfile');
 
+	// Déclaration d'un nouvel objet d'inventaire Room
+	Plugin::registerClass('PluginRoomRoom',array(
+		'reservation_types' => true,
+	));
+
+	//if (isset($_SESSION["glpiID"])){
+	if (getLoginUserID()) {	
+
+		// Activation des entrées du menu Plugin
 		if (plugin_room_haveRight('room','r')){
 			//Activation du plugin dans le menu plugins
 			$PLUGIN_HOOKS['menu_entry']['room'] = 'index.php';
-			//Activation du bouton ADD et pointage vers le formulaire
-			$PLUGIN_HOOKS['submenu_entry']['room']['add'] = 'front/room.form.php?new=1';
 			//Activation du bouton SEARCH et pointage vers le formulaire
 			$PLUGIN_HOOKS['submenu_entry']['room']['search'] = 'index.php';
+			// Gestion des onglets
+			// Définition de la fonction appelée pour remplir l'entete de l'onglet du plugin
+			$PLUGIN_HOOKS['headings']['room'] = 'plugin_get_headings_room';
+			// Définition de la fonction appelée pour récupérer la listes des actions à effectuer
+			// pour remplir le corps de l'onglet du plugin
+			$PLUGIN_HOOKS['headings_action']['room'] = 'plugin_headings_actions_room';
 		} 
 
-/*
 		if (plugin_room_haveRight('room','w')){
+			//Activation du bouton ADD et pointage vers le formulaire
+			$PLUGIN_HOOKS['submenu_entry']['room']['add'] = 'front/room.form.php?new=1';
 			// Massive Action definition
 			$PLUGIN_HOOKS['use_massive_action']['room']=1;
 		}
-*/
-		
-		// Gestion des onglets
-		// Définition de la fonction appelée pour remplir l'entete de l'onglet du plugin
-		$PLUGIN_HOOKS['headings']['room'] = 'plugin_get_headings_room';
-		// Définition de la fonction appelée pour récupérer la listes des actions à effectuer
-		// pour remplir le corps de l'onglet du plugin
-		$PLUGIN_HOOKS['headings_action']['room'] = 'plugin_headings_actions_room';
+
 	}
 }
 

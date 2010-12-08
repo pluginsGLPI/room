@@ -89,11 +89,11 @@ if (isset($_POST["add"])){ // Ajout d'une salle
 
 } else if (isset($_POST["deleteitem"])){ // Suppression de la liaison à un ordinateur
 
-	$room->check($_POST["rID"],'w');
+	$room->check($_POST["room_id"],'w');
 
 	if (count($_POST["item"])){
 		foreach ($_POST["item"] as $key => $val){
-			plugin_room_DeleteDevice($key);
+			$room->plugin_room_DeleteDevice($key);
 		}
 	}
 	glpi_header($_SERVER['HTTP_REFERER']);

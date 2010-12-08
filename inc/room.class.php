@@ -85,10 +85,10 @@ class PluginRoomRoom  extends CommonDBTM {
 		// Affiche comme titre "Principal" sur le premier onglet
 		$ong[1]=$LANG["title"][26];
 
-		//if (haveRight("reservation","r")){
+		if (haveRight("reservation_central","r")){
 			// Affiche "Réservations" sur l'onglet 11
 			$ong[11]=$LANG["Menu"][17];
-		//}
+		}
 				
 		return $ong;
 	}
@@ -282,7 +282,6 @@ class PluginRoomRoom  extends CommonDBTM {
 	}
 
 	// cette fonction doit servir à remplir la rubrique ordinateur de la fiche room
-	// A REVOIR ELLE NE GENERE PAS D4 ERREUR MAIS NE FAIT RIEN NON PLUS
 	function showComputers($target,$room_id){
 		global $CFG_GLPI, $LANG,$DB;
 
@@ -348,7 +347,7 @@ class PluginRoomRoom  extends CommonDBTM {
 				echo "</td></tr>";
 				echo "</table></div>" ;
 				
-				/*echo "<div class='center'>";
+				echo "<div class='center'>";
 				echo "<table width='950px' align='center'>";
 				echo "<tr><td><img src=\"".$CFG_GLPI["root_doc"]."/pics/arrow-left.png\" alt=''></td><td class='center'><a onclick= \"if ( markCheckboxes('document_form') ) return false;\" href='".$_SERVER['PHP_SELF']."?ID=$room_id&amp;select=all'>".$LANG["buttons"][18]."</a></td>";
 			
@@ -356,7 +355,7 @@ class PluginRoomRoom  extends CommonDBTM {
 				echo "</td><td align='left' width='80%'>";
 				echo "<input type='submit' name='deleteitem' value=\"".$LANG["buttons"][6]."\" class='submit'>";
 				echo "</td>";
-				echo "</div>";*/
+				echo "</table></div>";
 	
 	
 			}else{
@@ -403,13 +402,13 @@ class PluginRoomRoom  extends CommonDBTM {
 				if ($DB->numrows($result)>0){
 					$data=$DB->fetch_assoc($result);
 
-//					if (haveTypeRight(PLUGIN_ROOM_TYPE,'r')){
+					if (plugin_room_haveRight('room','r')){
 						echo "<a href=\"".$CFG_GLPI["root_doc"]."/plugins/room/front/room.form.php?id=".$data["id"]."\">".$data['name']."</a>";
 						echo "</th>";
-						echo "<th>ICI IL FAUT AFFICHER LE RESPONSABLE</th>";
-//					} else {
-//						echo $data['name'];
-//					}
+						echo "<th>ICI IL FAUDRAIT AFFICHER LE RESPONSABLE</th>";
+					} else {
+						echo $data['name'];
+					}
 					echo "</div>";
 				}
 			}
@@ -418,6 +417,7 @@ class PluginRoomRoom  extends CommonDBTM {
 
 	}
 
+/*
 	function plugin_room_initSession() {
 		global $DB;
 	
@@ -425,10 +425,13 @@ class PluginRoomRoom  extends CommonDBTM {
 			$_SESSION["glpiplugin_room_installed"]=1;
 		}
 	}
+*/
 
+/*
 	function plugin_room_isInstalled(){
 		return TableExists("glpi_plugin_room_rooms");
 	}
+*/
 
 	function plugin_room_AddDevice($room_id,$computer_id){
 		global $DB;
@@ -451,7 +454,7 @@ class PluginRoomRoom  extends CommonDBTM {
 			$IDroom=$DB->result($result,0,0);
 			$query="DELETE FROM glpi_plugin_room_computer WHERE ID= '$ID';";
 			$result = $DB->query($query);
-			plugin_room_updateCountDevices($IDroom);
+			$this->plugin_room_updateCountDevices($IDroom);
 		}
 	}
 

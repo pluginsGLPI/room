@@ -495,31 +495,35 @@ function plugin_room_addSelect($type,$ID,$num){
 */
 
 
-/*
+
 // Define actions :
 function plugin_room_MassiveActions($type){
 	global $LANG;
 	switch ($type){
-		case COMPUTER_TYPE :
+		case 'Computer' :
 			return array(
 				"plugin_room_addComputer"=>$LANG['plugin_room'][17],
 			);
 			break;
+
 	}
 	return array();
 }
-*/
 
-/*
+
+
 // How to display specific actions ?
-function plugin_room_MassiveActionsDisplay($type,$action){
+function plugin_room_MassiveActionsDisplay($options=array()){
 	global $LANG;
 
-	switch ($type){
-		case COMPUTER_TYPE:
-			switch ($action){
+	$PluginRoomRoom= new PluginRoomRoom();
+	switch ($options['itemtype']){
+
+		case 'Computer':
+			switch ($options['action']){
 				case "plugin_room_addComputer":
-				dropdownValue("glpi_plugin_room","rID");
+				//dropdownValue("glpi_plugin_room","room_id");
+				Dropdown::show("PluginRoomRoom");
 				echo "&nbsp;<input type=\"submit\" name=\"massiveaction\" class=\"submit\" value=\"".$LANG["buttons"][2]."\" >";
 				break;
 			}
@@ -527,27 +531,29 @@ function plugin_room_MassiveActionsDisplay($type,$action){
 	}
 	return "";
 }
-*/
 
-/*
+
+
 // How to process specific actions ?
 function plugin_room_MassiveActionsProcess($data){
 	global $LANG;
 	
-	
+	$PluginRoomRoom = new PluginRoomRoom();
+
 	switch ($data['action']){
 		case 'plugin_room_addComputer':
-			if ($data['device_type']==COMPUTER_TYPE && $data['rID']>0){
+			if ($data['itemtype']=='Computer' && $data['plugin_room_rooms_id']>0){
 				foreach ($data['item'] as $key => $val){
 					if ($val==1) {
-						plugin_room_AddDevice($data['rID'],$key);
+						$PluginRoomRoom->plugin_room_AddDevice($data['plugin_room_rooms_id'],$key);
 						
 					}
 				}
 			}
 			break;
+
 	}
 }
-*/
+
 
 ?>
