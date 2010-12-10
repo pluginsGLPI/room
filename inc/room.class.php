@@ -453,7 +453,7 @@ class PluginRoomRoom  extends CommonDBTM {
 							echo "</td>";
 						}
 								
-						echo "<td ".(isset($data['deleted'])&&$data['deleted']?"class='tab_bg_2_2'":"").">".$name."</td>";
+						echo "<td ".(isset($data['is_deleted'])&&$data['is_deleted']?"class='tab_bg_2_2'":"").">".$name."</td>";
 						echo "<td class='center'>".Dropdown::getDropdownName("glpi_entities",$data['entity'])."</td>";
 								
 						echo "</tr>";
@@ -587,7 +587,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		global $DB;
 		$query="SELECT count(ID) FROM glpi_plugin_room_computer WHERE FK_rooms='$ID'";
 		if ($result = $DB->query($query)){
-			$query2="UPDATE glpi_plugin_room SET count_linked='".$DB->result($result,0,0)."'  WHERE ID='$ID'";
+			$query2="UPDATE glpi_plugin_room_rooms SET count_linked='".$DB->result($result,0,0)."'  WHERE ID='$ID'";
 			$DB->query($query2);
 		}
 	}
