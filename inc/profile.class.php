@@ -118,19 +118,13 @@ class PluginRoomProfile extends CommonDBTM {
 		$this->showFormHeader($options);
 
 		echo "<tr class='tab_bg_2'>";
-		
-		echo "<th colspan='8'>".$LANG['plugin_room']['profile'][1].": ".$prof->fields["name"]."</th>";
-      
+		echo "<th colspan='4'>".$LANG['plugin_room']['profile'][1].": ".$prof->fields["name"]."</th>";
 		echo "</tr>";
-		echo "<tr class='tab_bg_2'>";
-		
-		echo "<td>".$LANG['plugin_room']['profile'][1].":</td><td>";
 
-		if ($prof->fields['interface']!='helpdesk') {
-			Profile::dropdownNoneReadWrite("room",$this->fields["room"],1,1,1);
-		} else {
-			echo $LANG['profiles'][12]; // No access;
-		}
+		echo "<tr class='tab_bg_2'>";
+		echo "<th colspan='2'>".$LANG['plugin_room']['profile'][1].":</th>";
+		echo "<td>";
+		Profile::dropdownNoneReadWrite("room",$this->fields["room"],1,1,1);
 		echo "</td>";
 
 		echo "</tr>";
