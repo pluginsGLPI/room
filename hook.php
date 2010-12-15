@@ -45,7 +45,7 @@ function plugin_room_install(){
 			`entities_id` int(11) NOT NULL default '0',
 			`locations_id` int(11) NOT NULL default '0',
 			`recursive` smallint(6) NOT NULL default '0',
-			`deleted` smallint(6) NOT NULL default '0',
+			`is_deleted` smallint(6) NOT NULL default '0',
 			`type` int(11) NOT NULL default '0',
 			`date_mod` datetime default NULL,
 			`size` smallint(6) NOT NULL default '0',
@@ -71,7 +71,7 @@ function plugin_room_install(){
 			`FK_groups` smallint(6) NOT NULL default '0', # not used / for reservation search engine
 			PRIMARY KEY  (`id`),
 			KEY `entities_id` (`entities_id`),
-			KEY `deleted` (`deleted`),
+			KEY `is_deleted` (`is_deleted`),
 			KEY `type` (`type`),
 			KEY `name` (`name`),
 			KEY `buy` (`buy`),

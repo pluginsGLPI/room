@@ -453,7 +453,7 @@ class PluginRoomRoom  extends CommonDBTM {
 							echo "</td>";
 						}
 								
-						echo "<td ".(isset($data['deleted'])&&$data['deleted']?"class='tab_bg_2_2'":"").">".$name."</td>";
+						echo "<td ".(isset($data['is_deleted'])&&$data['is_deleted']?"class='tab_bg_2_2'":"").">".$name."</td>";
 						echo "<td class='center'>".Dropdown::getDropdownName("glpi_entities",$data['entity'])."</td>";
 								
 						echo "</tr>";
