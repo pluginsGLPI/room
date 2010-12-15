@@ -56,4 +56,5 @@ $LANG['plugin_room'][22]="Dissocier";
 $LANG['plugin_room']['profile'][0] = 'Gestion des droits';
 $LANG['plugin_room']['profile'][1] = $title;
 $LANG['plugin_room']['dropdown'][0]="Type de Salle";
+$LANG['plugin_room']['dropdown'][2]="Spécificités de salle";
 ?>

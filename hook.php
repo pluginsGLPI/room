@@ -45,7 +45,7 @@ function plugin_room_install(){
 			`entities_id` int(11) NOT NULL default '0',
 			`locations_id` int(11) NOT NULL default '0',
 			`recursive` smallint(6) NOT NULL default '0',
-			`is_deleted` smallint(6) NOT NULL default '0',
+			`deleted` smallint(6) NOT NULL default '0',
 			`type` int(11) NOT NULL default '0',
 			`date_mod` datetime default NULL,
 			`size` smallint(6) NOT NULL default '0',
@@ -71,7 +71,7 @@ function plugin_room_install(){
 			`FK_groups` smallint(6) NOT NULL default '0', # not used / for reservation search engine
 			PRIMARY KEY  (`id`),
 			KEY `entities_id` (`entities_id`),
-			KEY `is_deleted` (`is_deleted`),
+			KEY `deleted` (`deleted`),
 			KEY `type` (`type`),
 			KEY `name` (`name`),
 			KEY `buy` (`buy`),
@@ -126,17 +126,17 @@ function plugin_room_install(){
 		$DB->query($query) or die("error adding glpi_plugin_room_roomaccessconds table " . $LANG["update"][90] . $DB->error());
 	}
 
-	if (!TableExists('glpi_dropdown_plugin_room_dropdown1')){
-		$query="CREATE TABLE  `glpi_dropdown_plugin_room_dropdown1` (
-		`ID` int(11) NOT NULL auto_increment,
+	if (!TableExists('glpi_plugin_room_dropdown1s')){
+		$query="CREATE TABLE  `glpi_plugin_room_dropdown1s` (
+		`id` int(11) NOT NULL auto_increment,
 		`name` varchar(255) collate utf8_unicode_ci default NULL,
-		`comments` text collate utf8_unicode_ci,
-		PRIMARY KEY  (`ID`),
+		`comment` text collate utf8_unicode_ci,
+		PRIMARY KEY  (`id`),
 		KEY `name` (`name`)
 		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-		$DB->query($query) or die("error adding glpi_dropdown_plugin_room_dropdown1 table " . $LANG["update"][90] . $DB->error());
+		$DB->query($query) or die("error adding glpi_plugin_room_dropdown1s table " . $LANG["update"][90] . $DB->error());
 	}
-
+/*
 	if (!TableExists('glpi_dropdown_plugin_room_dropdown2')){
 		$query="CREATE TABLE  `glpi_dropdown_plugin_room_dropdown2` (
 		`ID` int(11) NOT NULL auto_increment,
@@ -147,7 +147,7 @@ function plugin_room_install(){
 		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 		$DB->query($query) or die("error adding glpi_dropdown_plugin_room_dropdown2 table " . $LANG["update"][90] . $DB->error());
 	}
-
+*/
 	PluginRoomProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
 
 	return true;
@@ -166,10 +166,10 @@ function plugin_room_uninstall(){
 	$DB->query($query) ;
 	$query='DROP TABLE `glpi_plugin_room_roomaccessconds`';
 	$DB->query($query) ;
-	$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown1`';
+	$query='DROP TABLE `glpi_plugin_room_dropdown1s`';
 	$DB->query($query) ;
-	$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown2`';
-	$DB->query($query) ;
+//	$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown2`';
+//	$DB->query($query) ;
 
 	$tables_glpi = array("glpi_displaypreferences",
 					"glpi_documents_items",
@@ -190,8 +190,8 @@ function plugin_room_getDatabaseRelations(){
 	if ($plugin->isActivated("room")) {
 		return array("glpi_plugin_room_roomtypes"=>array("glpi_plugin_room_rooms"=>"type"),
 			"glpi_plugin_room_roomaccessconds"=>array("glpi_plugin_room_rooms"=>"access"),
-			"glpi_dropdown_plugin_room_dropdown1"=>array("glpi_plugin_room_rooms"=>"dropdown1"),
-			"glpi_dropdown_plugin_room_dropdown2"=>array("glpi_plugin_room_rooms"=>"dropdown2"),
+			"glpi_plugin_room_dropdown1s"=>array("glpi_plugin_room_rooms"=>array("dropdown1","dropdown2")),
+			//"glpi_dropdown_plugin_room_dropdown2"=>array("glpi_plugin_room_rooms"=>"dropdown2"),
 			"glpi_entities"=>array("glpi_plugin_room_rooms"=>"entities_id"),
 			"glpi_profiles" => array ("glpi_plugin_room_profiles" => "profiles_id"),
 			"glpi_users"=>array("glpi_plugin_room_rooms"=>array('FK_users','tech_num')));
@@ -214,7 +214,7 @@ function plugin_room_getDropdown(){
 	$plugin = new Plugin();
 
 	if ($plugin->isActivated("room"))
-		return array('PluginRoomRoomType'=>$LANG['plugin_room'][9],'PluginRoomRoomAccessCond'=>$LANG['plugin_room'][5]);
+		return array('PluginRoomRoomType'=>$LANG['plugin_room'][9],'PluginRoomRoomAccessCond'=>$LANG['plugin_room'][5],'PluginRoomDropdown1'=>$LANG['plugin_room']['dropdown'][2]);
 	else
 		return array();
 }

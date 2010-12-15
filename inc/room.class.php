@@ -166,12 +166,12 @@ class PluginRoomRoom  extends CommonDBTM {
 		$tab[17]['linkfield']='';
 		$tab[17]['name']=$LANG['plugin_room'][14];
 	
-		$tab[18]['table']='glpi_plugin_room_dropdown1';
+		$tab[18]['table']='glpi_plugin_room_dropdown1s';
 		$tab[18]['field']='name';
 		$tab[18]['linkfield']='dropdown1';
 		$tab[18]['name']=$LANG['plugin_room'][15];
 	
-		$tab[19]['table']='glpi_plugin_room_dropdown2';
+		$tab[19]['table']='glpi_plugin_room_dropdown1s';
 		$tab[19]['field']='name';
 		$tab[19]['linkfield']='dropdown2';
 		$tab[19]['name']=$LANG['plugin_room'][16];
@@ -362,7 +362,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		// Spécificité 3
 		echo "<td>".$LANG['plugin_room'][15].":		</td>";
 		echo "<td>";
-		Dropdown::show("PluginRoomRoom","dropdown1",$this->fields["dropdown1"]);
+		Dropdown::show("PluginRoomDropdown1", array ('name'=>"dropdown1",'value'=>$this->fields["dropdown1"]));
 		echo "</td></tr>";
 				
 		// Spécificité 2
@@ -374,7 +374,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		// Spécificité 4
 		echo "<td>".$LANG['plugin_room'][16].":		</td>";
 		echo "<td>";
-		Dropdown::show("PluginRoomRoom","dropdown2",$this->fields["dropdown2"]);
+		Dropdown::show("PluginRoomDropdown1", array ('name'=>"dropdown2",'value'=>$this->fields["dropdown2"]));
 		echo "</td></tr>";
 
 		// Horaires d'ouverture
@@ -453,7 +453,7 @@ class PluginRoomRoom  extends CommonDBTM {
 							echo "</td>";
 						}
 								
-						echo "<td ".(isset($data['is_deleted'])&&$data['is_deleted']?"class='tab_bg_2_2'":"").">".$name."</td>";
+						echo "<td ".(isset($data['deleted'])&&$data['deleted']?"class='tab_bg_2_2'":"").">".$name."</td>";
 						echo "<td class='center'>".Dropdown::getDropdownName("glpi_entities",$data['entity'])."</td>";
 								
 						echo "</tr>";
