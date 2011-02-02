@@ -110,6 +110,11 @@ class PluginRoomRoom  extends CommonDBTM {
 		$tab[3]['field']='comments';
 		$tab[3]['linkfield']='comments';
 		$tab[3]['name']=$LANG["common"][25];
+		
+		$tab[4]['table']='glpi_locations';
+		$tab[4]['field']='completename';
+		$tab[4]['linkfield']='locations_id';
+		$tab[4]['name']=$LANG["common"][15];
 			
 		$tab[5]['table']=$this->getTable();
 		$tab[5]['field']='size';
@@ -295,10 +300,14 @@ class PluginRoomRoom  extends CommonDBTM {
 		// Reste du tableau
 		// Nom de la salle
 		echo "<tr class='tab_bg_1'><td>".$LANG["common"][16].":		</td>";
-		echo "<td colspan='3'>";
+		echo "<td>";
 		autocompletionTextField($this,'name');
+		echo "</td>";
+		echo "<td>".$LANG["common"][15].":		</td>";
+		echo "<td>";
+		Dropdown::show('Location', array('value' => $this->fields["locations_id"],'entity' => $this->fields["entities_id"]));
 		echo "</td></tr>";
-
+    
 		// Dropdown du type
 		echo "<tr class='tab_bg_1'><td>".$LANG["common"][17].":		</td>";
 		echo "<td>";
@@ -422,7 +431,7 @@ class PluginRoomRoom  extends CommonDBTM {
 
 			$query.=" ORDER BY glpi_entities.completename, glpi_computers.name";
 
-			echo "<form method='post' name='document_form' id='document_form' class='yann' action=\"".$CFG_GLPI["root_doc"]."/plugins/room/front/room.form.php\">";
+			echo "<form method='post' name='document_form' id='document_form' action=\"".$CFG_GLPI["root_doc"]."/plugins/room/front/room.form.php\">";
 		
 			echo "<br><br><div class='center'><table class='tab_cadre_fixe'>";
 			echo "<tr><th colspan='".($canedit?3:2)."'>".$LANG["document"][19].":</th></tr><tr>";

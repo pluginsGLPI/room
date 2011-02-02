@@ -193,6 +193,7 @@ function plugin_room_getDatabaseRelations(){
 			"glpi_plugin_room_dropdown1s"=>array("glpi_plugin_room_rooms"=>array("dropdown1","dropdown2")),
 			//"glpi_dropdown_plugin_room_dropdown2"=>array("glpi_plugin_room_rooms"=>"dropdown2"),
 			"glpi_entities"=>array("glpi_plugin_room_rooms"=>"entities_id"),
+			"glpi_locations"=>array("glpi_plugin_room_rooms"=>"locations_id"),
 			"glpi_profiles" => array ("glpi_plugin_room_profiles" => "profiles_id"),
 			"glpi_users"=>array("glpi_plugin_room_rooms"=>array('FK_users','tech_num')));
 	}
