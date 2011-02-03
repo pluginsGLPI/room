@@ -219,7 +219,7 @@ class PluginRoomRoom  extends CommonDBTM {
 			// Affiche "Réservations" sur l'onglet 11
 			$ong[11]=$LANG["Menu"][17];
 		}
-				
+		
 		return $ong;
 	}
 
@@ -244,56 +244,18 @@ class PluginRoomRoom  extends CommonDBTM {
 		//
 		$this->showTabs($options);
 
-		//
+		// entete du formulaire avec affichage du type d'objet, de l'entite et de la recursivite
+		// au niveau affichage la première ligne du tableau
 		$this->showFormHeader($options);
 
 		// Composition du formulaire de l'objet salle
-		// Première ligne du tableau
+		// seconde ligne du tableau
 		echo "<tr class='tab_bg_1'>";
 			if ($ID>0) { // La salle éxiste déjà
-				echo "<th colspan='2'>";
-				// Affichage de l'ID de l'objet et de son Entité
-				echo $LANG["common"][2]." $ID";
-				if (isMultiEntitiesMode()){
-					echo "&nbsp;(".Dropdown::getDropdownName("glpi_entities",$this->fields["entities_id"]).")";
-				}
-				echo "</th>";
-				// Affichage de la date de dernière modification de l'objet
-				echo "<th>".$LANG["common"][26].": ".convDateTime($this->fields["date_mod"])."</th>";
-				echo "<th>";
-				// Affichage de la gestion de la récursivité aux sous-entités
-				if (isMultiEntitiesMode()){
-					echo $LANG["entity"][9].":&nbsp;";
-				
-					if ($this->can($ID,'recursive')) {
-						Dropdown::showYesNo("recursive",$this->fields["recursive"]);					
-					} else {
-						echo Dropdown::getYesNo($this->fields["recursive"]);
-					}
-				} else {
-					echo "&nbsp;";
-				}
-				echo "</th>";
+				// affichage de la derniere modif
+				echo "<th colspan='4'>".$LANG["common"][26].": ".convDateTime($this->fields["date_mod"])."</th>";
 			} else { // C'est une nouvelle salle
-				echo "<th colspan='2'>";
-				echo $LANG['plugin_room'][3];
-				if (isMultiEntitiesMode()){
-					echo "&nbsp;(".Dropdown::getDropdownName("glpi_entities",$this->fields["entities_id"]).")";
-				}
-				echo "</th>";
-				echo "<th colspan='2'>";
-				if (isMultiEntitiesMode()){
-					echo $LANG["entity"][9].":&nbsp;";
-			
-					if ($this->can($ID,'recursive')) {
-						Dropdown::showYesNo("recursive",$this->fields["recursive"]);					
-					} else {
-						echo Dropdown::getYesNo($this->fields["recursive"]);
-					}
-				} else {
-					echo "&nbsp;";
-				}
-				echo "</th>";
+				echo "<th colspan='4'>&nbsp;</th>";
 			} 
 		echo "</tr>";
 

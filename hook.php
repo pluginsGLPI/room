@@ -44,7 +44,7 @@ function plugin_room_install(){
 			`name` varchar(255) collate utf8_unicode_ci default NULL,
 			`entities_id` int(11) NOT NULL default '0',
 			`locations_id` int(11) NOT NULL default '0',
-			`recursive` smallint(6) NOT NULL default '0',
+			`is_recursive` smallint(6) NOT NULL default '0',
 			`is_deleted` smallint(6) NOT NULL default '0',
 			`type` int(11) NOT NULL default '0',
 			`date_mod` datetime default NULL,
