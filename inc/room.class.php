@@ -214,10 +214,13 @@ class PluginRoomRoom  extends CommonDBTM {
 
 		// Affiche comme titre "Principal" sur le premier onglet
 		$ong[1]=$LANG["title"][26];
-
-		if (haveRight("reservation_central","r")){
+		if ($this->fields['id'] > 0) {
+		    if (haveRight("reservation_central","r")){
 			// Affiche "Réservations" sur l'onglet 11
 			$ong[11]=$LANG["Menu"][17];
+		    }
+		    //History
+		    $ong[12]=$LANG['title'][38];
 		}
 		
 		return $ong;

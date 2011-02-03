@@ -41,7 +41,7 @@ function plugin_init_room() {
 	global $PLUGIN_HOOKS,$CFG_GLPI,$LINK_ID_TABLE,$LANG;
 
 
-	// Activation d'un onglet room dans les profils ?
+	// Activation d'un onglet room dans les profils
 	$PLUGIN_HOOKS['change_profile']['room'] = array('PluginRoomProfile','changeProfile');
 
 	// Déclaration d'un nouvel objet d'inventaire Room
@@ -49,7 +49,6 @@ function plugin_init_room() {
 		'reservation_types' => true,
 	));
 
-	//if (isset($_SESSION["glpiID"])){
 	if (getLoginUserID()) {	
 
 		// Activation des entrées du menu Plugin

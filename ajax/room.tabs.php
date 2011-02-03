@@ -43,20 +43,25 @@ if (!isset($_POST["withtemplate"])) $_POST["withtemplate"] = "";
 
 $Room = new PluginRoomRoom();
 
-switch ($_REQUEST['glpi_tab'] ){
-	case -1 : // Onglet Tous
-		$Room->showComputers($_POST['target'],$_POST["id"]);
-		Reservation::showForItem('PluginRoomRoom',$_POST["id"]);
-		break;
-	case 11 : // Onglet Réservation
-		Reservation::showForItem('PluginRoomRoom',$_POST["id"]);
-		break;
-	default : // Logiquement Onglet Principal
-		if ($_POST["id"]){
-			if (!Plugin::displayAction($Room,$_POST["id"],$_REQUEST['glpi_tab'] )){
-				$Room->showComputers($_POST['target'],$_POST["id"]);
+if ($_POST["id"]>0 && $Room->can($_POST["id"],'r')) {
+	switch ($_REQUEST['glpi_tab'] ){
+		case -1 : // Onglet Tous
+			$Room->showComputers($_POST['target'],$_POST["id"]);
+			Reservation::showForItem('PluginRoomRoom',$_POST["id"]);
+			break;
+		case 11 : // Onglet Réservation
+			Reservation::showForItem('PluginRoomRoom',$_POST["id"]);
+			break;
+		case 12 : //show history form
+			Log::showForItem($Room);
+			break;
+		default : // Logiquement Onglet Principal
+			if ($_POST["id"]){
+			      if (!Plugin::displayAction($Room,$_POST["id"],$_REQUEST['glpi_tab'] )){
+				    $Room->showComputers($_POST['target'],$_POST["id"]);
+			      }
 			}
-		}
-		break;
+			break;
+	}
 }
 ?>

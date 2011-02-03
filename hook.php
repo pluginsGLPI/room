@@ -136,18 +136,7 @@ function plugin_room_install(){
 		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 		$DB->query($query) or die("error adding glpi_plugin_room_dropdown1s table " . $LANG["update"][90] . $DB->error());
 	}
-/*
-	if (!TableExists('glpi_dropdown_plugin_room_dropdown2')){
-		$query="CREATE TABLE  `glpi_dropdown_plugin_room_dropdown2` (
-		`ID` int(11) NOT NULL auto_increment,
-		`name` varchar(255) collate utf8_unicode_ci default NULL,
-		`comments` text collate utf8_unicode_ci,
-		PRIMARY KEY  (`ID`),
-		KEY `name` (`name`)
-		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-		$DB->query($query) or die("error adding glpi_dropdown_plugin_room_dropdown2 table " . $LANG["update"][90] . $DB->error());
-	}
-*/
+
 	PluginRoomProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
 
 	return true;
@@ -168,8 +157,6 @@ function plugin_room_uninstall(){
 	$DB->query($query) ;
 	$query='DROP TABLE `glpi_plugin_room_dropdown1s`';
 	$DB->query($query) ;
-//	$query='DROP TABLE `glpi_dropdown_plugin_room_dropdown2`';
-//	$DB->query($query) ;
 
 	$tables_glpi = array("glpi_displaypreferences",
 					"glpi_documents_items",
@@ -206,12 +193,7 @@ function plugin_room_getDatabaseRelations(){
 // Definit les tables qui sont gérables via les intitulés
 function plugin_room_getDropdown(){
 	global $LANG;
-/*
-	return array( "glpi_dropdown_plugin_room_type"=>$LANG["common"][17],
-			"glpi_dropdown_plugin_room_access"=>$LANG['plugin_room'][5],
-			"glpi_dropdown_plugin_room_dropdown1"=>$LANG['plugin_room'][15],
-			"glpi_dropdown_plugin_room_dropdown2"=>$LANG['plugin_room'][16],);
-*/
+
 	$plugin = new Plugin();
 
 	if ($plugin->isActivated("room"))
@@ -404,7 +386,6 @@ function plugin_room_MassiveActionsDisplay($options=array()){
 		case 'Computer':
 			switch ($options['action']){
 				case "plugin_room_addComputer":
-				//dropdownValue("glpi_plugin_room","room_id");
 				Dropdown::show("PluginRoomRoom");
 				echo "&nbsp;<input type=\"submit\" name=\"massiveaction\" class=\"submit\" value=\"".$LANG["buttons"][2]."\" >";
 				break;
