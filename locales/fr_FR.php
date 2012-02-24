@@ -27,7 +27,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  --------------------------------------------------------------------------
  */
-/**************** Plugin Addressing **************/
+/**************** Plugin Room **************/
 
 $title = "Salles";
 $LANG['plugin_room'][0]="Salles";

@@ -34,6 +34,8 @@
 // ----------------------------------------------------------------------
 
 
+define ("PLUGIN_ROOM_VERSION","3.0.1");
+
 // Initilisation du plugin (appelÃ©e Ã  l'activation du plugin)
 // Cette fonction dÃ©finie les HOOKS avec GLPI et permet de dÃ©clarer de
 // nouveaux objets d'inventaire.
@@ -51,7 +53,7 @@ function plugin_init_room() {
 
 	if (getLoginUserID()) {	
 
-		// Activation des entrÃ©es du menu Plugin
+		// Activation des entrées du menu Plugin
 		if (plugin_room_haveRight('room','r')){
 			//Activation du plugin dans le menu plugins
 			$PLUGIN_HOOKS['menu_entry']['room'] = 'index.php';
@@ -80,30 +82,30 @@ function plugin_version_room(){
 	global $LANG;
 
 	return array( 'name'    => $LANG['plugin_room'][0],
-		'version' => '3.0.0-BETA',
-		'author'=>'Julien Dombre / Modif bogucool',
-		'homepage'=>'http://glpi-project.org',
-		'minGlpiVersion' => '0.78',// For compatibility / no install in version < 0.78
-		);
+		'version' => PLUGIN_ROOM_VERSION,
+		'author'=>'Julien Dombre / Modif bogucool et Pascal Marier-Dionne',
+		'homepage'=>'https://forge.indepnet.net/projects/room/files',
+		'minGlpiVersion' => '0.80'// For compatibility / no install in version < 0.80
+	);
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_room_check_prerequisites(){
-	if (GLPI_VERSION>=0.78){
+	if (GLPI_VERSION>=0.80){
 		return true;
 	} else {
-		echo "GLPI version not compatible need 0.78";
+		echo "La version de GLPI n'est pas supportée (nécessite la version 0.80 et plus)";
+		return false;
 	}
 }
 
-
-// Uninstall process for plugin : need to return true if succeeded : may display messages or add to message after redirect
+// Incertain de ce que devrais vérifier cette méthode; je n'y touche donc pas / unsure as to what this function should check for; i wont modify it
 function plugin_room_check_config(){
 	return true;
 }
 
 // Je n'arrive pas Ã  faire fonctionner correctement cette fonction
-// $_SESSION["glpi_plugin_room_profile"][$module] ne semble jamais dÃ©fini ou non null
+// $_SESSION["glpi_plugin_room_profile"][$module] ne semble jamais dÃ©fini ou non null (message de bogucool ou antérieur)
 function plugin_room_haveRight($module,$right){
 	$matches=array(
 			""  => array("","r","w"),

@@ -80,7 +80,7 @@ if (isset($_POST["add"])){ // Ajout d'une salle
 
 } else if (isset($_POST["additem"])){ // Ajout de la liaison à un ordinateur
 
-	$room->check($_POST["room_id"],'w');
+	$room->check($_POST["room_id"],'w');  // Ça devrait pas être rooms_id?
 
 	if ($_POST['room_id']>0&&$_POST['computers_id']>0) {
 		$room->plugin_room_AddDevice($_POST["room_id"],$_POST["computers_id"]);

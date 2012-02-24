@@ -54,7 +54,7 @@ class PluginRoomRoom  extends CommonDBTM {
 /*
 	function cleanDBonPurge($ID) {
                 global $DB,$CFG_GLPI;
-                $query = "DELETE FROM glpi_plugin_room_computer WHERE (FK_rooms = '$ID')";
+                $query = "DELETE FROM glpi_plugin_room_rooms_computers WHERE (rooms_id = '$ID')";
                 $result = $DB->query($query);
 	}
 */	
@@ -103,12 +103,12 @@ class PluginRoomRoom  extends CommonDBTM {
 		$tab[24]['name']=$LANG["common"][10];
 	
 		$tab[25]['table']='glpi_users';
-		$tab[25]['linkfield']='FK_users';
+		$tab[25]['linkfield']='users_id';
 		$tab[25]['name']=$LANG["common"][18];
 		
 		$tab[3]['table']=$this->getTable();
-		$tab[3]['field']='comments';
-		$tab[3]['linkfield']='comments';
+		$tab[3]['field']='comment';
+		$tab[3]['linkfield']='comment';
 		$tab[3]['name']=$LANG["common"][25];
 		
 		$tab[4]['table']='glpi_locations';
@@ -147,7 +147,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		$tab[10]['name']=$LANG['plugin_room'][8];
 	
 		$tab[11]['table']=$this->getTable();
-		$tab[11]['field']='comments';
+		$tab[11]['field']='comment';
 		$tab[11]['linkfield']='';
 		$tab[11]['name']=$LANG["common"][25];
 	
@@ -288,7 +288,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		// Dropdown de l'usager
 		echo "<tr class='tab_bg_1'><td>".$LANG["common"][18].":		</td>";
 		echo "<td>";
-		User::Dropdown(array('name'=>"FK_users",'value' => $this->fields["FK_users"],'entity' => $this->fields["entities_id"],'right' => 'all'));
+		User::Dropdown(array('name'=>"users_id",'value' => $this->fields["users_id"],'entity' => $this->fields["entities_id"],'right' => 'all'));
 		echo "</td>";
 
 		// Dropdown du Responsable technique
@@ -367,7 +367,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		echo "<tr>";
 		echo "<td class='tab_bg_1' valign='top'>";
 		echo $LANG["common"][25].":</td>";
-		echo "<td colspan='3'  class='tab_bg_1'><textarea cols='70' rows='4' name='comments' >".$this->fields["comments"]."</textarea>";
+		echo "<td colspan='3'  class='tab_bg_1'><textarea cols='70' rows='4' name='comments' >".$this->fields["comment"]."</textarea>";
 		echo "</td>";
 		echo "</tr>";
 
@@ -389,10 +389,10 @@ class PluginRoomRoom  extends CommonDBTM {
 		if ($this->getFromDB($room_id)){
 			$canedit=$this->can($room_id,'w');
 	
-			$query = "SELECT glpi_computers.*, glpi_plugin_room_computer.id AS idd, glpi_entities.id AS entity "
-				." FROM glpi_plugin_room_computer, glpi_computers "
+			$query = "SELECT glpi_computers.*, glpi_plugin_room_rooms_computers.id AS idd, glpi_entities.id AS entity "
+				." FROM glpi_plugin_room_rooms_computers, glpi_computers "
 				." LEFT JOIN glpi_entities ON (glpi_entities.id=glpi_computers.entities_id) "
-				." WHERE glpi_computers.id = glpi_plugin_room_computer.FK_computers AND glpi_plugin_room_computer.FK_rooms = '$room_id' "; 
+				." WHERE glpi_computers.id = glpi_plugin_room_rooms_computers.computers_id AND glpi_plugin_room_rooms_computers.rooms_id = '$room_id' "; 
 
 			$query.=" ORDER BY glpi_entities.completename, glpi_computers.name";
 
@@ -481,9 +481,9 @@ class PluginRoomRoom  extends CommonDBTM {
 
 		if ($ID>0){
 			$query="SELECT `glpi_plugin_room_rooms`.* "
-				."FROM `glpi_plugin_room_computer` "
-				." LEFT JOIN `glpi_plugin_room_rooms` ON (`glpi_plugin_room_rooms`.`id` = `glpi_plugin_room_computer`.`FK_rooms`) "
-				."WHERE `FK_computers` = '$ID' ";
+				."FROM `glpi_plugin_room_rooms_computers` "
+				." LEFT JOIN `glpi_plugin_room_rooms` ON (`glpi_plugin_room_rooms`.`id` = `glpi_plugin_room_rooms_computers`.`rooms_id`) "
+				."WHERE `computers_id` = '$ID' ";
 			$result = $DB->query($query);
       			$number = $DB->numrows($result);
 		
@@ -535,10 +535,10 @@ class PluginRoomRoom  extends CommonDBTM {
 	function plugin_room_AddDevice($room_id,$computer_id){
 		global $DB;
 		if ($room_id>0&&$computer_id>0){
-			$query="SELECT ID FROM glpi_plugin_room_computer WHERE FK_computers='$computer_id'";
+			$query="SELECT ID FROM glpi_plugin_room_rooms_computers WHERE computers_id='$computer_id'";
 			if ($result = $DB->query($query)){
 				if ($DB->numrows($result)==0){
-					$query="INSERT INTO glpi_plugin_room_computer (FK_rooms,FK_computers) VALUES ('$room_id','$computer_id');";
+					$query="INSERT INTO glpi_plugin_room_rooms_computers (rooms_id, computers_id) VALUES ('$room_id','$computer_id');";
 					$result = $DB->query($query);
 					$this->plugin_room_updateCountDevices($room_id);
 				}
@@ -548,10 +548,10 @@ class PluginRoomRoom  extends CommonDBTM {
 
 	function plugin_room_DeleteDevice($ID){
 		global $DB;
-		$query="SELECT FK_rooms FROM glpi_plugin_room_computer WHERE ID='$ID'";
+		$query="SELECT rooms_id FROM glpi_plugin_room_rooms_computers WHERE ID='$ID'";
 		if ($result = $DB->query($query)){
 			$IDroom=$DB->result($result,0,0);
-			$query="DELETE FROM glpi_plugin_room_computer WHERE ID= '$ID';";
+			$query="DELETE FROM glpi_plugin_room_rooms_computers WHERE ID= '$ID';";
 			$result = $DB->query($query);
 			$this->plugin_room_updateCountDevices($IDroom);
 		}
@@ -559,7 +559,7 @@ class PluginRoomRoom  extends CommonDBTM {
 
 	function plugin_room_updateCountDevices($ID){
 		global $DB;
-		$query="SELECT count(ID) FROM glpi_plugin_room_computer WHERE FK_rooms='$ID'";
+		$query="SELECT count(ID) FROM glpi_plugin_room_rooms_computers WHERE rooms_id='$ID'";
 		if ($result = $DB->query($query)){
 			$query2="UPDATE glpi_plugin_room_rooms SET count_linked='".$DB->result($result,0,0)."'  WHERE ID='$ID'";
 			$DB->query($query2);
