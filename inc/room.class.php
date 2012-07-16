@@ -367,7 +367,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		echo "<tr>";
 		echo "<td class='tab_bg_1' valign='top'>";
 		echo $LANG["common"][25].":</td>";
-		echo "<td colspan='3'  class='tab_bg_1'><textarea cols='70' rows='4' name='comments' >".$this->fields["comment"]."</textarea>";
+		echo "<td colspan='3'  class='tab_bg_1'><textarea cols='70' rows='4' name='comment' >".$this->fields["comment"]."</textarea>";
 		echo "</td>";
 		echo "</tr>";
 
@@ -480,13 +480,13 @@ class PluginRoomRoom  extends CommonDBTM {
       		$Room=new PluginRoomRoom();
 
 		if ($ID>0){
-			$query="SELECT `glpi_plugin_room_rooms`.* "
+			$query="SELECT `glpi_plugin_room_rooms`.*, u.`id` as resp_id, CONCAT(u.`firstname` , ' ', u.`realname`) as resp "
 				."FROM `glpi_plugin_room_rooms_computers` "
 				." LEFT JOIN `glpi_plugin_room_rooms` ON (`glpi_plugin_room_rooms`.`id` = `glpi_plugin_room_rooms_computers`.`rooms_id`) "
+				." LEFT JOIN `glpi_users` as u on u.`id` = `glpi_plugin_room_rooms`.`tech_num` "
 				."WHERE `computers_id` = '$ID' ";
 			$result = $DB->query($query);
       			$number = $DB->numrows($result);
-		
 			if (isMultiEntitiesMode()) {
          			$colsup=1;
       			} else {
@@ -504,7 +504,7 @@ class PluginRoomRoom  extends CommonDBTM {
 					if (plugin_room_haveRight('room','r')){
 						echo "<a href=\"".$CFG_GLPI["root_doc"]."/plugins/room/front/room.form.php?id=".$data["id"]."\">".$data['name']."</a>";
 						echo "</th>";
-						echo "<th>ICI IL FAUDRAIT AFFICHER LE RESPONSABLE</th>";
+						echo "<th><a href=\"".$CFG_GLPI["root_doc"]."/front/user.form.php?id=".$data['resp_id']."\">".$data['resp']."</a></th>";
 					} else {
 						echo $data['name'];
 					}
