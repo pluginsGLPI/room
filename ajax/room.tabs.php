@@ -47,10 +47,10 @@ if ($_POST["id"]>0 && $Room->can($_POST["id"],'r')) {
 	switch ($_REQUEST['glpi_tab'] ){
 		case -1 : // Onglet Tous
 			$Room->showComputers($_POST['target'],$_POST["id"]);
-			Reservation::showForItem('PluginRoomRoom',$_POST["id"]);
+			Reservation::showForItem($Room);
 			break;
 		case 11 : // Onglet Réservation
-			Reservation::showForItem('PluginRoomRoom',$_POST["id"]);
+			Reservation::showForItem($Room);
 			break;
 		case 12 : //show history form
 			Log::showForItem($Room);
