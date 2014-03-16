@@ -45,11 +45,11 @@ class PluginRoomProfile extends CommonDBTM {
    }
    
    function canCreate() {
-      return haveRight('profile', 'w');
+      return Session::haveRight('profile', 'w');
    }
 
    function canView() {
-      return haveRight('profile', 'r');
+      return Session::haveRight('profile', 'r');
    }
 
 	//if profile deleted
@@ -107,7 +107,7 @@ class PluginRoomProfile extends CommonDBTM {
 	function showForm ($ID, $options=array()) {
 		global $LANG;
 
-		if (!haveRight("profile","r")) return false;
+		if (!Session::haveRight("profile","r")) return false;
 
 		$prof = new Profile();
 		if ($ID) {

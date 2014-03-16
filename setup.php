@@ -51,9 +51,9 @@ function plugin_init_room() {
 		'reservation_types' => true,
 	));
 
-	if (getLoginUserID()) {	
+	if (Session::getLoginUserID()) {	
 
-		// Activation des entrées du menu Plugin
+		// Activation des entrï¿½es du menu Plugin
 		if (plugin_room_haveRight('room','r')){
 			//Activation du plugin dans le menu plugins
 			$PLUGIN_HOOKS['menu_entry']['room'] = 'index.php';
@@ -83,6 +83,7 @@ function plugin_version_room(){
 
 	return array( 'name'    => $LANG['plugin_room'][0],
 		'version' => PLUGIN_ROOM_VERSION,
+		'license' => 'GPLv2+',
 		'author'=>'Julien Dombre / Modif bogucool et Pascal Marier-Dionne',
 		'homepage'=>'https://forge.indepnet.net/projects/room/files',
 		'minGlpiVersion' => '0.80'// For compatibility / no install in version < 0.80
@@ -94,18 +95,18 @@ function plugin_room_check_prerequisites(){
 	if (GLPI_VERSION>=0.80){
 		return true;
 	} else {
-		echo "La version de GLPI n'est pas supportée (nécessite la version 0.80 et plus)";
+		echo "La version de GLPI n'est pas supportï¿½e (nï¿½cessite la version 0.80 et plus)";
 		return false;
 	}
 }
 
-// Incertain de ce que devrais vérifier cette méthode; je n'y touche donc pas / unsure as to what this function should check for; i wont modify it
+// Incertain de ce que devrais vï¿½rifier cette mï¿½thode; je n'y touche donc pas / unsure as to what this function should check for; i wont modify it
 function plugin_room_check_config(){
 	return true;
 }
 
 // Je n'arrive pas Ã  faire fonctionner correctement cette fonction
-// $_SESSION["glpi_plugin_room_profile"][$module] ne semble jamais dÃ©fini ou non null (message de bogucool ou antérieur)
+// $_SESSION["glpi_plugin_room_profile"][$module] ne semble jamais dÃ©fini ou non null (message de bogucool ou antï¿½rieur)
 function plugin_room_haveRight($module,$right){
 	$matches=array(
 			""  => array("","r","w"),

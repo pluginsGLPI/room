@@ -41,9 +41,9 @@ include (GLPI_ROOT . "/inc/includes.php");
 
 plugin_room_haveRight('room',"r");
 
-commonHeader($LANG['plugin_room'][0],$_SERVER['PHP_SELF'],"plugins","room");
+Html::header($LANG['plugin_room'][0],$_SERVER['PHP_SELF'],"plugins","room");
 
 Search::show('PluginRoomRoom');
 
-commonFooter();
+Html::footer();
 ?>

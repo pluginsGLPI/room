@@ -215,7 +215,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		// Affiche comme titre "Principal" sur le premier onglet
 		$ong[1]=$LANG["title"][26];
 		if ($this->fields['id'] > 0) {
-		    if (haveRight("reservation_central","r")){
+		    if (Session::haveRight("reservation_central","r")){
 			// Affiche "Réservations" sur l'onglet 11
 			$ong[11]=$LANG["Menu"][17];
 		    }
@@ -256,7 +256,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		echo "<tr class='tab_bg_1'>";
 			if ($ID>0) { // La salle éxiste déjà
 				// affichage de la derniere modif
-				echo "<th colspan='4'>".$LANG["common"][26].": ".convDateTime($this->fields["date_mod"])."</th>";
+				echo "<th colspan='4'>".$LANG["common"][26].": ".Html::convDateTime($this->fields["date_mod"])."</th>";
 			} else { // C'est une nouvelle salle
 				echo "<th colspan='4'>&nbsp;</th>";
 			} 
@@ -266,7 +266,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		// Nom de la salle
 		echo "<tr class='tab_bg_1'><td>".$LANG["common"][16].":		</td>";
 		echo "<td>";
-		autocompletionTextField($this,'name');
+		Html::autocompletionTextField($this,'name');
 		echo "</td>";
 		echo "<td>".$LANG["common"][15].":		</td>";
 		echo "<td>";
@@ -306,7 +306,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		// Date d'achat
 		echo "<tr class='tab_bg_1'><td>".$LANG["financial"][14].":		</td>";
 		echo "<td>";
-		showDateFormItem("buy",$this->fields["buy"],true,true);
+		Html::showDateFormItem("buy",$this->fields["buy"],true,true);
 		echo "</td>";
 
 		// Moyen d'impression
@@ -330,7 +330,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		// Spécificité 1
 		echo "<tr class='tab_bg_1'><td>".$LANG['plugin_room'][13].":		</td>";
 		echo "<td>";
-		autocompletionTextField($this,'text1');
+		Html::autocompletionTextField($this,'text1');
 		echo "</td>";
 
 		// Spécificité 3
@@ -342,7 +342,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		// Spécificité 2
 		echo "<tr class='tab_bg_1'><td>".$LANG['plugin_room'][14].":		</td>";
 		echo "<td>";
-		autocompletionTextField($this,'text2');
+		Html::autocompletionTextField($this,'text2');
 		echo "</td>";
 
 		// Spécificité 4
@@ -354,13 +354,13 @@ class PluginRoomRoom  extends CommonDBTM {
 		// Horaires d'ouverture
 		echo "<tr class='tab_bg_1'><td>".$LANG['plugin_room'][11].":		</td>";
 		echo "<td colspan='3'>";
-		autocompletionTextField($this,'opening');
+		Html::autocompletionTextField($this,'opening');
 		echo "</td></tr>";
 
 		// limitations
 		echo "<tr class='tab_bg_1'><td>".$LANG['plugin_room'][12].":		</td>";
 		echo "<td colspan='3'>";
-		autocompletionTextField($this,'limits');
+		Html::autocompletionTextField($this,'limits');
 		echo "</td></tr>";
 
 		// Commentaires
@@ -487,7 +487,7 @@ class PluginRoomRoom  extends CommonDBTM {
 				."WHERE `computers_id` = '$ID' ";
 			$result = $DB->query($query);
       			$number = $DB->numrows($result);
-			if (isMultiEntitiesMode()) {
+			if (Session::isMultiEntitiesMode()) {
          			$colsup=1;
       			} else {
          			$colsup=0;
