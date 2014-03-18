@@ -29,7 +29,6 @@
  */
 /**************** Plugin Room **************/
 
-$title = "Salles";
 $LANG['plugin_room'][0]="Salles";
 $LANG['plugin_room'][1]="Plugin installé et à jour : Parfait !";	
 $LANG['plugin_room'][2]="Plugin non installé !";	
@@ -54,7 +53,7 @@ $LANG['plugin_room'][20]="Cet ordinateur se trouve dans la salle :";
 $LANG['plugin_room'][21]="Associer";
 $LANG['plugin_room'][22]="Dissocier";
 $LANG['plugin_room']['profile'][0] = 'Gestion des droits';
-$LANG['plugin_room']['profile'][1] = $title;
+$LANG['plugin_room']['profile'][1] = 'Salles';
 $LANG['plugin_room']['dropdown'][0]="Type de Salle";
 $LANG['plugin_room']['dropdown'][2]="Spécificités de salle";
 ?>
