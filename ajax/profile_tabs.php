@@ -32,12 +32,11 @@
 // Purpose of file:
 // ----------------------------------------------------------------------
 
-define('GLPI_ROOT', '../../..');
-include (GLPI_ROOT."/inc/includes.php");
+include '../../../inc/includes.php';
 header("Content-Type: text/html; charset=UTF-8");
-header_nocache();
+Html::header_nocache();
 
-checkRight("profile","r");
+Session::checkRight("profile","r");
 
 $prof=new plugin_room_profile();
 if ( $_POST["interface"] == "room" )

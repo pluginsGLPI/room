@@ -32,8 +32,7 @@
 // ----------------------------------------------------------------------
  */
  
-define('GLPI_ROOT', '../../..');
-include (GLPI_ROOT . "/inc/includes.php");
+include '../../../inc/includes.php';
 
 //Plugin::load('room',true);
 $dropdown = new PluginRoomDropdown1();

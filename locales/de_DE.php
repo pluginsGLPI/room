@@ -27,7 +27,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  --------------------------------------------------------------------------
  */
-
+/**************** Plugin Room **************/
 
 $LANG['plugin_room'][0]="Raumplan";
 $LANG['plugin_room'][1]="Plugin installiert und konfiguriert: Perfekt!";	
@@ -50,4 +50,10 @@ $LANG['plugin_room'][17]="Einen Raum hinzufügen";
 $LANG['plugin_room'][18]="Anzahl PC";
 $LANG['plugin_room'][19]="Raum";
 $LANG['plugin_room'][20]="Dieser PC befindet sich in Raum:";
+$LANG['plugin_room'][21]="Assoziieren";
+$LANG['plugin_room'][22]="Dissoziieren";
+$LANG['plugin_room']['profile'][0] = 'Rights management';
+$LANG['plugin_room']['profile'][1] = 'Zimmer';
+$LANG['plugin_room']['dropdown'][0]="Art des Raumes";
+$LANG['plugin_room']['dropdown'][2]="Room specificities";
 ?>

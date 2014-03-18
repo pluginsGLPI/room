@@ -36,8 +36,7 @@
 // Ce fichier sert à ouvrir le formulaire de l'objet Salle
 $NEEDED_ITEMS=array('reservation','plugin');
 
-define('GLPI_ROOT', '../../..');
-include (GLPI_ROOT . "/inc/includes.php");
+include '../../../inc/includes.php';
 
 if(!isset($_GET["id"])) $_GET["id"] = "-1";
 
@@ -52,31 +51,31 @@ if (isset($_POST["add"])){ // Ajout d'une salle
 
 	$newID=$room->add($_POST);
 	echo "Ajout de la salle";
-	glpi_header($_SERVER['HTTP_REFERER']);
+	Html::back();
 
 } else if (isset($_POST["delete"])) { // Supression d'une salle
 	$room->check($_POST["id"],'w');
 
 	$room->delete($_POST);
-	glpi_header($CFG_GLPI["root_doc"]."/plugins/room/index.php");
+	Html::redirect($CFG_GLPI["root_doc"]."/plugins/room/index.php");
 
 } else if (isset($_POST["purge"])) { // Purge de la salle
 	$room->check($_POST["id"],'w');
 
 	$room->delete($_POST,1);
-	glpi_header($CFG_GLPI["root_doc"]."/plugins/room/index.php");
+	Html::redirect($CFG_GLPI["root_doc"]."/plugins/room/index.php");
 
 } else if (isset($_POST["restore"])) { // Restauration de la salle
 	$room->check($_POST["id"],'w');
 
 	$room->restore($_POST);
-	glpi_header($CFG_GLPI["root_doc"]."/plugins/room/index.php");
+	Html::redirect($CFG_GLPI["root_doc"]."/plugins/room/index.php");
 
 } else if (isset($_POST["update"])) { // Modification d'une salle
 	$room->check($_POST["id"],'w');
 
 	$room->update($_POST);
-	glpi_header($_SERVER['HTTP_REFERER']);
+	Html::back();
 
 } else if (isset($_POST["additem"])){ // Ajout de la liaison à un ordinateur
 
@@ -85,7 +84,7 @@ if (isset($_POST["add"])){ // Ajout d'une salle
 	if ($_POST['room_id']>0&&$_POST['computers_id']>0) {
 		$room->plugin_room_AddDevice($_POST["room_id"],$_POST["computers_id"]);
 	}
-	glpi_header($_SERVER['HTTP_REFERER']);
+	Html::back();
 
 } else if (isset($_POST["deleteitem"])){ // Suppression de la liaison à un ordinateur
 
@@ -96,7 +95,7 @@ if (isset($_POST["add"])){ // Ajout d'une salle
 			$room->plugin_room_DeleteDevice($key);
 		}
 	}
-	glpi_header($_SERVER['HTTP_REFERER']);
+	Html::back();
 
 } else { // Logiquement on passe ici pour visualiser une salle
 	$room->check($_GET["id"],'r');
@@ -107,10 +106,10 @@ if (isset($_POST["add"])){ // Ajout d'une salle
 		$_SESSION['glpi_tab']=$_GET['tab'];
 	}
 
-	commonHeader($LANG['plugin_room'][0],"plugins","room");
+	Html::header($LANG['plugin_room'][0],'',"plugins","room");
 
 	$room->showForm($_GET["id"]);
 
-	commonFooter();
+	Html::footer();
 }
 ?>

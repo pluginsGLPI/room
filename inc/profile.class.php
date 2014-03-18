@@ -38,18 +38,18 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginRoomProfile extends CommonDBTM {
    
-	static function getTypeName() {
+	static function getTypeName($nb=0) {
       global $LANG;
 
       return $LANG['plugin_room']['profile'][0];
    }
    
-   function canCreate() {
-      return haveRight('profile', 'w');
+   static function canCreate() {
+      return Session::haveRight('profile', 'w');
    }
 
-   function canView() {
-      return haveRight('profile', 'r');
+   static function canView() {
+      return Session::haveRight('profile', 'r');
    }
 
 	//if profile deleted
@@ -107,7 +107,7 @@ class PluginRoomProfile extends CommonDBTM {
 	function showForm ($ID, $options=array()) {
 		global $LANG;
 
-		if (!haveRight("profile","r")) return false;
+		if (!Session::haveRight("profile","r")) return false;
 
 		$prof = new Profile();
 		if ($ID) {

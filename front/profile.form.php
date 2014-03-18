@@ -32,17 +32,16 @@
 // ----------------------------------------------------------------------
  */
 
-define('GLPI_ROOT', '../../..');
-include (GLPI_ROOT."/inc/includes.php");
+include '../../../inc/includes.php';
 
-checkRight("profile","r");
+Session::checkRight("profile","r");
 
 $prof=new PluginRoomProfile();
 
 //Save profile
 if (isset ($_POST['update'])) {
 	$prof->update($_POST);
-	glpi_header($_SERVER['HTTP_REFERER']);
+	Html::back();
 }
 
 ?>

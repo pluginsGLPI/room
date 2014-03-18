@@ -84,41 +84,41 @@ function plugin_room_install(){
 			KEY `tech_num` (`tech_num`),
 			KEY `users_id` (`users_id`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;";
-		$DB->query($query) or die("error adding glpi_plugin_room table " . $LANG["update"][90] . $DB->error());
+		$DB->query($query) or die("error adding glpi_plugin_room table " . __('Error during the database update') . $DB->error());
 	}
 	elseif (FieldExists('glpi_plugin_room_rooms', 'FK_users'))
-	{// mise à jour depuis 3.0.0 Beta; la table existe, mais avec les mauvais noms de champs
+	{// mise Ã  jour depuis 3.0.0 Beta; la table existe, mais avec les mauvais noms de champs
 	   $upgradeFrom3Beta = true;
 	   $query = "alter TABLE  `glpi_plugin_room_rooms`
          change FK_users users_id int(11) not null default 0,
          change FK_glpi_enterprise id_manufacturers smallint(11) not null default 0,
          change FK_groups id_groups smallint(11) not null default 0,
          change comments comment text collate utf8_unicode_ci;";
-         $result = $DB->query($query) or die("error renaming glpi_plugin_room fields from Beta version " . $LANG["update"][90] . $DB->error());
+         $result = $DB->query($query) or die("error renaming glpi_plugin_room fields from Beta version " . __('Error during the database update') . $DB->error());
          if($result)
          {
       	   $query = "ALTER TABLE `glpi_plugin_room_rooms` DROP INDEX `FK_users` ,
 					ADD KEY `users_id` ( `users_id` );";
-            $result = $DB->query($query) or die("error renaming glpi_plugin_room fields from Beta version " . $LANG["update"][90] . $DB->error());
+            $result = $DB->query($query) or die("error renaming glpi_plugin_room fields from Beta version " . __('Error during the database update') . $DB->error());
       	}
 	   
 	}
    if (TableExists('glpi_plugin_room'))
-   {// il existe une table correspondant à l'ancienne nomenclature; voir à transférer les enregistrement contenus dans celle-ci.
-      if (!$upgradeFrom3Beta) //Sauf si on vient de la version beta; on présume que l'usager aura transféré manuellement ses informations.
+   {// il existe une table correspondant Ã  l'ancienne nomenclature; voir Ã  transfÃ©rer les enregistrement contenus dans celle-ci.
+      if (!$upgradeFrom3Beta) //Sauf si on vient de la version beta; on prÃ©sume que l'usager aura transfÃ©rÃ© manuellement ses informations.
       {
          $upgradeFrom2 = true;
          $query="SELECT COUNT(*) FROM glpi_plugin_room";
          $result = $DB->query($query);
          if ($result)
-         {//insertion des enregistrements de l'ancienne à la nouvelle table, pour peu qu'existent le entities_id et FK_users concernés
+         {//insertion des enregistrements de l'ancienne Ã  la nouvelle table, pour peu qu'existent le entities_id et FK_users concernÃ©s
             $query="INSERT INTO glpi_plugin_room_rooms(id, name, entities_id, is_recursive, is_deleted, `type`, date_mod, size, count_linked, buy, access, printer, videoprojector, wifi, comment, opening, limits, text1, text2, dropdown1, dropdown2, tech_num, users_id, is_template, location, state, manufacturers_id, groups_id)
             SELECT ID, name, FK_entities, recursive, deleted, `type`, date_mod, size, count_linked, buy, access, printer, videoprojector, wifi, comments, opening, limits, text1, text2, dropdown1, dropdown2, tech_num, FK_users, is_template, location, state, FK_glpi_enterprise, FK_groups
             FROM glpi_plugin_room r WHERE
                ((EXISTS(SELECT * FROM glpi_users u where u.id = r.FK_users) OR r.FK_users = 0) AND
                (EXISTS(SELECT * FROM glpi_entities e where e.id = r.FK_entities) OR r.FK_entities = 0));";
             $result = 0;
-            $result = $DB->query($query) or die("error copying glpi_plugin_room records into new table " . $LANG["update"][90] . $DB->error());
+            $result = $DB->query($query) or die("error copying glpi_plugin_room records into new table " . __('Error during the database update') . $DB->error());
             if($result)
             {
                $query="DROP TABLE glpi_plugin_room;";
@@ -152,7 +152,7 @@ function plugin_room_install(){
                 UNIQUE `computers_id` (`computers_id`),
                 KEY `rooms_id` (`rooms_id`)
                 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-            $DB->query($query) or die("error adding glpi_plugin_room_rooms_computers table " . $LANG["update"][90] . $DB->error());
+            $result = $DB->query($query) or die("error adding glpi_plugin_room_rooms_computers table " . __('Error during the database update') . $DB->error());
             if ($result)
             {
                if (TableExists('glpi_plugin_room_computer')){
@@ -165,7 +165,7 @@ function plugin_room_install(){
                        SELECT ID, FK_rooms, FK_computers
                        FROM glpi_plugin_room_computer ;";
                        $result = 0;
-                       $result = $DB->query($query) or die("error copying glpi_plugin_room_computer records into new table " . $LANG["update"][90] . $DB->error());
+                       $result = $DB->query($query) or die("error copying glpi_plugin_room_computer records into new table " . __('Error during the database update') . $DB->error());
                        if($result)
                        {
                           $query="DROP TABLE glpi_plugin_room_computer;";
@@ -183,7 +183,7 @@ function plugin_room_install(){
 	elseif ($upgradeFrom3Beta)
 	{
 	   $query = "rename table `glpi_plugin_room_computer` to `glpi_plugin_room_rooms_computers`;";
-      $result = $DB->query($query) or die("error renaming glpi_plugin_room_computer table from BETA version " . $LANG["update"][90] . $DB->error());
+      $result = $DB->query($query) or die("error renaming glpi_plugin_room_computer table from BETA version " . __('Error during the database update') . $DB->error());
       if($result)
       {
 	      $query = "alter TABLE  `glpi_plugin_room_rooms_computers`
@@ -193,7 +193,7 @@ function plugin_room_install(){
 				ADD KEY `rooms_id` ( `rooms_id` ),
 				DROP INDEX `FK_computers` ,
    			ADD UNIQUE `id_computers` ( `id_computers` );";
-         $result = $DB->query($query) or die("error renaming glpi_plugin_room_rooms_computers fields from Beta version " . $LANG["update"][90] . $DB->error());
+         $result = $DB->query($query) or die("error renaming glpi_plugin_room_rooms_computers fields from Beta version " . __('Error during the database update') . $DB->error());
 	   }
 	}
 
@@ -205,7 +205,7 @@ function plugin_room_install(){
 			PRIMARY KEY  (`id`),
 			KEY `profiles_id` (`profiles_id`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-		$DB->query($query) or die("error adding glpi_plugin_room_profiles table " . $LANG["update"][90] . $DB->error());
+		$DB->query($query) or die("error adding glpi_plugin_room_profiles table " . __('Error during the database update') . $DB->error());
 		// je pense qu'il faut aussi ici faire des insertions dans glpi_displaypreferences 
 		//(Edit PMD) ainsi que dans glpi_bookmark, glpi_doc_device -> glpi_documents_items et glpi_logs -> glpi_history
 	}
@@ -213,7 +213,7 @@ function plugin_room_install(){
 	      $query = "UPDATE `glpi_plugin_room_profiles`
 	      	CHANGE `FK_profiles` `profiles_id`,
 	      	`ID` `id`";
-	       $DB->query($query) or die("error updating table glpi_plugin_room_computer" . $LANG["update"][90] . $DB->error());
+	       $DB->query($query) or die("error updating table glpi_plugin_room_computer" . __('Error during the database update') . $DB->error());
 	}
 	
 	if (!TableExists('glpi_plugin_room_roomtypes')){
@@ -224,21 +224,21 @@ function plugin_room_install(){
 		PRIMARY KEY  (`id`),
 		KEY `name` (`name`)
 		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-		$DB->query($query) or die("error adding glpi_plugin_room_roomtypes table " . $LANG["update"][90] . $DB->error());
+		$DB->query($query) or die("error adding glpi_plugin_room_roomtypes table " . __('Error during the database update') . $DB->error());
 	}
    if (TableExists('glpi_dropdown_plugin_room_type') && !$upgradeFrom3Beta)
-   {// il existe une table correspondant à l'ancienne nomenclature; 
-      //voir à transférer les enregistrement contenus dans celle-ci.
+   {// il existe une table correspondant Ã  l'ancienne nomenclature; 
+      //voir Ã  transfÃ©rer les enregistrement contenus dans celle-ci.
       //Sauf si on arrive de la version beta
       $query="SELECT COUNT(*) FROM glpi_dropdown_plugin_room_type";
       $result = $DB->query($query);
       if ($result)
-      {//insertion des enregistrements de l'ancienne à la nouvelle table, pour peu qu'existent le entities_id et FK_users concernés
+      {//insertion des enregistrements de l'ancienne Ã  la nouvelle table, pour peu qu'existent le entities_id et FK_users concernÃ©s
          $query="INSERT INTO glpi_plugin_room_roomtypes(id, name, comment)
          SELECT id, name, comments
          FROM glpi_dropdown_plugin_room_type ;";
          $result = 0;
-         $result = $DB->query($query) or die("error copying glpi_dropdown_plugin_room_type records into new table " . $LANG["update"][90] . $DB->error());
+         $result = $DB->query($query) or die("error copying glpi_dropdown_plugin_room_type records into new table " . __('Error during the database update') . $DB->error());
          if($result)
          {
             $query="DROP TABLE glpi_dropdown_plugin_room_type;";
@@ -254,7 +254,7 @@ function plugin_room_install(){
 		PRIMARY KEY  (`id`),
 		KEY `name` (`name`)
 		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-		$DB->query($query) or die("error adding glpi_plugin_room_roomaccessconds table " . $LANG["update"][90] . $DB->error());
+		$DB->query($query) or die("error adding glpi_plugin_room_roomaccessconds table " . __('Error during the database update') . $DB->error());
 		if (TableExists('glpi_dropdown_plugin_room_access'))
 		{
 		   $query="SELECT COUNT(*) FROM glpi_dropdown_plugin_room_access";
@@ -264,7 +264,7 @@ function plugin_room_install(){
 		      $query = "INSERT INTO glpi_plugin_room_roomaccessconds (id, name, comment)
 		      SELECT id, name, comments FROM glpi_dropdown_plugin_room_access";
 		      $result = 0;
-		      $result = $DB->query($query) or die ("error copying glpi_dropdown_plugin_room_access records into new table " . $LANG["update"][90] . $DB->error());
+		      $result = $DB->query($query) or die ("error copying glpi_dropdown_plugin_room_access records into new table " . __('Error during the database update') . $DB->error());
 		      if ($result)
 		      {
                $query="DROP TABLE glpi_dropdown_plugin_room_access;";
@@ -282,7 +282,7 @@ function plugin_room_install(){
 		PRIMARY KEY  (`id`),
 		KEY `name` (`name`)
 		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-		$DB->query($query) or die("error adding glpi_plugin_room_roomspecificities table " . $LANG["update"][90] . $DB->error());
+		$DB->query($query) or die("error adding glpi_plugin_room_roomspecificities table " . __('Error during the database update') . $DB->error());
 	}
 
 	if (TableExists('glpi_dropdown_plugin_room_dropdown1') && !$upgradeFrom3Beta)
@@ -294,7 +294,7 @@ function plugin_room_install(){
 	      $query = "INSERT INTO glpi_plugin_room_dropdown1s (id, name, comment)
 	      SELECT id, name, comments FROM glpi_dropdown_plugin_room_dropdown1";
 	      $result = 0;
-	      $result = $DB->query($query) or die ("error copying glpi_dropdown_plugin_room_dropdown1 records into new table " . $LANG["update"][90] . $DB->error());
+	      $result = $DB->query($query) or die ("error copying glpi_dropdown_plugin_room_dropdown1 records into new table " . __('Error during the database update') . $DB->error());
 	      if ($result)
 	      {
             $query="DROP TABLE glpi_dropdown_plugin_room_dropdown1;";
@@ -317,9 +317,9 @@ function plugin_room_install(){
          $idOffset = 0;
          $query = "SELECT MAX(id) FROM glpi_plugin_room_dropdown1s";
          $result = 0;
-         $result = $DB->query($query) or die ("error copying glpi_dropdown_plugin_room_dropdown2 records into new table " . $LANG["update"][90] . $DB->error());
-         if ($result){ //Il existait des valeurs dans la table glpi_dropdown_plugin_room_dropdown1 qui ont été transférées dams glpi_plugin_room_roomspecificities
-            //On doit décaler les valeurs de glpi_dropdown_plugin_room_dropdown2.
+         $result = $DB->query($query) or die ("error copying glpi_dropdown_plugin_room_dropdown2 records into new table " . __('Error during the database update') . $DB->error());
+         if ($result){ //Il existait des valeurs dans la table glpi_dropdown_plugin_room_dropdown1 qui ont Ã©tÃ© transfÃ©rÃ©es dams glpi_plugin_room_roomspecificities
+            //On doit dÃ©caler les valeurs de glpi_dropdown_plugin_room_dropdown2.
             $row = $DB->fetch_array($result);
             if ($row[0]) {
                $idOffset = $row[0];
@@ -328,16 +328,16 @@ function plugin_room_install(){
          $query = "INSERT INTO glpi_plugin_room_dropdown1s  (id, name, comment)
          SELECT (ID + ". $idOffset."), name, comments FROM glpi_dropdown_plugin_room_dropdown2";
          $result = 0;
-         $result = $DB->query($query) or die ("error copying glpi_dropdown_plugin_room_dropdown2 records into new table " . $LANG["update"][90] . $DB->error());
+         $result = $DB->query($query) or die ("error copying glpi_dropdown_plugin_room_dropdown2 records into new table " . __('Error during the database update') . $DB->error());
          if ($result)
          {
             if ($idOffset > 0){
-               //Nous avons décalé les id des spécificités de la table glpi_dropdown_plugin_room_dropdown2; on doit modifier les enregistrements de la table glpi_plugin_room_rooms en conséquence.
+               //Nous avons dÃ©calÃ© les id des spÃ©cificitÃ©s de la table glpi_dropdown_plugin_room_dropdown2; on doit modifier les enregistrements de la table glpi_plugin_room_rooms en consÃ©quence.
                $result = 0;
                $query = "UPDATE glpi_plugin_room_rooms 
                				SET `dropdown2` = (`dropdown2` + ".$idOffset.")
                				WHERE `dropdown2` > 0;"; 
-                $result = $DB->query($query) or die ("error updating dropdown2 values to new ids. " . $LANG["update"][90] . $DB->error());
+                $result = $DB->query($query) or die ("error updating dropdown2 values to new ids. " . __('Error during the database update') . $DB->error());
             }
             $query="DROP TABLE glpi_dropdown_plugin_room_dropdown2;";
             $result = $DB->query($query);
@@ -355,27 +355,27 @@ function plugin_room_install(){
       $query = "UPDATE `glpi_reservationitems`
       	SET itemtype = 'PluginRoomRoom'
       	WHERE itemtype = '1050';";
-         $result = $DB->query($query) or die ("error updating glpi_reservationitems records for prior room reservations " . $LANG["update"][90] . $DB->error());
+         $result = $DB->query($query) or die ("error updating glpi_reservationitems records for prior room reservations " . __('Error during the database update') . $DB->error());
       $query = "UPDATE `glpi_displaypreferences`
       	SET itemtype = 'PluginRoomRoom'
       	WHERE itemtype = '1050';";
-         $result = $DB->query($query) or die ("error updating glpi_displaypreferences records for prior room display preferences " . $LANG["update"][90] . $DB->error());
+         $result = $DB->query($query) or die ("error updating glpi_displaypreferences records for prior room display preferences " . __('Error during the database update') . $DB->error());
       $query = "UPDATE `glpi_logs`
       	SET itemtype = 'PluginRoomRoom'
       	WHERE itemtype = '1050';";
-         $result = $DB->query($query) or die ("error updating glpi_logs records for prior room modifications history  " . $LANG["update"][90] . $DB->error());
+         $result = $DB->query($query) or die ("error updating glpi_logs records for prior room modifications history  " . __('Error during the database update') . $DB->error());
       $query = "UPDATE `glpi_documents_items`
       	SET itemtype = 'PluginRoomRoom'
       	WHERE itemtype = '1050';";
-         $result = $DB->query($query) or die ("error updating glpi_document_items records for prior room documents" . $LANG["update"][90] . $DB->error());
+         $result = $DB->query($query) or die ("error updating glpi_document_items records for prior room documents" . __('Error during the database update') . $DB->error());
       $query = "UPDATE `glpi_bookmarks`
       	SET itemtype = 'PluginRoomRoom'
       	WHERE itemtype = '1050';";
-         $result = $DB->query($query) or die ("error updating glpi_bookmarks records for prior room bookmarks" . $LANG["update"][90] . $DB->error());
+         $result = $DB->query($query) or die ("error updating glpi_bookmarks records for prior room bookmarks" . __('Error during the database update') . $DB->error());
       $query = "UPDATE `glpi_bookmarks_users`
       	SET itemtype = 'PluginRoomRoom'
       	WHERE itemtype = '1050';";
-         $result = $DB->query($query) or die ("error updating glpi_document_items records for prior room private bookmarks" . $LANG["update"][90] . $DB->error());
+         $result = $DB->query($query) or die ("error updating glpi_document_items records for prior room private bookmarks" . __('Error during the database update') . $DB->error());
    }
 
 	PluginRoomProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
@@ -564,7 +564,7 @@ function plugin_room_getAddSearchOptions($itemtype){
 			$sopt[1050]['table']='glpi_plugin_room_rooms';
 			$sopt[1050]['field']='name';
 			$sopt[1050]['linkfield']='';
-			$sopt[1050]['name']=$LANG['plugin_room'][0]." - ".$LANG["common"][16];
+			$sopt[1050]['name']=$LANG['plugin_room'][0]." - ".__('Name');
 			$sopt[1050]['forcegroupby']=true;
 			$sopt[1050]['datatype']='itemlink';
 			$sopt[1050]['itemlink_type']='PluginRoomRoom';
@@ -629,7 +629,7 @@ function plugin_room_MassiveActionsDisplay($options=array()){
 			switch ($options['action']){
 				case "plugin_room_addComputer":
 				Dropdown::show("PluginRoomRoom");
-				echo "&nbsp;<input type=\"submit\" name=\"massiveaction\" class=\"submit\" value=\"".$LANG["buttons"][2]."\" >";
+				echo "&nbsp;<input type=\"submit\" name=\"massiveaction\" class=\"submit\" value=\"".__('Post')."\" >";
 				break;
 			}
 			break;
