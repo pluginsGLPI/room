@@ -152,7 +152,7 @@ function plugin_room_install(){
                 UNIQUE `computers_id` (`computers_id`),
                 KEY `rooms_id` (`rooms_id`)
                 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-            $DB->query($query) or die("error adding glpi_plugin_room_rooms_computers table " . __('Error during the database update') . $DB->error());
+            $result = $DB->query($query) or die("error adding glpi_plugin_room_rooms_computers table " . __('Error during the database update') . $DB->error());
             if ($result)
             {
                if (TableExists('glpi_plugin_room_computer')){
