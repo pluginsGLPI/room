@@ -36,8 +36,7 @@
 
 $NEEDED_ITEMS=array('search');
 
-define('GLPI_ROOT', '../..');
-include (GLPI_ROOT . "/inc/includes.php");
+include '../../inc/includes.php';
 
 plugin_room_haveRight('room',"r");
 

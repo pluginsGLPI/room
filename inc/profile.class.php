@@ -38,17 +38,17 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginRoomProfile extends CommonDBTM {
    
-	static function getTypeName() {
+	static function getTypeName($nb=0) {
       global $LANG;
 
       return $LANG['plugin_room']['profile'][0];
    }
    
-   function canCreate() {
+   static function canCreate() {
       return Session::haveRight('profile', 'w');
    }
 
-   function canView() {
+   static function canView() {
       return Session::haveRight('profile', 'r');
    }
 
