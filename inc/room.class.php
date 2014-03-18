@@ -459,7 +459,7 @@ class PluginRoomRoom  extends CommonDBTM {
 				echo "</table></div>"    ;
 			}
 
-			echo "</form>";
+			Html::closeForm();
 		}
 		
 

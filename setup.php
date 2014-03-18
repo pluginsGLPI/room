@@ -42,6 +42,7 @@ define ("PLUGIN_ROOM_VERSION","3.0.1");
 function plugin_init_room() {
 	global $PLUGIN_HOOKS,$CFG_GLPI,$LINK_ID_TABLE,$LANG;
 
+	$PLUGIN_HOOKS['csrf_compliant']['room'] = true;
 
 	// Activation d'un onglet room dans les profils
 	$PLUGIN_HOOKS['change_profile']['room'] = array('PluginRoomProfile','changeProfile');
@@ -80,13 +81,13 @@ function plugin_version_room(){
 		'license' => 'GPLv2+',
 		'author'=>'Julien Dombre / Modif bogucool et Pascal Marier-Dionne',
 		'homepage'=>'https://forge.indepnet.net/projects/room/files',
-		'minGlpiVersion' => '0.80'// For compatibility / no install in version < 0.80
+		'minGlpiVersion' => '0.83.3'// For compatibility / no install in version < 0.80
 	);
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_room_check_prerequisites(){
-	if (GLPI_VERSION>=0.80){
+	if (version_compare(GLPI_VERSION, '0.83.3', '>=')){
 		return true;
 	} else {
 		echo "La version de GLPI n'est pas support�e (n�cessite la version 0.80 et plus)";
