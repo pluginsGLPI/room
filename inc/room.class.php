@@ -103,6 +103,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		$tab[24]['name']=__('Technician in charge of the hardware');
 	
 		$tab[25]['table']='glpi_users';
+		$tab[25]['field']='name';
 		$tab[25]['linkfield']='users_id';
 		$tab[25]['name']=__('Alternate username');
 		
