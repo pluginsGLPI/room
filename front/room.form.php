@@ -107,7 +107,7 @@ if (isset($_POST["add"])){ // Ajout d'une salle
 		$_SESSION['glpi_tab']=$_GET['tab'];
 	}
 
-	Html::header($LANG['plugin_room'][0],"plugins","room");
+	Html::header($LANG['plugin_room'][0],'',"plugins","room");
 
 	$room->showForm($_GET["id"]);
 
