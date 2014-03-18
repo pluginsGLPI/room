@@ -34,7 +34,7 @@
 // ----------------------------------------------------------------------
 
 
-define ("PLUGIN_ROOM_VERSION","3.0.1");
+define ("PLUGIN_ROOM_VERSION","3.0.3");
 
 // Initilisation du plugin (appelée à l'activation du plugin)
 // Cette fonction définie les HOOKS avec GLPI et permet de déclarer de
@@ -90,7 +90,7 @@ function plugin_room_check_prerequisites(){
 	if (version_compare(GLPI_VERSION, '0.84', '>=')){
 		return true;
 	} else {
-		echo "La version de GLPI n'est pas supportée (nécessite la version 0.80 et plus)";
+		echo "La version de GLPI n'est pas supportée (nécessite la version 0.84 ou ultérieure)";
 		return false;
 	}
 }
