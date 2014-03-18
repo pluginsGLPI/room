@@ -32,8 +32,7 @@
 // ----------------------------------------------------------------------
  */
 
-define('GLPI_ROOT', '../../..');
-include (GLPI_ROOT . "/inc/includes.php");
+include '../../../inc/includes.php';
 
 if (!isset($_POST['id'])) {
 	exit();
@@ -49,15 +48,9 @@ if ($_POST["id"]>0 && $Room->can($_POST["id"],'r')) {
 			$Room->showComputers($_POST['target'],$_POST["id"]);
 			Reservation::showForItem($Room);
 			break;
-		case 11 : // Onglet Réservation
-			Reservation::showForItem($Room);
-			break;
-		case 12 : //show history form
-			Log::showForItem($Room);
-			break;
 		default : // Logiquement Onglet Principal
 			if ($_POST["id"]){
-			      if (!Plugin::displayAction($Room,$_POST["id"],$_REQUEST['glpi_tab'] )){
+			      if (!CommonGLPI::displayStandardTab($Room,$_POST["id"],$_REQUEST['glpi_tab'] )){
 				    $Room->showComputers($_POST['target'],$_POST["id"]);
 			      }
 			}

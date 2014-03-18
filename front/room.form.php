@@ -36,8 +36,7 @@
 // Ce fichier sert à ouvrir le formulaire de l'objet Salle
 $NEEDED_ITEMS=array('reservation','plugin');
 
-define('GLPI_ROOT', '../../..');
-include (GLPI_ROOT . "/inc/includes.php");
+include '../../../inc/includes.php';
 
 if(!isset($_GET["id"])) $_GET["id"] = "-1";
 

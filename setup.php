@@ -59,12 +59,6 @@ function plugin_init_room() {
 			$PLUGIN_HOOKS['menu_entry']['room'] = 'index.php';
 			//Activation du bouton SEARCH et pointage vers le formulaire
 			$PLUGIN_HOOKS['submenu_entry']['room']['search'] = 'index.php';
-			// Gestion des onglets
-			// Définition de la fonction appelée pour remplir l'entete de l'onglet du plugin
-			$PLUGIN_HOOKS['headings']['room'] = 'plugin_get_headings_room';
-			// Définition de la fonction appelée pour récupérer la listes des actions à effectuer
-			// pour remplir le corps de l'onglet du plugin
-			$PLUGIN_HOOKS['headings_action']['room'] = 'plugin_headings_actions_room';
 		} 
 
 		if (plugin_room_haveRight('room','w')){

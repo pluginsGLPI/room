@@ -40,11 +40,11 @@ if (!defined('GLPI_ROOT')) {
 class PluginRoomRoom_Computer extends CommonDBRelation{
 
    // From CommonDBRelation
-   public $itemtype_1 = 'PluginRoomRoom';
-   public $items_id_1 = 'rooms_id';
+   static public $itemtype_1 = 'PluginRoomRoom';
+   static public $items_id_1 = 'rooms_id';
 
-   public $itemtype_2 = 'Computer';
-   public $items_id_2 = 'computers_id';
+   static public $itemtype_2 = 'Computer';
+   static public $items_id_2 = 'computers_id';
 
    public $checks_and_logs_only_for_itemtype1 = true;
 
