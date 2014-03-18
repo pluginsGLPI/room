@@ -26,8 +26,7 @@
 Purpose of file:
 ----------------------------------------------------------------------
  */
-/**************** Plugin Addressing **************/
-
+/**************** Plugin Room **************/
 
 $LANG['plugin_room'][0]="Locali";
 $LANG['plugin_room'][1]="Plugin installato e configurato: perfetto!";
@@ -50,4 +49,10 @@ $LANG['plugin_room'][17]="Aggiungi un locale";
 $LANG['plugin_room'][18]="Numero PC";
 $LANG['plugin_room'][19]="Locale";
 $LANG['plugin_room'][20]="Computer presenti in sala:";
+$LANG['plugin_room'][21]="Associare";
+$LANG['plugin_room'][22]="Dissociare";
+$LANG['plugin_room']['profile'][0] = 'Gestione dei diritti';
+$LANG['plugin_room']['profile'][1] = 'Locali';
+$LANG['plugin_room']['dropdown'][0]="Tipologia di Locale";
+$LANG['plugin_room']['dropdown'][2]="Caratteristica di Locale";
 ?>

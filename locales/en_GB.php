@@ -27,9 +27,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  --------------------------------------------------------------------------
  */
-/**************** Plugin Addressing **************/
-
-
+/**************** Plugin Room **************/
 
 $LANG['plugin_room'][0]="Room Management";
 $LANG['plugin_room'][1]="Plugin installed and updated: Perfect!";
@@ -39,7 +37,7 @@ $LANG['plugin_room'][4]="Seating";
 $LANG['plugin_room'][5]="Conditions of Access";
 $LANG['plugin_room'][6]="Whiteboard";
 $LANG['plugin_room'][7]="Video Projector";
-$LANG['plugin_room'][8]="Internet Access";
+$LANG['plugin_room'][8]="WiFi";
 $LANG['plugin_room'][9]="Type of Room";
 $LANG['plugin_room'][10]="Responsible";
 $LANG['plugin_room'][11]="Opening Times";
@@ -52,5 +50,10 @@ $LANG['plugin_room'][17]="Add a Room";
 $LANG['plugin_room'][18]="Number of Computers";
 $LANG['plugin_room'][19]="Room";
 $LANG['plugin_room'][20]="This computer is in room:";
-
+$LANG['plugin_room'][21]="Associate";
+$LANG['plugin_room'][22]="Disassociate";
+$LANG['plugin_room']['profile'][0] = 'Rights management';
+$LANG['plugin_room']['profile'][1] = 'Rooms';
+$LANG['plugin_room']['dropdown'][0]="Room type";
+$LANG['plugin_room']['dropdown'][2]="Room specificities";
 ?>
