@@ -87,7 +87,7 @@ function plugin_room_install(){
 		$DB->query($query) or die("error adding glpi_plugin_room table " . __('Error during the database update') . $DB->error());
 	}
 	elseif (FieldExists('glpi_plugin_room_rooms', 'FK_users'))
-	{// mise � jour depuis 3.0.0 Beta; la table existe, mais avec les mauvais noms de champs
+	{// mise à jour depuis 3.0.0 Beta; la table existe, mais avec les mauvais noms de champs
 	   $upgradeFrom3Beta = true;
 	   $query = "alter TABLE  `glpi_plugin_room_rooms`
          change FK_users users_id int(11) not null default 0,
@@ -104,14 +104,14 @@ function plugin_room_install(){
 	   
 	}
    if (TableExists('glpi_plugin_room'))
-   {// il existe une table correspondant � l'ancienne nomenclature; voir � transf�rer les enregistrement contenus dans celle-ci.
-      if (!$upgradeFrom3Beta) //Sauf si on vient de la version beta; on pr�sume que l'usager aura transf�r� manuellement ses informations.
+   {// il existe une table correspondant à l'ancienne nomenclature; voir à transférer les enregistrement contenus dans celle-ci.
+      if (!$upgradeFrom3Beta) //Sauf si on vient de la version beta; on présume que l'usager aura transféré manuellement ses informations.
       {
          $upgradeFrom2 = true;
          $query="SELECT COUNT(*) FROM glpi_plugin_room";
          $result = $DB->query($query);
          if ($result)
-         {//insertion des enregistrements de l'ancienne � la nouvelle table, pour peu qu'existent le entities_id et FK_users concern�s
+         {//insertion des enregistrements de l'ancienne à la nouvelle table, pour peu qu'existent le entities_id et FK_users concernés
             $query="INSERT INTO glpi_plugin_room_rooms(id, name, entities_id, is_recursive, is_deleted, `type`, date_mod, size, count_linked, buy, access, printer, videoprojector, wifi, comment, opening, limits, text1, text2, dropdown1, dropdown2, tech_num, users_id, is_template, location, state, manufacturers_id, groups_id)
             SELECT ID, name, FK_entities, recursive, deleted, `type`, date_mod, size, count_linked, buy, access, printer, videoprojector, wifi, comments, opening, limits, text1, text2, dropdown1, dropdown2, tech_num, FK_users, is_template, location, state, FK_glpi_enterprise, FK_groups
             FROM glpi_plugin_room r WHERE
@@ -227,13 +227,13 @@ function plugin_room_install(){
 		$DB->query($query) or die("error adding glpi_plugin_room_roomtypes table " . __('Error during the database update') . $DB->error());
 	}
    if (TableExists('glpi_dropdown_plugin_room_type') && !$upgradeFrom3Beta)
-   {// il existe une table correspondant � l'ancienne nomenclature; 
-      //voir � transf�rer les enregistrement contenus dans celle-ci.
+   {// il existe une table correspondant à l'ancienne nomenclature; 
+      //voir à transférer les enregistrement contenus dans celle-ci.
       //Sauf si on arrive de la version beta
       $query="SELECT COUNT(*) FROM glpi_dropdown_plugin_room_type";
       $result = $DB->query($query);
       if ($result)
-      {//insertion des enregistrements de l'ancienne � la nouvelle table, pour peu qu'existent le entities_id et FK_users concern�s
+      {//insertion des enregistrements de l'ancienne à la nouvelle table, pour peu qu'existent le entities_id et FK_users concernés
          $query="INSERT INTO glpi_plugin_room_roomtypes(id, name, comment)
          SELECT id, name, comments
          FROM glpi_dropdown_plugin_room_type ;";
@@ -318,8 +318,8 @@ function plugin_room_install(){
          $query = "SELECT MAX(id) FROM glpi_plugin_room_dropdown1s";
          $result = 0;
          $result = $DB->query($query) or die ("error copying glpi_dropdown_plugin_room_dropdown2 records into new table " . __('Error during the database update') . $DB->error());
-         if ($result){ //Il existait des valeurs dans la table glpi_dropdown_plugin_room_dropdown1 qui ont �t� transf�r�es dams glpi_plugin_room_roomspecificities
-            //On doit d�caler les valeurs de glpi_dropdown_plugin_room_dropdown2.
+         if ($result){ //Il existait des valeurs dans la table glpi_dropdown_plugin_room_dropdown1 qui ont été transférées dams glpi_plugin_room_roomspecificities
+            //On doit décaler les valeurs de glpi_dropdown_plugin_room_dropdown2.
             $row = $DB->fetch_array($result);
             if ($row[0]) {
                $idOffset = $row[0];
@@ -332,7 +332,7 @@ function plugin_room_install(){
          if ($result)
          {
             if ($idOffset > 0){
-               //Nous avons d�cal� les id des sp�cificit�s de la table glpi_dropdown_plugin_room_dropdown2; on doit modifier les enregistrements de la table glpi_plugin_room_rooms en cons�quence.
+               //Nous avons décalé les id des spécificités de la table glpi_dropdown_plugin_room_dropdown2; on doit modifier les enregistrements de la table glpi_plugin_room_rooms en conséquence.
                $result = 0;
                $query = "UPDATE glpi_plugin_room_rooms 
                				SET `dropdown2` = (`dropdown2` + ".$idOffset.")
