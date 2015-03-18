@@ -45,7 +45,7 @@ function plugin_init_room() {
 	$PLUGIN_HOOKS['csrf_compliant']['room'] = true;
 
 	// Activation d'un onglet room dans les profils
-	$PLUGIN_HOOKS['change_profile']['room'] = array('PluginRoomProfile','changeProfile');
+	$PLUGIN_HOOKS['change_profile']['room'] = array('PluginRoomProfile','initProfile');
 
 	// Déclaration d'un nouvel objet d'inventaire Room
 	Plugin::registerClass('PluginRoomRoom',array(

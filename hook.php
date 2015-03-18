@@ -379,6 +379,8 @@ function plugin_room_install(){
    }
 
 	PluginRoomProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
+	$migration = new Migration('3.0.4');
+	$migration->dropTable('glpi_plugin_room_profiles');
 
 	return true;
 }
@@ -387,8 +389,6 @@ function plugin_room_uninstall(){
 	global $DB;
 
 	$query='DROP TABLE `glpi_plugin_room_rooms_computers`';
-	$DB->query($query) ;
-	$query='DROP TABLE `glpi_plugin_room_profiles`';
 	$DB->query($query) ;
 	$query='DROP TABLE `glpi_plugin_room_roomtypes`';
 	$DB->query($query) ;
