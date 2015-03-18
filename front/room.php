@@ -40,7 +40,7 @@ include '../../../inc/includes.php';
 
 PluginRoomRoom::canView();
 
-Html::header($LANG['plugin_room'][0],$_SERVER['PHP_SELF'],"plugins","room");
+Html::header($LANG['plugin_room'][0],'',"assets","pluginroommenu");
 
 Search::show('PluginRoomRoom');
 

@@ -54,24 +54,10 @@ function plugin_init_room() {
 
    Plugin::registerClass('PluginRoomProfile',
       array('addtabon' => 'Profile'));
-	if (Session::getLoginUserID()) {	
 
-		// Activation des entrées du menu Plugin
-		if (PluginRoomRoom::canView()){
-			//Activation du plugin dans le menu plugins
-			$PLUGIN_HOOKS['menu_entry']['room'] = 'index.php';
-			//Activation du bouton SEARCH et pointage vers le formulaire
-			$PLUGIN_HOOKS['submenu_entry']['room']['search'] = 'index.php';
-		} 
-
-		if (PluginRoomRoom::canCreate()){
-			//Activation du bouton ADD et pointage vers le formulaire
-			$PLUGIN_HOOKS['submenu_entry']['room']['add'] = 'front/room.form.php?new=1';
-			// Massive Action definition
-			$PLUGIN_HOOKS['use_massive_action']['room']=1;
-		}
-
-	}
+   if (Session::getLoginUserID()) {
+      $PLUGIN_HOOKS['menu_toadd']['room'] = array('assets' => 'PluginRoomMenu');
+   }
 }
 
 // Get the name and the version of the plugin - Needed
