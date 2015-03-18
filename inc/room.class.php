@@ -229,9 +229,9 @@ class PluginRoomRoom  extends CommonDBTM {
 
 		# Si la salle éxiste
 		if ($ID>0) {
-			$this->check($ID,'r');
+			$this->check($ID,READ);
 		} else { // C'est une nouvelle salle
-			$this->check(-1,'w');
+			$this->check(-1,CREATE);
 			$this->getEmpty();
 		}
 
@@ -373,7 +373,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		if (!self::canView()) return false;
 
 		if ($this->getFromDB($room_id)){
-			$canedit=$this->can($room_id,'w');
+			$canedit=$this->can($room_id,UPDATE);
 	
 			$query = "SELECT glpi_computers.*, glpi_plugin_room_rooms_computers.id AS idd, glpi_entities.id AS entity "
 				." FROM glpi_plugin_room_rooms_computers, glpi_computers "
@@ -460,8 +460,8 @@ class PluginRoomRoom  extends CommonDBTM {
 		global $DB,$LANG,$CFG_GLPI;
 		
 		$item = new $itemtype();
-      		$canread = $item->can($ID,'r');
-      		$canedit = $item->can($ID,'w');
+		$canread = $item->can($ID,READ);
+		$canedit = $item->can($ID,UPDATE);
       
       		$Room=new PluginRoomRoom();
 
