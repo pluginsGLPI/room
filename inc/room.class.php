@@ -463,7 +463,7 @@ class PluginRoomRoom  extends CommonDBTM {
 		$canread = $item->can($ID,READ);
 		$canedit = $item->can($ID,UPDATE);
       
-      		$Room=new PluginRoomRoom();
+		$Room=new self();
 
 		if ($ID>0){
 			$query="SELECT `glpi_plugin_room_rooms`.*, u.`id` as resp_id, CONCAT(u.`firstname` , ' ', u.`realname`) as resp "
