@@ -39,18 +39,12 @@ if (!defined('GLPI_ROOT')) {
 // Class for a Dropdown
 class PluginRoomRoomType extends CommonDropdown {
 
+   static $rightname = 'plugin_room';
+
    static function getTypeName($nb=0) {
       global $LANG;
 
       return $LANG['plugin_room']['dropdown'][0];
-   }
-
-   static function canCreate() {
-      return plugin_room_haveRight('room', 'w');
-   }
-
-   static function canView() {
-      return plugin_room_haveRight('room', 'r');
    }
 
 /*  static function transfer($ID, $entity) {
