@@ -50,7 +50,6 @@ if (isset($_POST["add"])){ // Ajout d'une salle
 	$room->check(-1,CREATE,$_POST);
 
 	$newID=$room->add($_POST);
-	echo "Ajout de la salle";
 	Html::back();
 
 } else if (isset($_POST["delete"])) { // Supression d'une salle
