@@ -34,7 +34,7 @@
 // ----------------------------------------------------------------------
 
 
-define ("PLUGIN_ROOM_VERSION","3.0.3");
+define ("PLUGIN_ROOM_VERSION","3.0.4b1");
 
 // Initilisation du plugin (appelée à l'activation du plugin)
 // Cette fonction définie les HOOKS avec GLPI et permet de déclarer de
@@ -69,16 +69,16 @@ function plugin_version_room(){
 		'license' => 'GPLv2+',
 		'author'=>'Julien Dombre / Modif bogucool et Pascal Marier-Dionne',
 		'homepage'=>'https://forge.indepnet.net/projects/room/files',
-		'minGlpiVersion' => '0.84'// For compatibility / no install in version < 0.84
+		'minGlpiVersion' => '0.85'// For compatibility / no install in version < 0.84
 	);
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_room_check_prerequisites(){
-	if (version_compare(GLPI_VERSION, '0.84', '>=')){
+	if (version_compare(GLPI_VERSION, '0.85', '>=')){
 		return true;
 	} else {
-		echo "La version de GLPI n'est pas supportée (nécessite la version 0.84 ou ultérieure)";
+		echo "La version de GLPI n'est pas supportée (nécessite la version 0.85 ou ultérieure)";
 		return false;
 	}
 }
