@@ -201,19 +201,19 @@ class PluginRoomRoom  extends CommonDBTM {
 	# Cette fonction définie les onglets à afficher sur la fiche de l'objet
 	# Cette fonction retourne un tableau [id de l'onglet->titre onglet]
 	function defineTabs($options=array()){
-		global $LANG,$CFG_GLPI;
+		$ong = array();
 
-		$ong[1] = $this->getTypeName();
-		$this->addStandardTab('Reservation', $ong, $options);
-		if ($this->fields['id'] > 0) {
-		    if (Session::haveRight("reservation_central","r")){
+		$this->addDefaultFormTab($ong);
+		if (Session::haveRight('reservation', READ)) {
 			// Affiche "Réservations"
 			$this->addStandardTab('Reservation', $ong, $options);
-		    }
-		    //History
-		    $this->addStandardTab('Log', $ong, $options);
 		}
-		
+		$this->addStandardTab('Ticket', $ong, $options);
+		$this->addStandardTab('Item_Problem', $ong, $options);
+		$this->addStandardTab('Document_Item', $ong, $options);
+		$this->addStandardTab('Notepad', $ong, $options);
+		$this->addStandardTab('Log', $ong, $options);
+
 		return $ong;
 	}
 
@@ -234,9 +234,6 @@ class PluginRoomRoom  extends CommonDBTM {
 			$this->check(-1,'w');
 			$this->getEmpty();
 		}
-
-		//
-		$this->showTabs($options);
 
 		// entete du formulaire avec affichage du type d'objet, de l'entite et de la recursivite
 		// au niveau affichage la première ligne du tableau
@@ -364,8 +361,6 @@ class PluginRoomRoom  extends CommonDBTM {
 
 		// Affichage des boutons
 		$this->showFormButtons($options);
-
-		$this->addDivForTabs();
 
 		return true;
 		
