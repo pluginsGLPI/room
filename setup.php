@@ -52,6 +52,8 @@ function plugin_init_room() {
 		'reservation_types' => true,
 	));
 
+   Plugin::registerClass('PluginRoomProfile',
+      array('addtabon' => 'Profile'));
 	if (Session::getLoginUserID()) {	
 
 		// Activation des entrées du menu Plugin
