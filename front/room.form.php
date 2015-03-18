@@ -107,7 +107,7 @@ if (isset($_POST["add"])){ // Ajout d'une salle
 
 	Html::header($LANG['plugin_room'][0],'',"assets","pluginroommenu");
 
-	$room->showForm($_GET["id"]);
+	$room->display($_GET);
 
 	Html::footer();
 }
