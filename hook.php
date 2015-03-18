@@ -560,7 +560,7 @@ function plugin_room_getAddSearchOptions($itemtype){
 	global $LANG;
 	$sopt=array();
 	if ($itemtype=="Computer") {
-		if (plugin_room_haveRight("room",'r')){
+		if (PluginRoomRoom::canView()){
 			$sopt[1050]['table']='glpi_plugin_room_rooms';
 			$sopt[1050]['field']='name';
 			$sopt[1050]['linkfield']='';

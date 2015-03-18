@@ -55,14 +55,14 @@ function plugin_init_room() {
 	if (Session::getLoginUserID()) {	
 
 		// Activation des entrées du menu Plugin
-		if (plugin_room_haveRight('room','r')){
+		if (PluginRoomRoom::canView()){
 			//Activation du plugin dans le menu plugins
 			$PLUGIN_HOOKS['menu_entry']['room'] = 'index.php';
 			//Activation du bouton SEARCH et pointage vers le formulaire
 			$PLUGIN_HOOKS['submenu_entry']['room']['search'] = 'index.php';
 		} 
 
-		if (plugin_room_haveRight('room','w')){
+		if (PluginRoomRoom::canCreate()){
 			//Activation du bouton ADD et pointage vers le formulaire
 			$PLUGIN_HOOKS['submenu_entry']['room']['add'] = 'front/room.form.php?new=1';
 			// Massive Action definition
@@ -98,22 +98,5 @@ function plugin_room_check_prerequisites(){
 // Incertain de ce que devrais vérifier cette méthode; je n'y touche donc pas / unsure as to what this function should check for; i wont modify it
 function plugin_room_check_config(){
 	return true;
-}
-
-// Je n'arrive pas à faire fonctionner correctement cette fonction
-// $_SESSION["glpi_plugin_room_profile"][$module] ne semble jamais défini ou non null (message de bogucool ou antérieur)
-function plugin_room_haveRight($module,$right){
-	$matches=array(
-			""  => array("","r","w"),
-			"r" => array("r","w"),
-			"w" => array("w"),
-			"1" => array("1"),
-			"0" => array("0","1"),
-		      );
-	if (isset($_SESSION["glpi_plugin_room_profile"][$module])&&in_array($_SESSION["glpi_plugin_room_profile"][$module],$matches[$right]))
-		return true;
-	else {
-		return false;
-	}
 }
 ?>

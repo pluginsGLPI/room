@@ -38,7 +38,7 @@ $NEEDED_ITEMS=array('search');
 
 include '../../inc/includes.php';
 
-plugin_room_haveRight('room',"r");
+PluginRoomRoom::canView();
 
 Html::header($LANG['plugin_room'][0],$_SERVER['PHP_SELF'],"plugins","room");
 

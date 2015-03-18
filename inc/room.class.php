@@ -223,7 +223,7 @@ class PluginRoomRoom  extends CommonDBTM {
 	function showForm($ID,$options=array()){
 		global $CFG_GLPI, $LANG;
 
-		if (!plugin_room_haveRight('room',"r")) return false;
+		if (!self::canView()) return false;
 
 		if (!$this->canView()) return false;
 
@@ -375,7 +375,7 @@ class PluginRoomRoom  extends CommonDBTM {
 	function showComputers($target,$room_id){
 		global $CFG_GLPI, $LANG,$DB;
 
-		if (!plugin_room_haveRight('room',"r")) return false;
+		if (!self::canView()) return false;
 
 		if ($this->getFromDB($room_id)){
 			$canedit=$this->can($room_id,'w');
@@ -492,7 +492,7 @@ class PluginRoomRoom  extends CommonDBTM {
 				if ($DB->numrows($result)>0){
 					$data=$DB->fetch_assoc($result);
 
-					if (plugin_room_haveRight('room','r')){
+					if (self::canView()){
 						echo "<a href=\"".$CFG_GLPI["root_doc"]."/plugins/room/front/room.form.php?id=".$data["id"]."\">".$data['name']."</a>";
 						echo "</th>";
 						echo "<th><a href=\"".$CFG_GLPI["root_doc"]."/front/user.form.php?id=".$data['resp_id']."\">".$data['resp']."</a></th>";
