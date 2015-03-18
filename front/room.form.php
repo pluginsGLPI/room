@@ -38,7 +38,7 @@ $NEEDED_ITEMS=array('reservation','plugin');
 
 include '../../../inc/includes.php';
 
-if(!isset($_GET["id"])) $_GET["id"] = "-1";
+if(!isset($_GET["id"])) $_GET["id"] = "";
 
 if (!isset($_GET["withtemplate"])) $_GET["withtemplate"] = "";
 
