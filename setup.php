@@ -34,7 +34,7 @@
 // ----------------------------------------------------------------------
 
 
-define ("PLUGIN_ROOM_VERSION","3.0.3");
+define ("PLUGIN_ROOM_VERSION","3.0.4b1");
 
 // Initilisation du plugin (appelée à l'activation du plugin)
 // Cette fonction définie les HOOKS avec GLPI et permet de déclarer de
@@ -45,31 +45,19 @@ function plugin_init_room() {
 	$PLUGIN_HOOKS['csrf_compliant']['room'] = true;
 
 	// Activation d'un onglet room dans les profils
-	$PLUGIN_HOOKS['change_profile']['room'] = array('PluginRoomProfile','changeProfile');
+	$PLUGIN_HOOKS['change_profile']['room'] = array('PluginRoomProfile','initProfile');
 
 	// Déclaration d'un nouvel objet d'inventaire Room
 	Plugin::registerClass('PluginRoomRoom',array(
 		'reservation_types' => true,
 	));
 
-	if (Session::getLoginUserID()) {	
+   Plugin::registerClass('PluginRoomProfile',
+      array('addtabon' => 'Profile'));
 
-		// Activation des entrées du menu Plugin
-		if (plugin_room_haveRight('room','r')){
-			//Activation du plugin dans le menu plugins
-			$PLUGIN_HOOKS['menu_entry']['room'] = 'index.php';
-			//Activation du bouton SEARCH et pointage vers le formulaire
-			$PLUGIN_HOOKS['submenu_entry']['room']['search'] = 'index.php';
-		} 
-
-		if (plugin_room_haveRight('room','w')){
-			//Activation du bouton ADD et pointage vers le formulaire
-			$PLUGIN_HOOKS['submenu_entry']['room']['add'] = 'front/room.form.php?new=1';
-			// Massive Action definition
-			$PLUGIN_HOOKS['use_massive_action']['room']=1;
-		}
-
-	}
+   if (Session::getLoginUserID()) {
+      $PLUGIN_HOOKS['menu_toadd']['room'] = array('assets' => 'PluginRoomMenu');
+   }
 }
 
 // Get the name and the version of the plugin - Needed
@@ -81,16 +69,16 @@ function plugin_version_room(){
 		'license' => 'GPLv2+',
 		'author'=>'Julien Dombre / Modif bogucool et Pascal Marier-Dionne',
 		'homepage'=>'https://forge.indepnet.net/projects/room/files',
-		'minGlpiVersion' => '0.84'// For compatibility / no install in version < 0.84
+		'minGlpiVersion' => '0.85'// For compatibility / no install in version < 0.84
 	);
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_room_check_prerequisites(){
-	if (version_compare(GLPI_VERSION, '0.84', '>=')){
+	if (version_compare(GLPI_VERSION, '0.85', '>=')){
 		return true;
 	} else {
-		echo "La version de GLPI n'est pas supportée (nécessite la version 0.84 ou ultérieure)";
+		echo "La version de GLPI n'est pas supportée (nécessite la version 0.85 ou ultérieure)";
 		return false;
 	}
 }
@@ -98,22 +86,5 @@ function plugin_room_check_prerequisites(){
 // Incertain de ce que devrais vérifier cette méthode; je n'y touche donc pas / unsure as to what this function should check for; i wont modify it
 function plugin_room_check_config(){
 	return true;
-}
-
-// Je n'arrive pas à faire fonctionner correctement cette fonction
-// $_SESSION["glpi_plugin_room_profile"][$module] ne semble jamais défini ou non null (message de bogucool ou antérieur)
-function plugin_room_haveRight($module,$right){
-	$matches=array(
-			""  => array("","r","w"),
-			"r" => array("r","w"),
-			"w" => array("w"),
-			"1" => array("1"),
-			"0" => array("0","1"),
-		      );
-	if (isset($_SESSION["glpi_plugin_room_profile"][$module])&&in_array($_SESSION["glpi_plugin_room_profile"][$module],$matches[$right]))
-		return true;
-	else {
-		return false;
-	}
 }
 ?>

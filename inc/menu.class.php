@@ -29,20 +29,38 @@
  */
 
 // ----------------------------------------------------------------------
-// Original Author of file:
-// Purpose of file:
+// Original Author of file: DUVERGIER Claude
+// Purpose of file: Display an entry for the Rooms in the GLPI menus
 // ----------------------------------------------------------------------
 
+class PluginRoomMenu extends CommonGLPI
+{
+    static $rightname = 'plugin_room';
 
-$NEEDED_ITEMS=array('search');
+    static function getMenuName()
+    {
+        return PluginRoomRoom::getTypeName();
+    }
 
-include '../../inc/includes.php';
+    static function getMenuContent()
+    {
+        $menu                                           = array();
+        $menu['title']                                  = self::getMenuName();
+        $menu['page']                                   = PluginRoomRoom::getSearchURL(false);
+        $menu['links']['search']                        = PluginRoomRoom::getSearchURL(false);
+        if (PluginRoomRoom::canCreate()) {
+            $menu['links']['add']                       = PluginRoomRoom::getFormURL(false);
+        }
+        return $menu;
+    }
 
-PluginRoomRoom::canView();
-
-Html::header($LANG['plugin_room'][0],$_SERVER['PHP_SELF'],"assets","pluginroommenu");
-
-Search::show('PluginRoomRoom');
-
-Html::footer();
-?>
+    static function removeRightsFromSession()
+    {
+        if (isset($_SESSION['glpimenu']['tools']['types']['PluginRoomMenu'])) {
+            unset($_SESSION['glpimenu']['tools']['types']['PluginRoomMenu']);
+        }
+        if (isset($_SESSION['glpimenu']['tools']['content']['pluginroommenu'])) {
+            unset($_SESSION['glpimenu']['tools']['content']['pluginroommenu']);
+        }
+    }
+}

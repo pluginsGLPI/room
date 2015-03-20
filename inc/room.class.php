@@ -36,20 +36,14 @@
 class PluginRoomRoom  extends CommonDBTM {
 	
 	public $dohistory=true;
+	static $rightname = "plugin_room";
+	protected $usenotepadrights = true;
 
 	static function getTypeName($nb=0) {
 		global $LANG;
 
 		return $LANG['plugin_room'][0];
    	}
-	
-	static function canCreate() {
-		return plugin_room_haveRight('room', 'w');
-	}
-
-	static function canView() {
-		return plugin_room_haveRight('room', 'r');
-	}
 
 /*
 	function cleanDBonPurge($ID) {
@@ -208,19 +202,19 @@ class PluginRoomRoom  extends CommonDBTM {
 	# Cette fonction définie les onglets à afficher sur la fiche de l'objet
 	# Cette fonction retourne un tableau [id de l'onglet->titre onglet]
 	function defineTabs($options=array()){
-		global $LANG,$CFG_GLPI;
+		$ong = array();
 
-		$ong[1] = $this->getTypeName();
-		$this->addStandardTab('Reservation', $ong, $options);
-		if ($this->fields['id'] > 0) {
-		    if (Session::haveRight("reservation_central","r")){
+		$this->addDefaultFormTab($ong);
+		if (Session::haveRight('reservation', READ)) {
 			// Affiche "Réservations"
 			$this->addStandardTab('Reservation', $ong, $options);
-		    }
-		    //History
-		    $this->addStandardTab('Log', $ong, $options);
 		}
-		
+		$this->addStandardTab('Ticket', $ong, $options);
+		$this->addStandardTab('Item_Problem', $ong, $options);
+		$this->addStandardTab('Document_Item', $ong, $options);
+		$this->addStandardTab('Notepad', $ong, $options);
+		$this->addStandardTab('Log', $ong, $options);
+
 		return $ong;
 	}
 
@@ -230,20 +224,17 @@ class PluginRoomRoom  extends CommonDBTM {
 	function showForm($ID,$options=array()){
 		global $CFG_GLPI, $LANG;
 
-		if (!plugin_room_haveRight('room',"r")) return false;
+		if (!self::canView()) return false;
 
 		if (!$this->canView()) return false;
 
 		# Si la salle éxiste
 		if ($ID>0) {
-			$this->check($ID,'r');
+			$this->check($ID,READ);
 		} else { // C'est une nouvelle salle
-			$this->check(-1,'w');
+			$this->check(-1,CREATE);
 			$this->getEmpty();
 		}
-
-		//
-		$this->showTabs($options);
 
 		// entete du formulaire avec affichage du type d'objet, de l'entite et de la recursivite
 		// au niveau affichage la première ligne du tableau
@@ -372,8 +363,6 @@ class PluginRoomRoom  extends CommonDBTM {
 		// Affichage des boutons
 		$this->showFormButtons($options);
 
-		$this->addDivForTabs();
-
 		return true;
 		
 	}
@@ -382,10 +371,10 @@ class PluginRoomRoom  extends CommonDBTM {
 	function showComputers($target,$room_id){
 		global $CFG_GLPI, $LANG,$DB;
 
-		if (!plugin_room_haveRight('room',"r")) return false;
+		if (!self::canView()) return false;
 
 		if ($this->getFromDB($room_id)){
-			$canedit=$this->can($room_id,'w');
+			$canedit=$this->can($room_id,UPDATE);
 	
 			$query = "SELECT glpi_computers.*, glpi_plugin_room_rooms_computers.id AS idd, glpi_entities.id AS entity "
 				." FROM glpi_plugin_room_rooms_computers, glpi_computers "
@@ -472,10 +461,10 @@ class PluginRoomRoom  extends CommonDBTM {
 		global $DB,$LANG,$CFG_GLPI;
 		
 		$item = new $itemtype();
-      		$canread = $item->can($ID,'r');
-      		$canedit = $item->can($ID,'w');
+		$canread = $item->can($ID,READ);
+		$canedit = $item->can($ID,UPDATE);
       
-      		$Room=new PluginRoomRoom();
+		$Room=new self();
 
 		if ($ID>0){
 			$query="SELECT `glpi_plugin_room_rooms`.*, u.`id` as resp_id, CONCAT(u.`firstname` , ' ', u.`realname`) as resp "
@@ -499,7 +488,7 @@ class PluginRoomRoom  extends CommonDBTM {
 				if ($DB->numrows($result)>0){
 					$data=$DB->fetch_assoc($result);
 
-					if (plugin_room_haveRight('room','r')){
+					if (self::canView()){
 						echo "<a href=\"".$CFG_GLPI["root_doc"]."/plugins/room/front/room.form.php?id=".$data["id"]."\">".$data['name']."</a>";
 						echo "</th>";
 						echo "<th><a href=\"".$CFG_GLPI["root_doc"]."/front/user.form.php?id=".$data['resp_id']."\">".$data['resp']."</a></th>";

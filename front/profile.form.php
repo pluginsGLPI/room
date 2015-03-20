@@ -34,7 +34,7 @@
 
 include '../../../inc/includes.php';
 
-Session::checkRight("profile","r");
+Session::checkRight("profile",READ);
 
 $prof=new PluginRoomProfile();
 
