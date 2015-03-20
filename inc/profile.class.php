@@ -1,37 +1,37 @@
 <?php
 /*
  * @version $Id$
- -------------------------------------------------------------------------
- Room plugin for GLPI
- Copyright (C) 2003-2011 by the certificates Development Team.
-
- https://forge.indepnet.net/projects/room
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of Room.
-
- Room is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Room is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Room. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
-
- --------------------------------------------------------------------------
- *MOSTLY* inspired by "inc/profile.class.php" from "certificates" plugin
- --------------------------------------------------------------------------
+ * -------------------------------------------------------------------------
+ * Room plugin for GLPI
+ * Copyright (C) 2003-2011 by the certificates Development Team.
+ *
+ * https://forge.indepnet.net/projects/room
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of Room.
+ *
+ * Room is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * Room is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Room. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
+ *
+ * --------------------------------------------------------------------------
+ * MOSTLY* inspired by "inc/profile.class.php" from "certificates" plugin
+ * --------------------------------------------------------------------------
  */
 
-if (!defined('GLPI_ROOT')) {
+if (! defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
@@ -39,24 +39,23 @@ class PluginRoomProfile extends CommonDBTM {
 
    static $rightname = "profile";
 
-   function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
 
-      if ($item->getType()=='Profile') {
-            return PluginRoomRoom::getTypeName(2);
+      if ($item->getType() == 'Profile') {
+         return PluginRoomRoom::getTypeName(2);
       }
       return '';
    }
 
-
-   static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       global $CFG_GLPI;
 
-      if ($item->getType()=='Profile') {
+      if ($item->getType() == 'Profile') {
          $ID = $item->getID();
          $prof = new self();
 
          self::addDefaultProfileInfos($ID, array(
-            'plugin_room' => 0,
+            'plugin_room' => 0
          ));
          $prof->showForm($ID);
       }
@@ -65,30 +64,33 @@ class PluginRoomProfile extends CommonDBTM {
 
    static function createFirstAccess($ID) {
       self::addDefaultProfileInfos($ID, array(
-         'plugin_room' => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         'plugin_room' => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE
       ), true);
    }
 
    /**
+    *
     * @param $profile
-    **/
+    *
+    */
    static function addDefaultProfileInfos($profiles_id, $rights, $drop_existing = false) {
       global $DB;
 
       $profileRight = new ProfileRight();
       foreach ($rights as $right => $value) {
-         if (countElementsInTable('glpi_profilerights',
-                                   "`profiles_id`='$profiles_id' AND `name`='$right'") && $drop_existing) {
-            $profileRight->deleteByCriteria(array('profiles_id' => $profiles_id, 'name' => $right));
+         if (countElementsInTable('glpi_profilerights', "`profiles_id`='$profiles_id' AND `name`='$right'") && $drop_existing) {
+            $profileRight->deleteByCriteria(array(
+               'profiles_id' => $profiles_id,
+               'name' => $right
+            ));
          }
-         if (!countElementsInTable('glpi_profilerights',
-                                   "`profiles_id`='$profiles_id' AND `name`='$right'")) {
+         if (! countElementsInTable('glpi_profilerights', "`profiles_id`='$profiles_id' AND `name`='$right'")) {
             $myright['profiles_id'] = $profiles_id;
-            $myright['name']        = $right;
-            $myright['rights']      = $value;
+            $myright['name'] = $right;
+            $myright['rights'] = $value;
             $profileRight->add($myright);
 
-            //Add right to the current session
+            // Add right to the current session
             $_SESSION['glpiactiveprofile'][$right] = $value;
          }
       }
@@ -101,30 +103,39 @@ class PluginRoomProfile extends CommonDBTM {
     * @param $target value url of target
     *
     * @return nothing
-    **/
-   function showForm($profiles_id=0, $openform=TRUE, $closeform=TRUE) {
+    *
+    */
+   function showForm($profiles_id = 0, $openform = TRUE, $closeform = TRUE) {
 
       echo "<div class='firstbloc'>";
-      if (($canedit = Session::haveRightsOr(self::$rightname, array(CREATE, UPDATE, PURGE)))
-          && $openform) {
+      if (($canedit = Session::haveRightsOr(self::$rightname, array(
+         CREATE,
+         UPDATE,
+         PURGE
+      ))) && $openform) {
          $profile = new Profile();
-         echo "<form method='post' action='".$profile->getFormURL()."'>";
+         echo "<form method='post' action='" . $profile->getFormURL() . "'>";
       }
 
       $profile = new Profile();
       $profile->getFromDB($profiles_id);
       if ($profile->getField('interface') == 'central') {
          $rights = $this->getAllRights();
-         $profile->displayRightsChoiceMatrix($rights, array('canedit'       => $canedit,
-                                                         'default_class' => 'tab_bg_2',
-                                                         'title'         => __('General')));
+         $profile->displayRightsChoiceMatrix($rights, array(
+            'canedit' => $canedit,
+            'default_class' => 'tab_bg_2',
+            'title' => __('General')
+         ));
       }
 
-      if ($canedit
-          && $closeform) {
+      if ($canedit && $closeform) {
          echo "<div class='center'>";
-         echo Html::hidden('id', array('value' => $profiles_id));
-         echo Html::submit(_sx('button', 'Save'), array('name' => 'update'));
+         echo Html::hidden('id', array(
+            'value' => $profiles_id
+         ));
+         echo Html::submit(_sx('button', 'Save'), array(
+            'name' => 'update'
+         ));
          echo "</div>\n";
          Html::closeForm();
       }
@@ -134,24 +145,24 @@ class PluginRoomProfile extends CommonDBTM {
    static function getAllRights($all = false) {
       global $LANG;
       $rights = array(
-          array('itemtype'  => 'PluginRoomRoom',
-                'label'     => $LANG['plugin_room'][0],
-                'field'     => 'plugin_room'
-          ),
+         array(
+            'itemtype' => 'PluginRoomRoom',
+            'label' => $LANG['plugin_room'][0],
+            'field' => 'plugin_room'
+         )
       );
       return $rights;
    }
 
    /**
     * Init profiles
-    *
-    **/
+    */
 
    static function translateARight($old_right) {
       switch ($old_right) {
          case '':
             return 0;
-         case 'r' :
+         case 'r':
             return READ;
          case 'w':
             return ALLSTANDARDRIGHT + READNOTE + UPDATENOTE;
@@ -159,32 +170,34 @@ class PluginRoomProfile extends CommonDBTM {
          case '1':
             return $old_right;
 
-         default :
+         default:
             return 0;
       }
    }
 
    /**
-   * @since 0.85
-   * Migration rights from old system to the new one for one profile
-   * @param $profiles_id the profile ID
-   */
+    *
+    * @since 0.85
+    * Migration rights from old system to the new one for one profile
+    * @param $profiles_id the profile ID
+    */
    static function migrateOneProfile($profiles_id) {
       global $DB;
-      //Cannot launch migration if there's nothing to migrate...
-      if (!TableExists('glpi_plugin_room_profiles')) {
-      return true;
+      // Cannot launch migration if there's nothing to migrate...
+      if (! TableExists('glpi_plugin_room_profiles')) {
+         return true;
       }
 
-      foreach ($DB->request('glpi_plugin_room_profiles',
-                            "`profiles_id`='$profiles_id'") as $profile_data) {
+      foreach ($DB->request('glpi_plugin_room_profiles', "`profiles_id`='$profiles_id'") as $profile_data) {
 
-         $matching = array('room'    => 'plugin_room');
+         $matching = array(
+            'room' => 'plugin_room'
+         );
          $current_rights = ProfileRight::getProfileRights($profiles_id, array_values($matching));
          foreach ($matching as $old => $new) {
-            if (!isset($current_rights[$old])) {
+            if (! isset($current_rights[$old])) {
                $query = "UPDATE `glpi_profilerights`
-                         SET `rights`='".self::translateARight($profile_data[$old])."'
+                         SET `rights`='" . self::translateARight($profile_data[$old]) . "'
                          WHERE `name`='$new' AND `profiles_id`='$profiles_id'";
                $DB->query($query);
             }
@@ -193,32 +206,32 @@ class PluginRoomProfile extends CommonDBTM {
    }
 
    /**
-   * Initialize profiles, and migrate it necessary
-   */
+    * Initialize profiles, and migrate it necessary
+    */
    static function initProfile() {
       global $DB;
       $profile = new self();
 
-      //Add new rights in glpi_profilerights table
+      // Add new rights in glpi_profilerights table
       foreach ($profile->getAllRights(true) as $data) {
-         if (countElementsInTable("glpi_profilerights",
-                                  "`name` = '".$data['field']."'") == 0) {
-            ProfileRight::addProfileRights(array($data['field']));
+         if (countElementsInTable("glpi_profilerights", "`name` = '" . $data['field'] . "'") == 0) {
+            ProfileRight::addProfileRights(array(
+               $data['field']
+            ));
          }
       }
 
-      //Migration old rights in new ones
+      // Migration old rights in new ones
       foreach ($DB->request("SELECT `id` FROM `glpi_profiles`") as $prof) {
          self::migrateOneProfile($prof['id']);
       }
       foreach ($DB->request("SELECT *
                            FROM `glpi_profilerights`
-                           WHERE `profiles_id`='".$_SESSION['glpiactiveprofile']['id']."'
+                           WHERE `profiles_id`='" . $_SESSION['glpiactiveprofile']['id'] . "'
                               AND `name` LIKE '%plugin_room%'") as $prof) {
          $_SESSION['glpiactiveprofile'][$prof['name']] = $prof['rights'];
       }
    }
-
 
    static function removeRightsFromSession() {
       foreach (self::getAllRights(true) as $right) {
