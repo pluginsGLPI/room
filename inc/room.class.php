@@ -48,14 +48,6 @@ class PluginRoomRoom extends CommonDBTM {
       return $LANG['plugin_room'][0];
    }
 
-   /*
-    * function cleanDBonPurge($ID) {
-    * global $DB,$CFG_GLPI;
-    * $query = "DELETE FROM glpi_plugin_room_rooms_computers WHERE (rooms_id = '$ID')";
-    * $result = $DB->query($query);
-    * }
-    */
-
    function prepareInputForUpdate($input) {
       // Backup initial values
       if (isset($input['buy']) && empty($input['buy'])) {
@@ -524,22 +516,6 @@ class PluginRoomRoom extends CommonDBTM {
       }
 
    }
-
-   /*
-    * function plugin_room_initSession() {
-    * global $DB;
-    *
-    * if(plugin_room_isInstalled()){
-    * $_SESSION["glpiplugin_room_installed"]=1;
-    * }
-    * }
-    */
-
-   /*
-    * function plugin_room_isInstalled(){
-    * return TableExists("glpi_plugin_room_rooms");
-    * }
-    */
 
    function plugin_room_AddDevice($room_id, $computer_id) {
       global $DB;

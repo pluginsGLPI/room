@@ -34,7 +34,6 @@
 
 include '../../../inc/includes.php';
 
-// Plugin::load('room',true);
 $dropdown = new PluginRoomRoomAccessCond();
 include (GLPI_ROOT . "/front/dropdown.common.form.php");
 ?>

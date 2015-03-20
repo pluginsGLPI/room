@@ -46,27 +46,6 @@ class PluginRoomRoomAccessCond extends CommonDropdown {
 
       return $LANG['plugin_room'][5];
    }
-   /*
-    * static function transfer($ID, $entity) {
-    * global $DB;
-    *
-    * $temp = new self();
-    * if ($ID<=0 || !$temp->getFromDB($ID)) {
-    * return 0;
-    * }
-    * $query = "SELECT `id`
-    * FROM `".$temp->getTable()."`
-    * WHERE `entities_id` = '$entity'
-    * AND `name` = '".addslashes($temp->fields['name'])."'";
-    * foreach ($DB->request($query) as $data) {
-    * return $data['id'];
-    * }
-    * $input = $temp->fields;
-    * $input['entities_id'] = $entity;
-    * unset($input['id']);
-    * return $temp->add($input);
-    * }
-    */
 }
 
 ?>
