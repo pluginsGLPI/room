@@ -32,7 +32,7 @@
 // Original Author of file: DOMBRE Julien
 // Purpose of file:
 // ----------------------------------------------------------------------
-define("PLUGIN_ROOM_VERSION", "3.0.4b1");
+define("PLUGIN_ROOM_VERSION", "3.0.4b2");
 
 // Initilisation du plugin (appelée à l'activation du plugin)
 // Cette fonction définie les HOOKS avec GLPI et permet de déclarer de
@@ -75,16 +75,16 @@ function plugin_version_room() {
       'author' => 'Julien Dombre / Modif bogucool et Pascal Marier-Dionne',
       'homepage' => 'https://forge.indepnet.net/projects/room/files',
       'minGlpiVersion' => '0.85'
-   ); // For compatibility / no install in version < 0.84
+   ); // For compatibility / no install in version < 0.85
 
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_room_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '0.85', '>=')) {
+   if (version_compare(GLPI_VERSION, '0.85', '>=') || version_compare(GLPI_VERSION, '0.91', '<')) {
       return true;
    } else {
-      echo "La version de GLPI n'est pas supportée (nécessite la version 0.85 ou ultérieure)";
+      _e('This plugin requires GLPI >= 0.85', 'room');
       return false;
    }
 }
