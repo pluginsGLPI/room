@@ -1,7 +1,6 @@
 <?php
 
 /*
- * @version $Id: plugin_room.class.php 40 2009-03-04 07:00:56Z remi $
  * -------------------------------------------------------------------------
  * GLPI - Gestionnaire Libre de Parc Informatique
  * Copyright (C) 2003-2009 by the INDEPNET Development Team.

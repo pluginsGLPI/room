@@ -1,6 +1,5 @@
 <?php
 /*
- * @version $Id: HEADER 1 2009-09-21 14:58 Tsmr $
  * -------------------------------------------------------------------------
  * GLPI - Gestionnaire Libre de Parc Informatique
  * Copyright (C) 2003-2009 by the INDEPNET Development Team.
