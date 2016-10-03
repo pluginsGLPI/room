@@ -53,6 +53,7 @@ function plugin_init_room() {
    Plugin::registerClass('PluginRoomRoom', array(
       'reservation_types' => true,
       'ticket_types' => true,
+      'linkgroup_tech_types' => true,
    ));
 
    Plugin::registerClass('PluginRoomProfile', array(
