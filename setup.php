@@ -41,6 +41,8 @@ function plugin_init_room() {
    global $PLUGIN_HOOKS, $CFG_GLPI, $LINK_ID_TABLE, $LANG;
 
    $PLUGIN_HOOKS['csrf_compliant']['room'] = true;
+   $PLUGIN_HOOKS['assign_to_ticket']['room'] = true;
+   $PLUGIN_HOOKS['assign_to_ticket_dropdown']['room'] = true;
 
    // Activation d'un onglet room dans les profils
    $PLUGIN_HOOKS['change_profile']['room'] = array(
@@ -50,7 +52,8 @@ function plugin_init_room() {
 
    // Déclaration d'un nouvel objet d'inventaire Room
    Plugin::registerClass('PluginRoomRoom', array(
-      'reservation_types' => true
+      'reservation_types' => true,
+      'ticket_types' => true,
    ));
 
    Plugin::registerClass('PluginRoomProfile', array(
