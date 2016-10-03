@@ -1,6 +1,5 @@
 <?php
 /*
- * @version $Id$
  * -------------------------------------------------------------------------
  * Room plugin for GLPI
  * Copyright (C) 2003-2011 by the certificates Development Team.

@@ -1,6 +1,5 @@
 <?php
 /*
- * @version $Id: room_computer.class.php 17154 2012-01-24 11:27:36Z moyo $
  * -------------------------------------------------------------------------
  * GLPI - Gestionnaire Libre de Parc Informatique
  * Copyright (C) 2003-2012 by the INDEPNET Development Team.

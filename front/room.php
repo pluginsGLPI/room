@@ -1,6 +1,5 @@
 <?php
 /*
- * @version $Id: index.php 39 2009-03-02 15:31:11Z remi $
  * -------------------------------------------------------------------------
  * GLPI - Gestionnaire Libre de Parc Informatique
  * Copyright (C) 2003-2009 by the INDEPNET Development Team.
