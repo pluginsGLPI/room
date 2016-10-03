@@ -366,7 +366,8 @@ function plugin_room_uninstall() {
       "glpi_displaypreferences",
       "glpi_documents_items",
       "glpi_bookmarks",
-      "glpi_logs"
+      "glpi_logs",
+      'glpi_items_tickets',
    );
 
    foreach ($tables_glpi as $table_glpi)
@@ -567,6 +568,15 @@ function plugin_room_MassiveActionsProcess($data) {
          break;
 
    }
+}
+
+function plugin_room_AssignToTicket($types) {
+   global $LANG;
+
+   if (in_array('PluginRoomRoom', $_SESSION['glpiactiveprofile']['helpdesk_item_type'])) {
+      $types['PluginRoomRoom'] = $LANG['plugin_room'][0];
+   }
+   return $types;
 }
 
 ?>
