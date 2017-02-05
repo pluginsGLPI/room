@@ -31,7 +31,7 @@
 // Original Author of file: DOMBRE Julien
 // Purpose of file:
 // ----------------------------------------------------------------------
-define("PLUGIN_ROOM_VERSION", "3.0.4b2");
+define("PLUGIN_ROOM_VERSION", "3.1.0");
 
 // Initilisation du plugin (appelée à l'activation du plugin)
 // Cette fonction définie les HOOKS avec GLPI et permet de déclarer de
@@ -75,8 +75,8 @@ function plugin_version_room() {
       'name' => $LANG['plugin_room'][0],
       'version' => PLUGIN_ROOM_VERSION,
       'license' => 'GPLv2+',
-      'author' => 'Julien Dombre / Modif bogucool et Pascal Marier-Dionne',
-      'homepage' => 'https://forge.indepnet.net/projects/room/files',
+      'author' => 'Julien Dombre / Modif bogucool, Pascal Marier-Dionne et Claude Duvergier',
+      'homepage' => 'https://github.com/pluginsGLPI/room',
       'minGlpiVersion' => '0.85'
    ); // For compatibility / no install in version < 0.85
 
