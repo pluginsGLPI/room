@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <name>Room Management</name>
+    <key>room</key>
+    <state>stable</state>
+    <logo>https://raw.githubusercontent.com/pluginsGLPI/room/master/room.png</logo>
+    <description>
+        <short>
+            <en><![CDATA[Manage room and included hardwares (such as classrooms)]]></en>
+            <fr><![CDATA[Gestion des pièces/salles et des éléments inclus (comme des salles de classe)]]></fr>
+        </short>
+        <long>
+            <en><![CDATA[This plugin allows you to manage the rooms and the elements that are included in. A room is not the same as a location that already exists in GLPI because it can not contain items nor be loaned (which a room can be).]]></en>
+            <fr><![CDATA[Ce plugin vous permettra de gérer les pièces/salles et les éléments qui les composent. La notion de salle n'est pas la même que la notion de lieu déjà existante dans GLPI car cette dernière ne peut contenir des matériels ni être réservée (ce qu'une salle peut être).]]></fr>
+        </long>
+    </description>
+    <homepage>https://github.com/pluginsGLPI/room</homepage>
+    <download>https://github.com/pluginsGLPI/room/releases</download>
+    <issues>https://github.com/pluginsGLPI/room/issues</issues>
+    <readme>https://raw.githubusercontent.com/pluginsGLPI/room/master/README.md</readme>
+    <authors>
+        <author>Julien Dombre</author>
+        <author>bogucool</author>
+        <author>Pascal Marier-Dionne</author>
+        <author>Claude Duvergier</author>
+    </authors>
+    <versions>
+        <version>
+            <num>1.0</num>
+            <compatibility>0.71</compatibility>
+        </version>
+        <version>
+            <num>2.0</num>
+            <compatibility>0.72</compatibility>
+        </version>
+        <version>
+            <num>2.1</num>
+            <compatibility>0.72</compatibility>
+        </version>
+        <version>
+            <num>3.0.1</num>
+            <compatibility>0.80</compatibility>
+        </version>
+        <version>
+            <num>3.0.2</num>
+            <compatibility>0.80.7</compatibility>
+        </version>
+        <version>
+            <num>3.0.3</num>
+            <compatibility>0.84</compatibility>
+        </version>
+        <version>
+            <num>3.0.4b1</num>
+            <compatibility>0.85</compatibility>
+        </version>
+        <version>
+            <num>3.0.4b2</num>
+            <compatibility>0.85</compatibility>
+            <compatibility>0.90</compatibility>
+        </version>
+        <version>
+            <num>3.1.0</num>
+            <compatibility>0.85</compatibility>
+            <compatibility>0.90</compatibility>
+            <compatibility>9.1</compatibility>
+            <compatibility>9.1.1</compatibility>
+        </version>
+    </versions>
+    <langs>
+        <lang>de_DE</lang>
+        <lang>en_GB</lang>
+        <lang>fr_FR</lang>
+        <lang>it_IT</lang>
+    </langs>
+    <license>GPL v2+</license>
+    <tags>
+        <en>
+            <tag>Places</tag>
+            <tag>Inventory</tag>
+            <tag>Management</tag>
+            <tag>Reservation</tag>
+        </en>
+        <lang>
+            <tag>Lieux</tag>
+            <tag>Inventaire</tag>
+            <tag>Gestion</tag>
+            <tag>Réservation</tag>
+        </lang>
+    </tags>
+</root>

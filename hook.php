@@ -1,7 +1,6 @@
 <?php
 
 /*
- * @version $Id$
  * -------------------------------------------------------------------------
  * GLPI - Gestionnaire Libre de Parc Informatique
  * Copyright (C) 2003-2009 by the INDEPNET Development Team.
@@ -74,6 +73,7 @@ function plugin_room_install() {
                 `state` smallint(6) NOT NULL default '0', # not used / for reservation search engine
                 `manufacturers_id` smallint(6) NOT NULL default '0', # not used / for reservation search engine
                 `groups_id` smallint(6) NOT NULL default '0', # not used / for reservation search engine
+                `groups_id_tech` int(11)  NOT NULL default '0' COMMENT 'Group in charge of the hardware. RELATION to glpi_groups (id)',
                 PRIMARY KEY  (`id`),
                 KEY `entities_id` (`entities_id`),
                 KEY `is_deleted` (`is_deleted`),
@@ -86,6 +86,10 @@ function plugin_room_install() {
                 KEY `users_id` (`users_id`)
                 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;";
       $DB->query($query) or die("error adding glpi_plugin_room table " . __('Error during the database update') . $DB->error());
+   } elseif (!FieldExists('glpi_plugin_room_rooms', 'groups_id_tech')) { // Mise à jour entre 3.0.4 et 3.1.0; la table existe, mais il manque "groups_id_tech"
+      $query = "ALTER TABLE `glpi_plugin_room_rooms`
+                    ADD COLUMN `groups_id_tech` INT NOT NULL DEFAULT '0' COMMENT 'Group in charge of the hardware. RELATION to glpi_groups (id)' AFTER `groups_id`;";
+      $result = $DB->query($query) or die('Error when adding `glpi_plugin_room_rooms`.`groups_id_tech` field. ' . __('Error during the database update') . $DB->error());
    } elseif (FieldExists('glpi_plugin_room_rooms', 'FK_users')) { // mise à jour depuis 3.0.0 Beta; la table existe, mais avec les mauvais noms de champs
       $upgradeFrom3Beta = true;
       $query = "alter TABLE  `glpi_plugin_room_rooms`
@@ -99,6 +103,9 @@ function plugin_room_install() {
                    ADD KEY `users_id` ( `users_id` );";
          $result = $DB->query($query) or die("error renaming glpi_plugin_room fields from Beta version " . __('Error during the database update') . $DB->error());
       }
+      $query = "ALTER TABLE `glpi_plugin_room_rooms`
+                    ADD COLUMN `groups_id_tech` INT NOT NULL DEFAULT '0' COMMENT 'Group in charge of the hardware. RELATION to glpi_groups (id)' AFTER `groups_id`;";
+      $result = $DB->query($query) or die('Error when adding `glpi_plugin_room_rooms`.`groups_id_tech` field. ' . __('Error during the database update') . $DB->error());
 
    }
    if (TableExists('glpi_plugin_room')) { // il existe une table correspondant à l'ancienne nomenclature; voir à transférer les enregistrement contenus dans celle-ci.
@@ -351,22 +358,24 @@ function plugin_room_install() {
 function plugin_room_uninstall() {
    global $DB;
 
-   $query = 'DROP TABLE `glpi_plugin_room_rooms_computers`';
+   $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_rooms_computers`';
    $DB->query($query);
-   $query = 'DROP TABLE `glpi_plugin_room_roomtypes`';
+   $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_roomtypes`';
    $DB->query($query);
-   $query = 'DROP TABLE `glpi_plugin_room_roomaccessconds`';
+   $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_roomaccessconds`';
    $DB->query($query);
-   $query = 'DROP TABLE `glpi_plugin_room_dropdown1s`';
+   $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_dropdown1s`';
    $DB->query($query);
-   $query = 'DROP TABLE `glpi_plugin_room_rooms`';
+   $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_rooms`';
    $DB->query($query);
 
    $tables_glpi = array(
       "glpi_displaypreferences",
       "glpi_documents_items",
       "glpi_bookmarks",
-      "glpi_logs"
+      "glpi_logs",
+      'glpi_items_tickets',
+      'glpi_reservationitems',
    );
 
    foreach ($tables_glpi as $table_glpi)
@@ -567,6 +576,15 @@ function plugin_room_MassiveActionsProcess($data) {
          break;
 
    }
+}
+
+function plugin_room_AssignToTicket($types) {
+   global $LANG;
+
+   if (in_array('PluginRoomRoom', $_SESSION['glpiactiveprofile']['helpdesk_item_type'])) {
+      $types['PluginRoomRoom'] = $LANG['plugin_room'][0];
+   }
+   return $types;
 }
 
 ?>

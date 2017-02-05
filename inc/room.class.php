@@ -1,7 +1,6 @@
 <?php
 
 /*
- * @version $Id: plugin_room.class.php 40 2009-03-04 07:00:56Z remi $
  * -------------------------------------------------------------------------
  * GLPI - Gestionnaire Libre de Parc Informatique
  * Copyright (C) 2003-2009 by the INDEPNET Development Team.
@@ -86,6 +85,13 @@ class PluginRoomRoom extends CommonDBTM {
       $tab[2]['field'] = 'name';
       $tab[2]['linkfield'] = 'type';
       $tab[2]['name'] = __('Type');
+
+      $tab[26]['table']           = 'glpi_groups';
+      $tab[26]['field']           = 'completename';
+      $tab[26]['linkfield']       = 'groups_id_tech';
+      $tab[26]['name']            = __('Group in charge of the hardware');
+      $tab[26]['condition']       = '`is_assign`';
+      $tab[26]['datatype']        = 'dropdown';
 
       $tab[24]['table'] = 'glpi_users';
       $tab[24]['field'] = 'name';
@@ -307,7 +313,17 @@ class PluginRoomRoom extends CommonDBTM {
       echo "<tr class='tab_bg_1'><td>" . $LANG['plugin_room'][4] . ":		</td>";
       echo "<td>";
       Dropdown::showInteger("size", $this->fields["size"], 0, 500);
-      echo "</td><td colspan='2'>&nbsp;</td></tr>";
+      echo "</td>";
+
+      // Dropdown du Groupe responsable technique
+      echo '<td>' . __('Group in charge of the hardware') . '</td><td>';
+      Group::dropdown([
+         'name'      => 'groups_id_tech',
+         'value'     => $this->fields['groups_id_tech'],
+         'entity'    => $this->fields['entities_id'],
+         'condition' => '`is_assign`'
+      ]);
+      echo '</td></tr>';
 
       // Date d'achat
       echo "<tr class='tab_bg_1'><td>" . __('Date of purchase') . ":		</td>";

@@ -1,6 +1,5 @@
 <?php
 /*
- * @version $Id$
  * -------------------------------------------------------------------------
  * GLPI - Gestionnaire Libre de Parc Informatique
  * Copyright (C) 2003-2009 by the INDEPNET Development Team.
@@ -32,7 +31,7 @@
 // Original Author of file: DOMBRE Julien
 // Purpose of file:
 // ----------------------------------------------------------------------
-define("PLUGIN_ROOM_VERSION", "3.0.4b2");
+define("PLUGIN_ROOM_VERSION", "3.1.0");
 
 // Initilisation du plugin (appelée à l'activation du plugin)
 // Cette fonction définie les HOOKS avec GLPI et permet de déclarer de
@@ -41,6 +40,8 @@ function plugin_init_room() {
    global $PLUGIN_HOOKS, $CFG_GLPI, $LINK_ID_TABLE, $LANG;
 
    $PLUGIN_HOOKS['csrf_compliant']['room'] = true;
+   $PLUGIN_HOOKS['assign_to_ticket']['room'] = true;
+   $PLUGIN_HOOKS['assign_to_ticket_dropdown']['room'] = true;
 
    // Activation d'un onglet room dans les profils
    $PLUGIN_HOOKS['change_profile']['room'] = array(
@@ -50,7 +51,9 @@ function plugin_init_room() {
 
    // Déclaration d'un nouvel objet d'inventaire Room
    Plugin::registerClass('PluginRoomRoom', array(
-      'reservation_types' => true
+      'reservation_types' => true,
+      'ticket_types' => true,
+      'linkgroup_tech_types' => true,
    ));
 
    Plugin::registerClass('PluginRoomProfile', array(
@@ -72,8 +75,8 @@ function plugin_version_room() {
       'name' => $LANG['plugin_room'][0],
       'version' => PLUGIN_ROOM_VERSION,
       'license' => 'GPLv2+',
-      'author' => 'Julien Dombre / Modif bogucool et Pascal Marier-Dionne',
-      'homepage' => 'https://forge.indepnet.net/projects/room/files',
+      'author' => 'Julien Dombre / Modif bogucool, Pascal Marier-Dionne et Claude Duvergier',
+      'homepage' => 'https://github.com/pluginsGLPI/room',
       'minGlpiVersion' => '0.85'
    ); // For compatibility / no install in version < 0.85
 
@@ -81,10 +84,10 @@ function plugin_version_room() {
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_room_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '0.85', '>=') || version_compare(GLPI_VERSION, '0.91', '<')) {
+   if (version_compare(GLPI_VERSION, '0.85', '>=') && version_compare(GLPI_VERSION, '9.2', '<')) {
       return true;
    } else {
-      _e('This plugin requires GLPI >= 0.85', 'room');
+      _e('This plugin requires GLPI >= 0.85 && < 9.2', 'room');
       return false;
    }
 }

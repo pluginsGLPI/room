@@ -1,6 +1,5 @@
 <?php
 /*
- * @version $Id: room.form.php 37 2009-01-06 18:41:29Z moyo $
  * -------------------------------------------------------------------------
  * GLPI - Gestionnaire Libre de Parc Informatique
  * Copyright (C) 2003-2009 by the INDEPNET Development Team.
