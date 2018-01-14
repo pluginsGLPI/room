@@ -376,6 +376,7 @@ function plugin_room_uninstall() {
       "glpi_logs",
       'glpi_items_tickets',
       'glpi_reservationitems',
+      'glpi_savedsearches',
    );
 
    foreach ($tables_glpi as $table_glpi)
