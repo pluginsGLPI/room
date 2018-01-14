@@ -183,7 +183,7 @@ class PluginRoomProfile extends CommonDBTM {
    static function migrateOneProfile($profiles_id) {
       global $DB;
       // Cannot launch migration if there's nothing to migrate...
-      if (! TableExists('glpi_plugin_room_profiles')) {
+      if (! $DB->TableExists('glpi_plugin_room_profiles')) {
          return true;
       }
 
