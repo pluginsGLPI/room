@@ -312,7 +312,13 @@ class PluginRoomRoom extends CommonDBTM {
       // Nombres de place
       echo "<tr class='tab_bg_1'><td>" . $LANG['plugin_room'][4] . ":		</td>";
       echo "<td>";
-      Dropdown::showInteger("size", $this->fields["size"], 0, 500);
+      Dropdown::showNumber("size",
+         [
+            'value' => $this->fields["size"],
+            'min' => 0,
+            'max' => 500,
+         ]
+      );
       echo "</td>";
 
       // Dropdown du Groupe responsable technique
@@ -328,7 +334,13 @@ class PluginRoomRoom extends CommonDBTM {
       // Date d'achat
       echo "<tr class='tab_bg_1'><td>" . __('Date of purchase') . ":		</td>";
       echo "<td>";
-      Html::showDateFormItem("buy", $this->fields["buy"], true, true);
+      Html::showDateField("buy",
+         [
+            'value' => $this->fields["buy"],
+            'maybeempty' => true,
+            'canedit' => true,
+         ]
+      );
       echo "</td>";
 
       // Moyen d'impression
