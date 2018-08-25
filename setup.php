@@ -31,7 +31,7 @@
 // Original Author of file: DOMBRE Julien
 // Purpose of file:
 // ----------------------------------------------------------------------
-define("PLUGIN_ROOM_VERSION", "3.1.0");
+define("PLUGIN_ROOM_VERSION", "3.1.1");
 
 // Initilisation du plugin (appelée à l'activation du plugin)
 // Cette fonction définie les HOOKS avec GLPI et permet de déclarer de
