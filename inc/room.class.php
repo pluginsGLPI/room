@@ -39,8 +39,7 @@ class PluginRoomRoom extends CommonDBTM {
 
    static $rightname = "plugin_room";
 
-   protected $usenotepadrights = true; // GLPI < v0.90
-   protected $usenotepad = true; // GLPI >= v0.90
+   protected $usenotepad = true;
 
    static function getTypeName($nb = 0) {
       global $LANG;
