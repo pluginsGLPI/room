@@ -42,7 +42,7 @@ function plugin_room_install() {
    $upgradeFrom2 = false;
    $upgradeFrom3Beta = false;
 
-   if (! TableExists('glpi_plugin_room_rooms')) {
+   if (! $DB->tableExists('glpi_plugin_room_rooms')) {
       $query = "CREATE TABLE  `glpi_plugin_room_rooms` (
                 `id` int(11) NOT NULL auto_increment,
                 `name` varchar(255) collate utf8_unicode_ci default NULL,
@@ -108,7 +108,7 @@ function plugin_room_install() {
       $result = $DB->query($query) or die('Error when adding `glpi_plugin_room_rooms`.`groups_id_tech` field. ' . __('Error during the database update') . $DB->error());
 
    }
-   if (TableExists('glpi_plugin_room')) { // il existe une table correspondant à l'ancienne nomenclature; voir à transférer les enregistrement contenus dans celle-ci.
+   if ($DB->TableExists('glpi_plugin_room')) { // il existe une table correspondant à l'ancienne nomenclature; voir à transférer les enregistrement contenus dans celle-ci.
       if (! $upgradeFrom3Beta) // Sauf si on vient de la version beta; on présume que l'usager aura transféré manuellement ses informations.
 {
          $upgradeFrom2 = true;
@@ -138,7 +138,7 @@ function plugin_room_install() {
       $install = true;
    }
    if ($upgradeFrom2 || $install) { // Si on arrive d'une version standard ou que c'est une installation vanille
-      if (! TableExists('glpi_plugin_room_rooms_computers')) {
+      if (! $DB->TableExists('glpi_plugin_room_rooms_computers')) {
          $query = "CREATE TABLE `glpi_plugin_room_rooms_computers` (
                    `id` int(11) NOT NULL auto_increment,
                    `computers_id` int(11) NOT NULL,
@@ -149,7 +149,7 @@ function plugin_room_install() {
                    ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
          $result = $DB->query($query) or die("error adding glpi_plugin_room_rooms_computers table " . __('Error during the database update') . $DB->error());
          if ($result) {
-            if (TableExists('glpi_plugin_room_computer')) {
+            if ($DB->TableExists('glpi_plugin_room_computer')) {
                $result = 0;
                $query = "SELECT COUNT(*) FROM glpi_plugin_room_computer";
                $result = $DB->query($query);
@@ -186,7 +186,7 @@ function plugin_room_install() {
       }
    }
 
-   if (! TableExists('glpi_plugin_room_profiles')) {
+   if (! $DB->TableExists('glpi_plugin_room_profiles')) {
       $query = "CREATE TABLE `glpi_plugin_room_profiles` (
                 `id` int(11) NOT NULL auto_increment,
                 `profiles_id` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_profiles (id)',
@@ -203,7 +203,7 @@ function plugin_room_install() {
       $DB->query($query) or die("error updating table glpi_plugin_room_computer" . __('Error during the database update') . $DB->error());
    }
 
-   if (! TableExists('glpi_plugin_room_roomtypes')) {
+   if (! $DB->TableExists('glpi_plugin_room_roomtypes')) {
       $query = "CREATE TABLE  `glpi_plugin_room_roomtypes` (
                 `id` int(11) NOT NULL auto_increment,
                 `name` varchar(255) collate utf8_unicode_ci default NULL,
@@ -213,7 +213,7 @@ function plugin_room_install() {
                 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
       $DB->query($query) or die("error adding glpi_plugin_room_roomtypes table " . __('Error during the database update') . $DB->error());
    }
-   if (TableExists('glpi_dropdown_plugin_room_type') && ! $upgradeFrom3Beta) { // il existe une table correspondant à l'ancienne nomenclature;
+   if ($DB->TableExists('glpi_dropdown_plugin_room_type') && ! $upgradeFrom3Beta) { // il existe une table correspondant à l'ancienne nomenclature;
      // voir à transférer les enregistrement contenus dans celle-ci.
      // Sauf si on arrive de la version beta
       $query = "SELECT COUNT(*) FROM glpi_dropdown_plugin_room_type";
@@ -230,7 +230,7 @@ function plugin_room_install() {
          }
       }
    }
-   if (! TableExists('glpi_plugin_room_roomaccessconds')) {
+   if (! $DB->TableExists('glpi_plugin_room_roomaccessconds')) {
       $query = "CREATE TABLE  `glpi_plugin_room_roomaccessconds` (
                 `id` int(11) NOT NULL auto_increment,
                 `name` varchar(255) collate utf8_unicode_ci default NULL,
@@ -239,7 +239,7 @@ function plugin_room_install() {
                 KEY `name` (`name`)
                 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
       $DB->query($query) or die("error adding glpi_plugin_room_roomaccessconds table " . __('Error during the database update') . $DB->error());
-      if (TableExists('glpi_dropdown_plugin_room_access')) {
+      if ($DB->TableExists('glpi_dropdown_plugin_room_access')) {
          $query = "SELECT COUNT(*) FROM glpi_dropdown_plugin_room_access";
          $result = $DB->query($query);
          if ($result) {
@@ -255,7 +255,7 @@ function plugin_room_install() {
       }
    }
 
-   if (! TableExists('glpi_plugin_room_dropdown1s')) {
+   if (! $DB->TableExists('glpi_plugin_room_dropdown1s')) {
       $query = "CREATE TABLE  `glpi_plugin_room_dropdown1s` (
                 `id` int(11) NOT NULL auto_increment,
                 `name` varchar(255) collate utf8_unicode_ci default NULL,
@@ -266,7 +266,7 @@ function plugin_room_install() {
       $DB->query($query) or die("error adding glpi_plugin_room_roomspecificities table " . __('Error during the database update') . $DB->error());
    }
 
-   if (TableExists('glpi_dropdown_plugin_room_dropdown1') && ! $upgradeFrom3Beta) {
+   if ($DB->TableExists('glpi_dropdown_plugin_room_dropdown1') && ! $upgradeFrom3Beta) {
       $query = "SELECT COUNT(*) FROM glpi_dropdown_plugin_room_dropdown1";
       $result = $DB->query($query);
       if ($result) {
@@ -284,7 +284,7 @@ function plugin_room_install() {
       }
    }
 
-   if (TableExists('glpi_dropdown_plugin_room_dropdown2') && ! $upgradeFrom3Beta) {
+   if ($DB->TableExists('glpi_dropdown_plugin_room_dropdown2') && ! $upgradeFrom3Beta) {
       $query = "SELECT * FROM glpi_dropdown_plugin_room_dropdown2";
       $result = $DB->query($query);
       if ($result) {
@@ -372,10 +372,10 @@ function plugin_room_uninstall() {
    $tables_glpi = array(
       "glpi_displaypreferences",
       "glpi_documents_items",
-      "glpi_bookmarks",
       "glpi_logs",
       'glpi_items_tickets',
       'glpi_reservationitems',
+      'glpi_savedsearches',
    );
 
    foreach ($tables_glpi as $table_glpi)

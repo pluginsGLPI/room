@@ -31,7 +31,7 @@
 // Original Author of file: DOMBRE Julien
 // Purpose of file:
 // ----------------------------------------------------------------------
-define("PLUGIN_ROOM_VERSION", "3.1.0");
+define("PLUGIN_ROOM_VERSION", "3.1.1");
 
 // Initilisation du plugin (appelée à l'activation du plugin)
 // Cette fonction définie les HOOKS avec GLPI et permet de déclarer de
@@ -77,17 +77,17 @@ function plugin_version_room() {
       'license' => 'GPLv2+',
       'author' => 'Julien Dombre / Modif bogucool, Pascal Marier-Dionne et Claude Duvergier',
       'homepage' => 'https://github.com/pluginsGLPI/room',
-      'minGlpiVersion' => '0.85'
-   ); // For compatibility / no install in version < 0.85
+      'minGlpiVersion' => '9.2'
+   );
 
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_room_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '0.85', '>=') && version_compare(GLPI_VERSION, '9.2', '<')) {
+   if (version_compare(GLPI_VERSION, '9.2', '>=') && version_compare(GLPI_VERSION, '9.3', '<')) {
       return true;
    } else {
-      _e('This plugin requires GLPI >= 0.85 && < 9.2', 'room');
+      _e('This plugin requires GLPI >= 9.2 && < 9.3', 'room');
       return false;
    }
 }

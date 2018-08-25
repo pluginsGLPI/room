@@ -33,3 +33,17 @@ This plugins uninstalls as any other GLPI plugin.
 3. Click on the *Disnable* button.
 4. Click on the *Uninstall* button.
 5. Delete the `plugins/room` directory of your GLPI installation.
+
+Contributing
+------------
+
+Please follow the following rules for contributing:
+
+* Respect [PSR-1](http://www.php-fig.org/psr/psr-1/), [PSR-2](http://www.php-fig.org/psr/psr-2/)
+  and [GLPI's Coding standards](http://glpi-developer-documentation.readthedocs.io/en/master/codingstandards.html)
+  (giving priority to the latest).
+* Open an issue for each bug/feature so it can be discussed.
+* Follow [development guidelines](http://glpi-developer-documentation.readthedocs.io/en/master/plugins/guidelines.html).
+* Refer to [GitFlow](http://git-flow.readthedocs.io) process for branching.
+* Work on a new branch on your own fork.
+* Open a PR for merging. It will be reviewed by a developer.
