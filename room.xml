@@ -6,10 +6,12 @@
     <logo>https://raw.githubusercontent.com/pluginsGLPI/room/master/room.png</logo>
     <description>
         <short>
+            <cs><![CDATA[Spravujte místnost a zařízení v ní (například učebny)]]></cs>
             <en><![CDATA[Manage room and included hardwares (such as classrooms)]]></en>
             <fr><![CDATA[Gestion des pièces/salles et des éléments inclus (comme des salles de classe)]]></fr>
         </short>
         <long>
+            <cs><![CDATA[Tento zásuvný modul umožňuje spravovat místnosti a prvky, které se v nich nacházejí. Místnost není to stejné jako umístění, které už v GLPI existuje, protože nemůže obsahovat položky, ani ji nelze pronajmout (což u místnosti lze).]]></cs>
             <en><![CDATA[This plugin allows you to manage the rooms and the elements that are included in. A room is not the same as a location that already exists in GLPI because it can not contain items nor be loaned (which a room can be).]]></en>
             <fr><![CDATA[Ce plugin vous permettra de gérer les pièces/salles et les éléments qui les composent. La notion de salle n'est pas la même que la notion de lieu déjà existante dans GLPI car cette dernière ne peut contenir des matériels ni être réservée (ce qu'une salle peut être).]]></fr>
         </long>
@@ -71,24 +73,32 @@
         </version>
     </versions>
     <langs>
+        <lang>cs_CZ</lang>
         <lang>de_DE</lang>
         <lang>en_GB</lang>
         <lang>fr_FR</lang>
         <lang>it_IT</lang>
+        <lang>pt_PT</lang>       
     </langs>
     <license>GPL v2+</license>
     <tags>
+        <cs>
+            <tag>Místa</tag>
+            <tag>Inventář</tag>
+            <tag>Správa</tag>
+            <tag>Rezervace</tag>
+        </cs>
         <en>
             <tag>Places</tag>
             <tag>Inventory</tag>
             <tag>Management</tag>
             <tag>Reservation</tag>
         </en>
-        <lang>
+        <fr>
             <tag>Lieux</tag>
             <tag>Inventaire</tag>
             <tag>Gestion</tag>
             <tag>Réservation</tag>
-        </lang>
+        </fr>
     </tags>
 </root>
