@@ -56,7 +56,7 @@ class PluginRoomProfile extends CommonDBTM
 
         $profileRight = new ProfileRight();
         foreach ($rights as $right => $value) {
-            $count_conditions = '`profiles_id` = ' . $profiles_id . ' AND `name` = "' . $right . '"';
+            $count_conditions = ['WHERE' => '`profiles_id` = ' . $profiles_id . ' AND `name` = "' . $right . '"'];
             if (countElementsInTable('glpi_profilerights', $count_conditions) && $drop_existing) {
                 $profileRight->deleteByCriteria([
                     'profiles_id' => $profiles_id,
@@ -183,7 +183,7 @@ class PluginRoomProfile extends CommonDBTM
 
         // Add new rights in glpi_profilerights table
         foreach ($profile->getAllRights(true) as $data) {
-            if (countElementsInTable('glpi_profilerights', '`name` = "' . $data['field'] . '"') == 0) {
+            if (countElementsInTable('glpi_profilerights', ['WHERE' => '`name` = "' . $data['field'] . '"']) == 0) {
                 ProfileRight::addProfileRights([
                     $data['field'],
                 ]);
