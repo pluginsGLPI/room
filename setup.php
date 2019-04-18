@@ -48,17 +48,17 @@ function plugin_version_room()
         'license' => 'GPLv2+',
         'author' => 'Julien Dombre / Modif bogucool, Pascal Marier-Dionne et Claude Duvergier',
         'homepage' => 'https://github.com/pluginsGLPI/room',
-        'minGlpiVersion' => '9.2',
+        'minGlpiVersion' => '9.3.1',
     ];
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_room_check_prerequisites()
 {
-    if (version_compare(GLPI_VERSION, '9.3.1', '>=') && version_compare(GLPI_VERSION, '9.5', '<')) {
+    if (version_compare(GLPI_VERSION, '9.3.1', 'ge') && version_compare(GLPI_VERSION, '9.5', 'lt')) {
         return true;
     } else {
-        _e('This plugin requires GLPI >= 9.3.1 && < 9.5', 'room');
+        echo Plugin::messageIncompatible('core', '9.3.1', '9.5');
         return false;
     }
 }
