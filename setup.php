@@ -58,7 +58,11 @@ function plugin_room_check_prerequisites()
     if (version_compare(GLPI_VERSION, '9.3.1', 'ge') && version_compare(GLPI_VERSION, '9.5', 'lt')) {
         return true;
     } else {
-        echo Plugin::messageIncompatible('core', '9.3.1', '9.5');
+        if (method_exists('Plugin', 'messageIncompatible')) {
+            echo Plugin::messageIncompatible('core', '9.3.1', '9.5');
+        } else {
+            echo "This plugin requires GLPI >= 9.3.1 && < 9.5";
+        }
         return false;
     }
 }
