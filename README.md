@@ -39,11 +39,32 @@ Contributing
 
 Please follow the following rules for contributing:
 
-* Respect [PSR-1](http://www.php-fig.org/psr/psr-1/), [PSR-2](http://www.php-fig.org/psr/psr-2/)
-  and [GLPI's Coding standards](http://glpi-developer-documentation.readthedocs.io/en/master/codingstandards.html)
-  (giving priority to the latest).
+* Respect [PSR-1](http://www.php-fig.org/psr/psr-1/) and [PSR-2](http://www.php-fig.org/psr/psr-2/).
 * Open an issue for each bug/feature so it can be discussed.
 * Follow [development guidelines](http://glpi-developer-documentation.readthedocs.io/en/master/plugins/guidelines.html).
 * Refer to [GitFlow](http://git-flow.readthedocs.io) process for branching.
 * Work on a new branch on your own fork.
 * Open a PR for merging. It will be reviewed by a developer.
+
+### Coding standards
+
+Respect of coding standard is checked by [*PHP Coding Standards Fixer*](http://cs.sensiolabs.org).
+The `.php_cs.dist` file contains the standards to conform to.
+
+Command to list all PHP files with standard issues:
+
+```Shell
+php php-cs-fixer-v2.phar fix --config .php_cs.dist --dry-run.
+```
+
+Same command but includes detail of actual lines with standard issues:
+
+```Shell
+php php-cs-fixer-v2.phar fix --config .php_cs.dist --dry-run --diff .
+```
+
+Command to fix thoses issues:
+
+```Shell
+php php-cs-fixer-v2.phar fix --config .php_cs.dist .
+```
