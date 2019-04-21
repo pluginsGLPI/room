@@ -36,138 +36,211 @@ class PluginRoomRoom extends CommonDBTM
     }
 
     // Cette fonction propose des critères de filtrage pour la page des salles
-    public function getSearchOptions()
+    public function rawSearchOptions()
     {
         global $LANG;
 
         $tab = [];
 
-        $tab['common'] = $LANG['plugin_room'][0];
+        $tab[] = [
+            'id' => 'common',
+            'name' => $LANG['plugin_room'][0],
+        ];
 
-        $tab[1]['table'] = $this->getTable();
-        $tab[1]['field'] = 'name';
-        $tab[1]['linkfield'] = 'name';
-        $tab[1]['name'] = __('Name');
-        $tab[1]['datatype'] = 'itemlink';
-        $tab[1]['itemlink_type'] = $this->getType();
+        $tab[] = [
+            'id' => '1',
+            'table' => $this->getTable(),
+            'field' => 'name',
+            'linkfield' => 'name',
+            'name' => __('Name'),
+            'datatype' => 'itemlink',
+            'itemlink_type' => $this->getType(),
+        ];
 
-        $tab[2]['table'] = 'glpi_plugin_room_roomtypes';
-        $tab[2]['field'] = 'name';
-        $tab[2]['linkfield'] = 'type';
-        $tab[2]['name'] = __('Type');
+        $tab[] = [
+            'id' => '2',
+            'table' => 'glpi_plugin_room_roomtypes',
+            'field' => 'name',
+            'linkfield' => 'type',
+            'name' => __('Type'),
+        ];
 
-        $tab[26]['table'] = 'glpi_groups';
-        $tab[26]['field'] = 'completename';
-        $tab[26]['linkfield'] = 'groups_id_tech';
-        $tab[26]['name'] = __('Group in charge of the hardware');
-        $tab[26]['condition'] = '`is_assign`';
-        $tab[26]['datatype'] = 'dropdown';
+        $tab[] = [
+            'id' => '26',
+            'table' => 'glpi_groups',
+            'field' => 'completename',
+            'linkfield' => 'groups_id_tech',
+            'name' => __('Group in charge of the hardware'),
+            'condition' => '`is_assign`',
+            'datatype' => 'dropdown',
+        ];
 
-        $tab[24]['table'] = 'glpi_users';
-        $tab[24]['field'] = 'name';
-        $tab[24]['linkfield'] = 'tech_num';
-        $tab[24]['name'] = __('Technician in charge of the hardware');
+        $tab[] = [
+            'id' => '24',
+            'table' => 'glpi_users',
+            'field' => 'name',
+            'linkfield' => 'tech_num',
+            'name' => __('Technician in charge of the hardware'),
+        ];
 
-        $tab[25]['table'] = 'glpi_users';
-        $tab[25]['field'] = 'name';
-        $tab[25]['linkfield'] = 'users_id';
-        $tab[25]['name'] = __('Alternate username');
+        $tab[] = [
+            'id' => '25',
+            'table' => 'glpi_users',
+            'field' => 'name',
+            'linkfield' => 'users_id',
+            'name' => __('Alternate username'),
+        ];
 
-        $tab[3]['table'] = $this->getTable();
-        $tab[3]['field'] = 'comment';
-        $tab[3]['linkfield'] = 'comment';
-        $tab[3]['name'] = __('Comments');
+        $tab[] = [
+            'id' => '3',
+            'table' => $this->getTable(),
+            'field' => 'comment',
+            'linkfield' => 'comment',
+            'name' => __('Comments'),
+        ];
 
-        $tab += Location::getSearchOptionsToAdd();
+        $tab += Location::rawSearchOptionsToAdd();
 
-        $tab[5]['table'] = $this->getTable();
-        $tab[5]['field'] = 'size';
-        $tab[5]['linkfield'] = 'size';
-        $tab[5]['name'] = $LANG['plugin_room'][4];
+        $tab[] = [
+            'id' => '5',
+            'table' => $this->getTable(),
+            'field' => 'size',
+            'linkfield' => 'size',
+            'name' => $LANG['plugin_room'][4],
+        ];
 
-        $tab[6]['table'] = 'glpi_plugin_room_roomaccessconds';
-        $tab[6]['field'] = 'name';
-        $tab[6]['linkfield'] = 'access';
-        $tab[6]['name'] = $LANG['plugin_room'][5];
+        $tab[] = [
+            'id' => '6',
+            'table' => 'glpi_plugin_room_roomaccessconds',
+            'field' => 'name',
+            'linkfield' => 'access',
+            'name' => $LANG['plugin_room'][5],
+        ];
 
-        $tab[7]['table'] = $this->getTable();
-        $tab[7]['field'] = 'buy';
-        $tab[7]['linkfield'] = 'buy';
-        $tab[7]['name'] = __('Date of purchase');
+        $tab[] = [
+            'id' => '7',
+            'table' => $this->getTable(),
+            'field' => 'buy',
+            'linkfield' => 'buy',
+            'name' => __('Date of purchase'),
+        ];
 
-        $tab[8]['table'] = $this->getTable();
-        $tab[8]['field'] = 'printer';
-        $tab[8]['linkfield'] = 'printer';
-        $tab[8]['name'] = $LANG['plugin_room'][6];
+        $tab[] = [
+            'id' => '8',
+            'table' => $this->getTable(),
+            'field' => 'printer',
+            'linkfield' => 'printer',
+            'name' => $LANG['plugin_room'][6],
+        ];
 
-        $tab[9]['table'] = $this->getTable();
-        $tab[9]['field'] = 'videoprojector';
-        $tab[9]['linkfield'] = 'videoprojector';
-        $tab[9]['name'] = $LANG['plugin_room'][7];
+        $tab[] = [
+            'id' => '9',
+            'table' => $this->getTable(),
+            'field' => 'videoprojector',
+            'linkfield' => 'videoprojector',
+            'name' => $LANG['plugin_room'][7],
+        ];
 
-        $tab[10]['table'] = $this->getTable();
-        $tab[10]['field'] = 'wifi';
-        $tab[10]['linkfield'] = 'wifi';
-        $tab[10]['name'] = $LANG['plugin_room'][8];
+        $tab[] = [
+            'id' => '10',
+            'table' => $this->getTable(),
+            'field' => 'wifi',
+            'linkfield' => 'wifi',
+            'name' => $LANG['plugin_room'][8],
+        ];
 
-        $tab[11]['table'] = $this->getTable();
-        $tab[11]['field'] = 'comment';
-        $tab[11]['linkfield'] = '';
-        $tab[11]['name'] = __('Comments');
+        $tab[] = [
+            'id' => '11',
+            'table' => $this->getTable(),
+            'field' => 'comment',
+            'linkfield' => '',
+            'name' => __('Comments'),
+        ];
 
-        $tab[13]['table'] = $this->getTable();
-        $tab[13]['field'] = 'opening';
-        $tab[13]['linkfield'] = '';
-        $tab[13]['name'] = $LANG['plugin_room'][11];
+        $tab[] = [
+            'id' => '13',
+            'table' => $this->getTable(),
+            'field' => 'opening',
+            'linkfield' => '',
+            'name' => $LANG['plugin_room'][11],
+        ];
 
-        $tab[12]['table'] = $this->getTable();
-        $tab[12]['field'] = 'limits';
-        $tab[12]['linkfield'] = '';
-        $tab[12]['name'] = $LANG['plugin_room'][12];
+        $tab[] = [
+            'id' => '12',
+            'table' => $this->getTable(),
+            'field' => 'limits',
+            'linkfield' => '',
+            'name' => $LANG['plugin_room'][12],
+        ];
 
-        $tab[16]['table'] = $this->getTable();
-        $tab[16]['field'] = 'text1';
-        $tab[16]['linkfield'] = '';
-        $tab[16]['name'] = $LANG['plugin_room'][13];
+        $tab[] = [
+            'id' => '16',
+            'table' => $this->getTable(),
+            'field' => 'text1',
+            'linkfield' => '',
+            'name' => $LANG['plugin_room'][13],
+        ];
 
-        $tab[17]['table'] = $this->getTable();
-        $tab[17]['field'] = 'text2';
-        $tab[17]['linkfield'] = '';
-        $tab[17]['name'] = $LANG['plugin_room'][14];
+        $tab[] = [
+            'id' => '17',
+            'table' => $this->getTable(),
+            'field' => 'text2',
+            'linkfield' => '',
+            'name' => $LANG['plugin_room'][14],
+        ];
 
-        $tab[18]['table'] = 'glpi_plugin_room_dropdown1s';
-        $tab[18]['field'] = 'name';
-        $tab[18]['linkfield'] = 'dropdown1';
-        $tab[18]['name'] = $LANG['plugin_room'][15];
+        $tab[] = [
+            'id' => '18',
+            'table' => 'glpi_plugin_room_dropdown1s',
+            'field' => 'name',
+            'linkfield' => 'dropdown1',
+            'name' => $LANG['plugin_room'][15],
+        ];
 
-        $tab[19]['table'] = 'glpi_plugin_room_dropdown1s';
-        $tab[19]['field'] = 'name';
-        $tab[19]['linkfield'] = 'dropdown2';
-        $tab[19]['name'] = $LANG['plugin_room'][16];
+        $tab[] = [
+            'id' => '19',
+            'table' => 'glpi_plugin_room_dropdown1s',
+            'field' => 'name',
+            'linkfield' => 'dropdown2',
+            'name' => $LANG['plugin_room'][16],
+        ];
 
-        $tab[30]['table'] = $this->getTable();
-        $tab[30]['field'] = 'id';
-        $tab[30]['linkfield'] = '';
-        $tab[30]['name'] = __('ID');
+        $tab[] = [
+            'id' => '30',
+            'table' => $this->getTable(),
+            'field' => 'id',
+            'linkfield' => '',
+            'name' => __('ID'),
+        ];
 
-        $tab[31]['table'] = $this->getTable();
-        $tab[31]['field'] = 'name';
-        $tab[31]['linkfield'] = '';
-        $tab[31]['name'] = __('Computers');
-        $tab[31]['forcegroupby'] = true;
-        $tab[31]['datatype'] = 'itemlink';
-        $tab[31]['itemlink_type'] = $this->getType();
+        $tab[] = [
+            'id' => '31',
+            'table' => $this->getTable(),
+            'field' => 'name',
+            'linkfield' => '',
+            'name' => __('Computers'),
+            'forcegroupby' => true,
+            'datatype' => 'itemlink',
+            'itemlink_type' => $this->getType(),
+        ];
 
-        $tab[32]['table'] = $this->getTable();
-        $tab[32]['field'] = 'count_linked';
-        $tab[32]['linkfield'] = '';
-        $tab[32]['name'] = $LANG['plugin_room'][18];
-        $tab[32]['meta'] = 1;
+        $tab[] = [
+            'id' => '32',
+            'table' => $this->getTable(),
+            'field' => 'count_linked',
+            'linkfield' => '',
+            'name' => $LANG['plugin_room'][18],
+            'meta' => 1,
+        ];
 
-        $tab[80]['table'] = 'glpi_entities';
-        $tab[80]['field'] = 'completename';
-        $tab[80]['linkfield'] = 'entities_id';
-        $tab[80]['name'] = __('Entity');
+        $tab[] = [
+            'id' => '80',
+            'table' => 'glpi_entities',
+            'field' => 'completename',
+            'linkfield' => 'entities_id',
+            'name' => __('Entity'),
+        ];
+
         return $tab;
     }
 
