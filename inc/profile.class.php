@@ -192,7 +192,7 @@ class PluginRoomProfile extends CommonDBTM
 
         foreach ($DB->request('SELECT *
                              FROM `glpi_profilerights`
-                             WHERE `profiles_id`= ' . $_SESSION['glpiactiveprofile']['id'] . '
+                             WHERE `profiles_id` = ' . $_SESSION['glpiactiveprofile']['id'] . '
                                 AND `name` LIKE "%plugin_room%"') as $prof) {
             $_SESSION['glpiactiveprofile'][$prof['name']] = $prof['rights'];
         }

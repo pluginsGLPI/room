@@ -69,6 +69,10 @@
             <num>3.1.1</num>
             <compatibility>9.2</compatibility>
         </version>
+        <version>
+            <num>3.1.2</num>
+            <compatibility>9.3.1</compatibility>
+        </version>
     </versions>
     <langs>
         <lang>de_DE</lang>
