@@ -1,6 +1,6 @@
 <?php
 
-define('PLUGIN_ROOM_VERSION', '3.1.2');
+define('PLUGIN_ROOM_VERSION', '3.1.2-jb');
 
 // Initilisation du plugin (appelée à l'activation du plugin)
 // Cette fonction définie les HOOKS avec GLPI et permet de déclarer de
@@ -48,17 +48,21 @@ function plugin_version_room()
         'license' => 'GPLv2+',
         'author' => 'Julien Dombre / Modif bogucool, Pascal Marier-Dionne et Claude Duvergier',
         'homepage' => 'https://github.com/pluginsGLPI/room',
-        'minGlpiVersion' => '9.2',
+        'minGlpiVersion' => '9.5',
     ];
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_room_check_prerequisites()
 {
-    if (version_compare(GLPI_VERSION, '9.3.1', '>=') && version_compare(GLPI_VERSION, '9.4', '<')) {
+    if (version_compare(GLPI_VERSION, '9.5', '>=') && version_compare(GLPI_VERSION, '9.6', '<=')) {
         return true;
     } else {
-        _e('This plugin requires GLPI >= 9.3.1 && < 9.4', 'room');
+        if (method_exists('Plugin', 'messageIncompatible')) {
+            echo Plugin::messageIncompatible('core', '9.5', '9.6');
+        } else {
+            echo "This plugin requires GLPI >= 9.5 && <= 9.6";
+        }
         return false;
     }
 }
