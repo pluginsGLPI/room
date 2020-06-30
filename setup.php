@@ -21,11 +21,14 @@ function plugin_init_room()
 
     // Déclaration d'un nouvel objet d'inventaire Room
     Plugin::registerClass('PluginRoomRoom', [
+	'asset_types' => true,
         'reservation_types' => true,
         'ticket_types' => true,
         'linkgroup_tech_types' => true,
     ]);
-
+    
+    $CFG_GLPI['impact_asset_types']['PluginRoomRoom'] = "plugins/room/room.png";
+    
     Plugin::registerClass('PluginRoomProfile', [
         'addtabon' => 'Profile',
     ]);
