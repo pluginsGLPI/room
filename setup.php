@@ -21,7 +21,6 @@ function plugin_init_room()
 
     // Déclaration d'un nouvel objet d'inventaire Room
     Plugin::registerClass('PluginRoomRoom', [
-	'asset_types' => true,
         'reservation_types' => true,
         'ticket_types' => true,
         'linkgroup_tech_types' => true,
