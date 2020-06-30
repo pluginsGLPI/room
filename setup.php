@@ -46,7 +46,7 @@ function plugin_version_room()
     global $LANG;
 
     return [
-        'name' => $LANG['plugin_room'][0],
+        'name' => _n('Room', 'Rooms', 2, 'room'),
         'version' => PLUGIN_ROOM_VERSION,
         'license' => 'GPLv2+',
         'author' => 'Julien Dombre / Modif bogucool, Pascal Marier-Dionne et Claude Duvergier',

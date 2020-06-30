@@ -199,15 +199,13 @@ function plugin_room_getDatabaseRelations()
 // Definit les tables qui sont gérables via les intitulés
 function plugin_room_getDropdown()
 {
-    global $LANG;
-
     $plugin = new Plugin();
 
     if ($plugin->isActivated('room')) {
         return [
-            'PluginRoomRoomType' => $LANG['plugin_room'][9],
-            'PluginRoomRoomAccessCond' => $LANG['plugin_room'][5],
-            'PluginRoomDropdown1' => $LANG['plugin_room']['dropdown'][2],
+            'PluginRoomRoomType' => PluginRoomRoomType::getTypeName(2),
+            'PluginRoomRoomAccessCond' => PluginRoomRoomAccessCond::getTypeName(2),
+            'PluginRoomDropdown1' => PluginRoomDropdown1::getTypeName(2)
         ];
     } else {
         return [];
@@ -328,8 +326,6 @@ function plugin_room_MassiveActions($type)
 // How to display specific actions ?
 function plugin_room_MassiveActionsDisplay($options = [])
 {
-    global $LANG;
-
     $PluginRoomRoom = new PluginRoomRoom();
     switch ($options['itemtype']) {
         case 'Computer':
@@ -347,8 +343,6 @@ function plugin_room_MassiveActionsDisplay($options = [])
 // How to process specific actions ?
 function plugin_room_MassiveActionsProcess($data)
 {
-    global $LANG;
-
     $PluginRoomRoom = new PluginRoomRoom();
 
     switch ($data['action']) {
@@ -366,8 +360,6 @@ function plugin_room_MassiveActionsProcess($data)
 
 function plugin_room_AssignToTicket($types)
 {
-    global $LANG;
-
     if (in_array('PluginRoomRoom', $_SESSION['glpiactiveprofile']['helpdesk_item_type'])) {
         $types['PluginRoomRoom'] = $LANG['plugin_room'][0];
     }
