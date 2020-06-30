@@ -2,7 +2,7 @@
 
 function plugin_room_install()
 {
-    global $DB, $LANG;
+    global $DB;
 
     include_once GLPI_ROOT . '/plugins/room/inc/profile.class.php';
 
@@ -267,14 +267,13 @@ function plugin_room_forceGroupBy($type)
 // Define search option for types of the plugins
 function plugin_room_getAddSearchOptions($itemtype)
 {
-    global $LANG;
     $sopt = [];
     if ($itemtype == 'Computer') {
         if (PluginRoomRoom::canView()) {
             $sopt[1050]['table'] = 'glpi_plugin_room_rooms';
             $sopt[1050]['field'] = 'name';
             $sopt[1050]['linkfield'] = '';
-            $sopt[1050]['name'] = $LANG['plugin_room'][0] . ' - ' . __('Name');
+            $sopt[1050]['name'] = __('Room Management') . ' - ' . __('Name');
             $sopt[1050]['forcegroupby'] = true;
             $sopt[1050]['datatype'] = 'itemlink';
             $sopt[1050]['itemlink_type'] = 'PluginRoomRoom';
@@ -282,7 +281,7 @@ function plugin_room_getAddSearchOptions($itemtype)
             $sopt[1051]['table'] = 'glpi_plugin_room_roomtypes';
             $sopt[1051]['field'] = 'name';
             $sopt[1051]['linkfield'] = '';
-            $sopt[1051]['name'] = $LANG['plugin_room'][0] . ' - ' . $LANG['plugin_room'][9];
+            $sopt[1051]['name'] = __('Room Management') . ' - ' . __('Type of Room');
             $sopt[1050]['forcegroupby'] = true;
         }
     }
@@ -312,11 +311,10 @@ function plugin_room_addSelect($type, $ID, $num)
 // Define actions :
 function plugin_room_MassiveActions($type)
 {
-    global $LANG;
     switch ($type) {
         case 'Computer':
             return [
-                'plugin_room_addComputer' => $LANG['plugin_room'][17],
+                'plugin_room_addComputer' => __('Add a Room'),
             ];
             break;
     }
@@ -361,7 +359,7 @@ function plugin_room_MassiveActionsProcess($data)
 function plugin_room_AssignToTicket($types)
 {
     if (in_array('PluginRoomRoom', $_SESSION['glpiactiveprofile']['helpdesk_item_type'])) {
-        $types['PluginRoomRoom'] = $LANG['plugin_room'][0];
+        $types['PluginRoomRoom'] = __('Room Management');
     }
     return $types;
 }
