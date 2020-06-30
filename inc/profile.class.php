@@ -4,7 +4,7 @@ if (!defined('GLPI_ROOT')) {
     die('Sorry. You can\'t access directly to this file');
 }
 
-class PluginRoomProfile extends CommonDBTM
+class PluginRoomProfile extends Profile
 {
     public static $rightname = 'profile';
 
@@ -52,18 +52,17 @@ class PluginRoomProfile extends CommonDBTM
      */
     public static function addDefaultProfileInfos($profiles_id, $rights, $drop_existing = false)
     {
-        global $DB;
-
+	$dbu = new DbUtils();
         $profileRight = new ProfileRight();
         foreach ($rights as $right => $value) {
-            $count_conditions = ['WHERE' => '`profiles_id` = ' . $profiles_id . ' AND `name` = "' . $right . '"'];
-            if (countElementsInTable('glpi_profilerights', $count_conditions) && $drop_existing) {
+            $count_conditions = ["profiles_id" => $profiles_id, "name" => $right];
+            if ($dbu->	countElementsInTable('glpi_profilerights', $count_conditions) && $drop_existing) {
                 $profileRight->deleteByCriteria([
                     'profiles_id' => $profiles_id,
                     'name' => $right,
                 ]);
             }
-            if (!countElementsInTable('glpi_profilerights', $count_conditions)) {
+            if (!$dbu->countElementsInTable('glpi_profilerights', $count_conditions)) {
                 $myright['profiles_id'] = $profiles_id;
                 $myright['name'] = $right;
                 $myright['rights'] = $value;
@@ -180,10 +179,11 @@ class PluginRoomProfile extends CommonDBTM
     {
         global $DB;
         $profile = new self();
+	$dbu	 = new DbUtils();
 
         // Add new rights in glpi_profilerights table
         foreach ($profile->getAllRights(true) as $data) {
-            if (countElementsInTable('glpi_profilerights', ['WHERE' => '`name` = "' . $data['field'] . '"']) == 0) {
+            if ($dbu->countElementsInTable('glpi_profilerights', ["name" => $data['field']]) == 0) {
                 ProfileRight::addProfileRights([
                     $data['field'],
                 ]);
