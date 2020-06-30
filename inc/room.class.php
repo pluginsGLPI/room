@@ -379,7 +379,7 @@ class PluginRoomRoom extends CommonDBTM
             'name' => 'groups_id_tech',
             'value' => $this->fields['groups_id_tech'],
             'entity' => $this->fields['entities_id'],
-            'condition' => '`is_assign`',
+	    'condition' => ['is_assign' => 1],
         ]);
         echo '</td></tr>';
 
