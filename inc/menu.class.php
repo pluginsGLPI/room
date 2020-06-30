@@ -23,7 +23,7 @@ class PluginRoomMenu extends CommonGLPI
         if (PluginRoomRoom::canCreate()) {
             $menu['links']['add'] = PluginRoomRoom::getFormURL(false);
         }
-	$menu['icon'] = self::getIcon();
+        $menu['icon'] = self::getIcon();
         return $menu;
     }
 
@@ -37,7 +37,8 @@ class PluginRoomMenu extends CommonGLPI
         }
     }
 
-    static function getIcon() {
-	return "fas fa-download";
+    public static function getIcon()
+    {
+        return 'fas fa-download';
     }
 }

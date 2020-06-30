@@ -122,13 +122,13 @@ function plugin_room_uninstall()
     global $DB;
 
     $tables = [
-	    "glpi_plugin_room_rooms_computers",
-	    "glpi_plugin_room_roomtypes",
-	    "glpi_plugin_room_roomaccessconds",
-	    "glpi_plugin_room_dropdown1s",
-	    "glpi_plugin_room_rooms"
+        'glpi_plugin_room_rooms_computers',
+        'glpi_plugin_room_roomtypes',
+        'glpi_plugin_room_roomaccessconds',
+        'glpi_plugin_room_dropdown1s',
+        'glpi_plugin_room_rooms',
     ];
-    
+
     foreach ($tables as $table) {
         $DB->query("DROP TABLE IF EXISTS `$table`;");
     }
@@ -205,7 +205,7 @@ function plugin_room_getDropdown()
         return [
             'PluginRoomRoomType' => PluginRoomRoomType::getTypeName(2),
             'PluginRoomRoomAccessCond' => PluginRoomRoomAccessCond::getTypeName(2),
-            'PluginRoomDropdown1' => PluginRoomDropdown1::getTypeName(2)
+            'PluginRoomDropdown1' => PluginRoomDropdown1::getTypeName(2),
         ];
     } else {
         return [];

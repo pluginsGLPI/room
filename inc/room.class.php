@@ -10,7 +10,7 @@ class PluginRoomRoom extends CommonDBTM
 
     public static function getTypeName($nb = 0)
     {
-	return _n('Room', 'Rooms', $nb, 'room');
+        return _n('Room', 'Rooms', $nb, 'room');
     }
 
     public function prepareInputForUpdate($input)
@@ -265,7 +265,7 @@ class PluginRoomRoom extends CommonDBTM
     // showForm(ID de l'objet,tableau pour les options)
     public function showForm($ID, $options = [])
     {
-        global $CFG_GLPI ;
+        global $CFG_GLPI;
 
         if (!self::canView()) {
             return false;
@@ -379,7 +379,7 @@ class PluginRoomRoom extends CommonDBTM
             'name' => 'groups_id_tech',
             'value' => $this->fields['groups_id_tech'],
             'entity' => $this->fields['entities_id'],
-	    'condition' => ['is_assign' => 1],
+            'condition' => ['is_assign' => 1],
         ]);
         echo '</td></tr>';
 
@@ -387,7 +387,7 @@ class PluginRoomRoom extends CommonDBTM
         echo '<tr class="tab_bg_1"><td>' . __('Date of purchase') . ':		</td>';
         echo '<td>';
         Html::showDateField(
-           'buy',
+            'buy',
             [
                 'value' => $this->fields['buy'],
                 'maybeempty' => true,
@@ -433,7 +433,7 @@ class PluginRoomRoom extends CommonDBTM
         echo '</td></tr>';
 
         // Spécificité 2
-        echo '<tr class="tab_bg_1"><td>' .  __('Specificity 2') . ':		</td>';
+        echo '<tr class="tab_bg_1"><td>' . __('Specificity 2') . ':		</td>';
         echo '<td>';
         Html::autocompletionTextField($this, 'text2');
         echo '</td>';

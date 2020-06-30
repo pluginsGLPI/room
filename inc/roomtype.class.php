@@ -11,6 +11,6 @@ class PluginRoomRoomType extends CommonDropdown
 
     public static function getTypeName($nb = 0)
     {
-    	return _n('Type', 'Types', $nb);
+        return _n('Type', 'Types', $nb);
     }
 }

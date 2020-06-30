@@ -39,8 +39,8 @@ class PluginRoomProfile extends Profile
             [
                 'plugin_room' => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
             ],
-           true
-       );
+            true
+        );
     }
 
     /**
@@ -52,11 +52,11 @@ class PluginRoomProfile extends Profile
      */
     public static function addDefaultProfileInfos($profiles_id, $rights, $drop_existing = false)
     {
-	$dbu = new DbUtils();
+        $dbu = new DbUtils();
         $profileRight = new ProfileRight();
         foreach ($rights as $right => $value) {
-            $count_conditions = ["profiles_id" => $profiles_id, "name" => $right];
-            if ($dbu->	countElementsInTable('glpi_profilerights', $count_conditions) && $drop_existing) {
+            $count_conditions = ['profiles_id' => $profiles_id, 'name' => $right];
+            if ($dbu->countElementsInTable('glpi_profilerights', $count_conditions) && $drop_existing) {
                 $profileRight->deleteByCriteria([
                     'profiles_id' => $profiles_id,
                     'name' => $right,
@@ -139,14 +139,13 @@ class PluginRoomProfile extends Profile
 
     public static function getAllRights($all = false)
     {
-        $rights = [
+        return [
             [
                 'itemtype' => 'PluginRoomRoom',
                 'label' => __('Room Management'),
                 'field' => 'plugin_room',
             ],
         ];
-        return $rights;
     }
 
     /**
@@ -178,11 +177,11 @@ class PluginRoomProfile extends Profile
     {
         global $DB;
         $profile = new self();
-	$dbu	 = new DbUtils();
+        $dbu = new DbUtils();
 
         // Add new rights in glpi_profilerights table
         foreach ($profile->getAllRights(true) as $data) {
-            if ($dbu->countElementsInTable('glpi_profilerights', ["name" => $data['field']]) == 0) {
+            if ($dbu->countElementsInTable('glpi_profilerights', ['name' => $data['field']]) == 0) {
                 ProfileRight::addProfileRights([
                     $data['field'],
                 ]);

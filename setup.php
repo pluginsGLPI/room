@@ -25,9 +25,9 @@ function plugin_init_room()
         'ticket_types' => true,
         'linkgroup_tech_types' => true,
     ]);
-    
-    $CFG_GLPI['impact_asset_types']['PluginRoomRoom'] = "plugins/room/room.png";
-    
+
+    $CFG_GLPI['impact_asset_types']['PluginRoomRoom'] = 'plugins/room/room.png';
+
     Plugin::registerClass('PluginRoomProfile', [
         'addtabon' => 'Profile',
     ]);
@@ -61,7 +61,7 @@ function plugin_room_check_prerequisites()
         if (method_exists('Plugin', 'messageIncompatible')) {
             echo Plugin::messageIncompatible('core', '9.5', '9.6');
         } else {
-            echo "This plugin requires GLPI >= 9.5 && <= 9.6";
+            echo 'This plugin requires GLPI >= 9.5 && <= 9.6';
         }
         return false;
     }
