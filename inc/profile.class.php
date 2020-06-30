@@ -139,11 +139,10 @@ class PluginRoomProfile extends Profile
 
     public static function getAllRights($all = false)
     {
-        global $LANG;
         $rights = [
             [
                 'itemtype' => 'PluginRoomRoom',
-                'label' => $LANG['plugin_room'][0],
+                'label' => __('Room Management'),
                 'field' => 'plugin_room',
             ],
         ];
