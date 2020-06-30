@@ -121,16 +121,17 @@ function plugin_room_uninstall()
 {
     global $DB;
 
-    $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_rooms_computers`';
-    $DB->query($query);
-    $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_roomtypes`';
-    $DB->query($query);
-    $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_roomaccessconds`';
-    $DB->query($query);
-    $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_dropdown1s`';
-    $DB->query($query);
-    $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_rooms`';
-    $DB->query($query);
+    $tables = [
+	    "glpi_plugin_room_rooms_computers",
+	    "glpi_plugin_room_roomtypes",
+	    "glpi_plugin_room_roomaccessconds",
+	    "glpi_plugin_room_dropdown1s",
+	    "glpi_plugin_room_rooms"
+    ];
+    
+    foreach ($tables as $table) {
+        $DB->query("DROP TABLE IF EXISTS `$table`;");
+    }
 
     $tables_glpi = [
         'glpi_displaypreferences',
