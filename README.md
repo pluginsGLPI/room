@@ -30,7 +30,7 @@ This plugins uninstalls as any other GLPI plugin.
 
 1. Go to *Setup* > *Plugins*.
 2. Look for the *Room Management* plugin's row.
-3. Click on the *Disnable* button.
+3. Click on the *Disable* button.
 4. Click on the *Uninstall* button.
 5. Delete the `plugins/room` directory of your GLPI installation.
 
