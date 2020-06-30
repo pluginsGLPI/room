@@ -7,7 +7,7 @@ define('PLUGIN_ROOM_VERSION', '3.1.2-jb');
 // nouveaux objets d'inventaire.
 function plugin_init_room()
 {
-    global $PLUGIN_HOOKS, $CFG_GLPI, $LINK_ID_TABLE, $LANG;
+    global $PLUGIN_HOOKS, $CFG_GLPI, $LINK_ID_TABLE;
 
     $PLUGIN_HOOKS['csrf_compliant']['room'] = true;
     $PLUGIN_HOOKS['assign_to_ticket']['room'] = true;
@@ -43,8 +43,6 @@ function plugin_init_room()
 // Get the name and the version of the plugin - Needed
 function plugin_version_room()
 {
-    global $LANG;
-
     return [
         'name' => _n('Room', 'Rooms', 2, 'room'),
         'version' => PLUGIN_ROOM_VERSION,

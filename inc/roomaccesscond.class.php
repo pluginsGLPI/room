@@ -11,8 +11,6 @@ class PluginRoomRoomAccessCond extends CommonDropdown
 
     public static function getTypeName($nb = 0)
     {
-        global $LANG;
-
-        return $LANG['plugin_room'][5];
+        return __('Conditions of Access');
     }
 }
