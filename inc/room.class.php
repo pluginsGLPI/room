@@ -524,7 +524,7 @@ EOS;
 
             if ($result_linked = $DB->query($query)) {
                 if ($DB->numrows($result_linked)) {
-                    while ($data = $DB->fetch_assoc($result_linked)) {
+                    while ($data = $DB->fetchAssoc($result_linked)) {
                         $ID = '';
 
                         if ($_SESSION['glpiis_ids_visible'] || empty($data['name'])) {
@@ -641,7 +641,7 @@ EOS;
             echo '<th>';
             if ($result = $DB->query($query)) {
                 if ($DB->numrows($result) > 0) {
-                    $data = $DB->fetch_assoc($result);
+                    $data = $DB->fetchAssoc($result);
 
                     if (self::canView()) {
                         echo '<a '
