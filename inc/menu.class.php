@@ -39,6 +39,6 @@ class PluginRoomMenu extends CommonGLPI
 
     public static function getIcon()
     {
-        return 'fas fa-download';
+        return 'fas fa-building';
     }
 }
