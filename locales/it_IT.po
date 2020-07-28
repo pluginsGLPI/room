@@ -1,43 +1,44 @@
 # GLPI - Room Management plugin
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Copyright (C) 2020 THE GLPI - Room plugin'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the GLPI - Room plugin package.
+#  <stefano.ceccherini@gmail.com>, 2020.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GLPI - Room plugin 3.2.0-jb\n\n"
+"Project-Id-Version: GLPI - Room plugin 3.2.0-jb\n"
+"\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-30 18:48+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-07-28 12:43+0200\n"
+"Last-Translator:  <stefano.ceccherini@gmail.com>\n"
+"Language-Team: Italian\n"
+"Language: it_IT\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: hook.php:55 hook.php:70 hook.php:84 hook.php:98 hook.php:112
 msgid "Error during the database update"
-msgstr ""
+msgstr "Errore durante l'aggiornamento del database"
 
 #: hook.php:276 hook.php:284 hook.php:362 front/room.form.php:82
 #: front/room.php:11 inc/profile.class.php:145
 msgid "Room Management"
-msgstr ""
+msgstr "Gestione Locali"
 
 #: hook.php:276 inc/room.class.php:51 inc/room.class.php:302
 #: inc/room.class.php:517
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: hook.php:284
 msgid "Type of Room"
-msgstr ""
+msgstr "Tipologia di Locale"
 
 #: hook.php:317
 msgid "Add a Room"
-msgstr ""
+msgstr "Aggiungi un Locale"
 
 #: hook.php:333
 msgid "Post"
@@ -46,12 +47,12 @@ msgstr ""
 #: setup.php:46 inc/room.class.php:13 inc/room.class.php:635
 msgid "Room"
 msgid_plural "Rooms"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Locale"
+msgstr[1] "Locali"
 
 #: inc/dropdown1.class.php:14
 msgid "Room specificities"
-msgstr ""
+msgstr "Caratteristica di Locale"
 
 #: inc/profile.class.php:115
 msgid "General"
@@ -84,7 +85,7 @@ msgstr ""
 
 #: inc/room.class.php:105 inc/room.class.php:364
 msgid "Seating"
-msgstr ""
+msgstr "Posti a sedere"
 
 #: inc/room.class.php:121 inc/room.class.php:387
 msgid "Date of purchase"
@@ -92,39 +93,39 @@ msgstr ""
 
 #: inc/room.class.php:129
 msgid "Printer"
-msgstr ""
+msgstr "Stampante"
 
 #: inc/room.class.php:137 inc/room.class.php:406
 msgid "Video Projector"
-msgstr ""
+msgstr "Videoproiettore"
 
 #: inc/room.class.php:145 inc/room.class.php:412
 msgid "WiFi"
-msgstr ""
+msgstr "Servizio WiFi"
 
 #: inc/room.class.php:161 inc/room.class.php:454
 msgid "Opening Times"
-msgstr ""
+msgstr "Orari di apertura"
 
 #: inc/room.class.php:169 inc/room.class.php:460
 msgid "Limitations"
-msgstr ""
+msgstr "Limitazioni"
 
 #: inc/room.class.php:177 inc/room.class.php:418
 msgid "Specificity 1"
-msgstr ""
+msgstr "Caratteristica 1"
 
 #: inc/room.class.php:185 inc/room.class.php:436
 msgid "Specificity 2"
-msgstr ""
+msgstr "Caratteristica 2"
 
 #: inc/room.class.php:193 inc/room.class.php:424
 msgid "Specificity 3"
-msgstr ""
+msgstr "Caratteristica 3"
 
 #: inc/room.class.php:201 inc/room.class.php:442
 msgid "Specificity 4"
-msgstr ""
+msgstr "Caratteristica 4"
 
 #: inc/room.class.php:209
 msgid "ID"
@@ -132,11 +133,11 @@ msgstr ""
 
 #: inc/room.class.php:217
 msgid "Computers"
-msgstr ""
+msgstr "Computer presenti in sala"
 
 #: inc/room.class.php:228
 msgid "Number of Computers"
-msgstr ""
+msgstr "Numero Computer"
 
 #: inc/room.class.php:237
 msgid "Entity"
@@ -184,4 +185,4 @@ msgstr ""
 
 #: inc/room.class.php:636
 msgid "Responsible"
-msgstr ""
+msgstr "Responsabile"
