@@ -1,6 +1,6 @@
 <?php
 
-define('PLUGIN_ROOM_VERSION', '3.1.2-jb');
+define('PLUGIN_ROOM_VERSION', '3.2.0-jb');
 
 // Initilisation du plugin (appelée à l'activation du plugin)
 // Cette fonction définie les HOOKS avec GLPI et permet de déclarer de
