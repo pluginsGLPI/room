@@ -48,7 +48,7 @@ function plugin_version_room()
         'license' => 'GPLv2+',
         'author' => 'Julien Dombre / Modif bogucool, Pascal Marier-Dionne et Claude Duvergier',
         'homepage' => 'https://github.com/pluginsGLPI/room',
-        'minGlpiVersion' => '9.2',
+        'minGlpiVersion' => '9.3.1',
     ];
 }
 
