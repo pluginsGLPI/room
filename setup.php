@@ -1,6 +1,6 @@
 <?php
 
-define('PLUGIN_ROOM_VERSION', '3.2.0-jb');
+define('PLUGIN_ROOM_VERSION', '3.1.3');
 
 // Initilisation du plugin (appelée à l'activation du plugin)
 // Cette fonction définie les HOOKS avec GLPI et permet de déclarer de
@@ -48,7 +48,7 @@ function plugin_version_room()
         'license' => 'GPLv2+',
         'author' => 'Julien Dombre / Modif bogucool, Pascal Marier-Dionne et Claude Duvergier',
         'homepage' => 'https://github.com/pluginsGLPI/room',
-        'minGlpiVersion' => '9.5',
+        'minGlpiVersion' => '9.5.0',
     ];
 }
 
