@@ -1,5 +1,4 @@
 <?php
-<?php
 
 class PluginRoomRoom extends CommonDBTM
 {
