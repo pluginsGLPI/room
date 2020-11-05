@@ -79,7 +79,7 @@ if (isset($_POST['add'])) { // Ajout d'une salle
                                 $_SESSION['glpi_tab'] = $_GET['tab'];
                             }
 
-                            Html::header(__('Room Management'), '', 'assets', 'pluginroommenu');
+                            Html::header(__('Room Management', 'room'), '', 'assets', 'pluginroommenu');
 
                             $room->display($_GET);
 
