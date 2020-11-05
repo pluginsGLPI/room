@@ -11,6 +11,6 @@ class PluginRoomRoomAccessCond extends CommonDropdown
 
     public static function getTypeName($nb = 0)
     {
-        return __('Conditions of Access');
+        return __('Conditions of Access', 'room');
     }
 }
