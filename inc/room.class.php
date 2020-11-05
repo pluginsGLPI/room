@@ -1,4 +1,5 @@
 <?php
+<?php
 
 class PluginRoomRoom extends CommonDBTM
 {
@@ -48,7 +49,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'name',
             'linkfield' => 'name',
-            'name' => __('Name'),
+            'name' => __('Name', 'room'),
             'datatype' => 'itemlink',
             'itemlink_type' => $this->getType(),
         ];
@@ -58,7 +59,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => 'glpi_plugin_room_roomtypes',
             'field' => 'name',
             'linkfield' => 'type',
-            'name' => __('Type'),
+            'name' => __('Type', 'room'),
         ];
 
         $tab[] = [
@@ -66,7 +67,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => 'glpi_groups',
             'field' => 'completename',
             'linkfield' => 'groups_id_tech',
-            'name' => __('Group in charge of the hardware'),
+            'name' => __('Group in charge of the hardware', 'room'),
             'condition' => '`is_assign`',
             'datatype' => 'dropdown',
         ];
@@ -76,7 +77,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => 'glpi_users',
             'field' => 'name',
             'linkfield' => 'tech_num',
-            'name' => __('Technician in charge of the hardware'),
+            'name' => __('Technician in charge of the hardware', 'room'),
         ];
 
         $tab[] = [
@@ -84,7 +85,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => 'glpi_users',
             'field' => 'name',
             'linkfield' => 'users_id',
-            'name' => __('Alternate username'),
+            'name' => __('Alternate username', 'room'),
         ];
 
         $tab[] = [
@@ -92,7 +93,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'comment',
             'linkfield' => 'comment',
-            'name' => __('Comments'),
+            'name' => __('Comments', 'room'),
         ];
 
         $tab += Location::rawSearchOptionsToAdd();
@@ -102,7 +103,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'size',
             'linkfield' => 'size',
-            'name' => __('Seating'),
+            'name' => __('Seating', 'room'),
         ];
 
         $tab[] = [
@@ -110,7 +111,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => 'glpi_plugin_room_roomaccessconds',
             'field' => 'name',
             'linkfield' => 'access',
-            'name' => __('Conditions of Access'),
+            'name' => __('Conditions of Access', 'room'),
         ];
 
         $tab[] = [
@@ -118,7 +119,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'buy',
             'linkfield' => 'buy',
-            'name' => __('Date of purchase'),
+            'name' => __('Date of purchase', 'room'),
         ];
 
         $tab[] = [
@@ -126,7 +127,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'printer',
             'linkfield' => 'printer',
-            'name' => __('Printer'),
+            'name' => __('Printer', 'room'),
         ];
 
         $tab[] = [
@@ -134,7 +135,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'videoprojector',
             'linkfield' => 'videoprojector',
-            'name' => __('Video Projector'),
+            'name' => __('Video Projector', 'room'),
         ];
 
         $tab[] = [
@@ -142,7 +143,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'wifi',
             'linkfield' => 'wifi',
-            'name' => __('WiFi'),
+            'name' => __('WiFi', 'room'),
         ];
 
         $tab[] = [
@@ -150,7 +151,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'comment',
             'linkfield' => '',
-            'name' => __('Comments'),
+            'name' => __('Comments', 'room'),
         ];
 
         $tab[] = [
@@ -158,7 +159,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'opening',
             'linkfield' => '',
-            'name' => __('Opening Times'),
+            'name' => __('Opening Times', 'room'),
         ];
 
         $tab[] = [
@@ -166,7 +167,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'limits',
             'linkfield' => '',
-            'name' => __('Limitations'),
+            'name' => __('Limitations', 'room'),
         ];
 
         $tab[] = [
@@ -174,7 +175,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'text1',
             'linkfield' => '',
-            'name' => __('Specificity 1'),
+            'name' => __('Specificity 1', 'room'),
         ];
 
         $tab[] = [
@@ -182,7 +183,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'text2',
             'linkfield' => '',
-            'name' => __('Specificity 2'),
+            'name' => __('Specificity 2', 'room'),
         ];
 
         $tab[] = [
@@ -190,7 +191,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => 'glpi_plugin_room_dropdown1s',
             'field' => 'name',
             'linkfield' => 'dropdown1',
-            'name' => __('Specificity 3'),
+            'name' => __('Specificity 3', 'room'),
         ];
 
         $tab[] = [
@@ -198,7 +199,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => 'glpi_plugin_room_dropdown1s',
             'field' => 'name',
             'linkfield' => 'dropdown2',
-            'name' => __('Specificity 4'),
+            'name' => __('Specificity 4', 'room'),
         ];
 
         $tab[] = [
@@ -206,7 +207,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'id',
             'linkfield' => '',
-            'name' => __('ID'),
+            'name' => __('ID', 'room'),
         ];
 
         $tab[] = [
@@ -214,7 +215,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'name',
             'linkfield' => '',
-            'name' => __('Computers'),
+            'name' => __('Computers', 'room'),
             'forcegroupby' => true,
             'datatype' => 'itemlink',
             'itemlink_type' => $this->getType(),
@@ -225,7 +226,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'count_linked',
             'linkfield' => '',
-            'name' => __('Number of Computers'),
+            'name' => __('Number of Computers', 'room'),
             'meta' => 1,
         ];
 
@@ -234,7 +235,7 @@ class PluginRoomRoom extends CommonDBTM
             'table' => 'glpi_entities',
             'field' => 'completename',
             'linkfield' => 'entities_id',
-            'name' => __('Entity'),
+            'name' => __('Entity', 'room'),
         ];
 
         return $tab;
@@ -291,7 +292,7 @@ class PluginRoomRoom extends CommonDBTM
         // seconde ligne du tableau
         echo '<tr class="tab_bg_1">';
         if ($ID > 0) { // La salle éxiste déjà : affichage de la derniere modif
-            echo '<th colspan="4">' . __('Last update') . ': ' . Html::convDateTime($this->fields['date_mod']) . '</th>';
+            echo '<th colspan="4">' . __('Last update', 'room') . ': ' . Html::convDateTime($this->fields['date_mod']) . '</th>';
         } else { // C'est une nouvelle salle
             echo '<th colspan="4">&nbsp;</th>';
         }
@@ -299,11 +300,11 @@ class PluginRoomRoom extends CommonDBTM
 
         // Reste du tableau
         // Nom de la salle
-        echo '<tr class="tab_bg_1"><td>' . __('Name') . ':		</td>';
+        echo '<tr class="tab_bg_1"><td>' . __('Name', 'room') . ':		</td>';
         echo '<td>';
         Html::autocompletionTextField($this, 'name');
         echo '</td>';
-        echo '<td>' . __('Location') . ':		</td>';
+        echo '<td>' . __('Location', 'room') . ':		</td>';
         echo '<td>';
         Dropdown::show(
             'Location',
@@ -315,7 +316,7 @@ class PluginRoomRoom extends CommonDBTM
         echo '</td></tr>';
 
         // Dropdown du type
-        echo '<tr class="tab_bg_1"><td>' . __('Type') . ':		</td>';
+        echo '<tr class="tab_bg_1"><td>' . __('Type', 'room') . ':		</td>';
         echo '<td>';
         Dropdown::show(
             'PluginRoomRoomType',
@@ -327,7 +328,7 @@ class PluginRoomRoom extends CommonDBTM
         echo '</td>';
 
         // Dropdown des Conditions d'accès
-        echo '<td>' . __('Conditions of Access') . ':		</td>';
+        echo '<td>' . __('Conditions of Access', 'room') . ':		</td>';
         echo '<td>';
         Dropdown::show(
             'PluginRoomRoomAccessCond',
@@ -339,7 +340,7 @@ class PluginRoomRoom extends CommonDBTM
         echo '</td></tr>';
 
         // Dropdown de l'usager
-        echo '<tr class="tab_bg_1"><td>' . __('Alternate username') . ':		</td>';
+        echo '<tr class="tab_bg_1"><td>' . __('Alternate username', 'room') . ':		</td>';
         echo '<td>';
         User::Dropdown([
             'name' => 'users_id',
@@ -350,7 +351,7 @@ class PluginRoomRoom extends CommonDBTM
         echo '</td>';
 
         // Dropdown du Responsable technique
-        echo '<td>' . __('Technician in charge of the hardware') . ':		</td>';
+        echo '<td>' . __('Technician in charge of the hardware', 'room') . ':		</td>';
         echo '<td>';
         User::Dropdown([
             'name' => 'tech_num',
@@ -361,7 +362,7 @@ class PluginRoomRoom extends CommonDBTM
         echo '</td></tr>';
 
         // Nombres de place
-        echo '<tr class="tab_bg_1"><td>' . __('Seating') . ':		</td>';
+        echo '<tr class="tab_bg_1"><td>' . __('Seating', 'room') . ':		</td>';
         echo '<td>';
         Dropdown::showNumber(
             'size',
@@ -374,7 +375,7 @@ class PluginRoomRoom extends CommonDBTM
         echo '</td>';
 
         // Dropdown du Groupe responsable technique
-        echo '<td>' . __('Group in charge of the hardware') . '</td><td>';
+        echo '<td>' . __('Group in charge of the hardware', 'room') . '</td><td>';
         Group::dropdown([
             'name' => 'groups_id_tech',
             'value' => $this->fields['groups_id_tech'],
@@ -384,7 +385,7 @@ class PluginRoomRoom extends CommonDBTM
         echo '</td></tr>';
 
         // Date d'achat
-        echo '<tr class="tab_bg_1"><td>' . __('Date of purchase') . ':		</td>';
+        echo '<tr class="tab_bg_1"><td>' . __('Date of purchase', 'room') . ':		</td>';
         echo '<td>';
         Html::showDateField(
             'buy',
@@ -397,31 +398,31 @@ class PluginRoomRoom extends CommonDBTM
         echo '</td>';
 
         // Moyen d'impression
-        echo '<td>' . __('Whiteboard') . ':		</td>';
+        echo '<td>' . __('Whiteboard', 'room') . ':		</td>';
         echo '<td>';
         Dropdown::showYesNo('printer', $this->fields['printer']);
         echo '</td></tr>';
 
         // Videoprojecteur
-        echo '<tr class="tab_bg_1"><td>' . __('Video Projector') . ':		</td>';
+        echo '<tr class="tab_bg_1"><td>' . __('Video Projector', 'room') . ':		</td>';
         echo '<td>';
         Dropdown::showYesNo('videoprojector', $this->fields['videoprojector']);
         echo '</td>';
 
         // wifi
-        echo '<td>' . __('WiFi') . ':		</td>';
+        echo '<td>' . __('WiFi', 'room') . ':		</td>';
         echo '<td>';
         Dropdown::showYesNo('wifi', $this->fields['wifi']);
         echo '</td></tr>';
 
         // Spécificité 1
-        echo '<tr class="tab_bg_1"><td>' . __('Specificity 1') . ':		</td>';
+        echo '<tr class="tab_bg_1"><td>' . __('Specificity 1', 'room') . ':		</td>';
         echo '<td>';
         Html::autocompletionTextField($this, 'text1');
         echo '</td>';
 
         // Spécificité 3
-        echo '<td>' . __('Specificity 3') . ':		</td>';
+        echo '<td>' . __('Specificity 3', 'room') . ':		</td>';
         echo '<td>';
         Dropdown::show(
             'PluginRoomDropdown1',
@@ -433,13 +434,13 @@ class PluginRoomRoom extends CommonDBTM
         echo '</td></tr>';
 
         // Spécificité 2
-        echo '<tr class="tab_bg_1"><td>' . __('Specificity 2') . ':		</td>';
+        echo '<tr class="tab_bg_1"><td>' . __('Specificity 2', 'room') . ':		</td>';
         echo '<td>';
         Html::autocompletionTextField($this, 'text2');
         echo '</td>';
 
         // Spécificité 4
-        echo '<td>' . __('Specificity 4') . ':		</td>';
+        echo '<td>' . __('Specificity 4', 'room') . ':		</td>';
         echo '<td>';
         Dropdown::show(
             'PluginRoomDropdown1',
@@ -451,13 +452,13 @@ class PluginRoomRoom extends CommonDBTM
         echo '</td></tr>';
 
         // Horaires d'ouverture
-        echo '<tr class="tab_bg_1"><td>' . __('Opening Times') . ':		</td>';
+        echo '<tr class="tab_bg_1"><td>' . __('Opening Times', 'room') . ':		</td>';
         echo '<td colspan="3">';
         Html::autocompletionTextField($this, 'opening');
         echo '</td></tr>';
 
         // limitations
-        echo '<tr class="tab_bg_1"><td>' . __('Limitations') . ':		</td>';
+        echo '<tr class="tab_bg_1"><td>' . __('Limitations', 'room') . ':		</td>';
         echo '<td colspan="3">';
         Html::autocompletionTextField($this, 'limits');
         echo '</td></tr>';
@@ -465,7 +466,7 @@ class PluginRoomRoom extends CommonDBTM
         // Commentaires
         echo '<tr>';
         echo '<td class="tab_bg_1" valign="top">';
-        echo __('Comments') . ':</td>';
+        echo __('Comments', 'room') . ':</td>';
         echo '<td colspan="3" class="tab_bg_1">';
         echo '<textarea cols="70" rows="4" name="comment">' . $this->fields['comment'] . '</textarea>';
         echo '</td>';
@@ -510,12 +511,12 @@ EOS;
                 'action="' . $CFG_GLPI['root_doc'] . '/plugins/room/front/room.form.php">';
 
             echo '<br><br><div class="center"><table class="tab_cadre_fixe">';
-            echo '<tr><th colspan="' . ($canedit ? 3 : 2) . '">' . __('Associated items') . ':</th></tr><tr>';
+            echo '<tr><th colspan="' . ($canedit ? 3 : 2) . '">' . __('Associated items', 'room') . ':</th></tr><tr>';
             if ($canedit) {
                 echo '<th>&nbsp;</th>';
             }
-            echo '<th>' . __('Name') . '</th>';
-            echo '<th>' . __('Select the desired entity') . '</th>';
+            echo '<th>' . __('Name', 'room') . '</th>';
+            echo '<th>' . __('Select the desired entity', 'room') . '</th>';
             echo '</tr>';
 
             if ($result_linked = $DB->query($query)) {
@@ -563,7 +564,7 @@ EOS;
                 Dropdown::show('Computer');
                 echo '</td>';
                 echo '<td class="center">';
-                echo '<input type="submit" name="additem" value="' . __('Add') . '" class="submit">';
+                echo '<input type="submit" name="additem" value="' . __('Add', 'room') . '" class="submit">';
                 echo '</td></tr>';
                 echo '</table></div>';
 
@@ -575,7 +576,7 @@ EOS;
                     . '<a '
                     . 'onclick="if (markCheckboxes(\'document_form\')) return false;" '
                     . 'href="' . $_SERVER['PHP_SELF'] . '?ID=' . $room_id . '&amp;select=all">'
-                    . __('Check All') . '</a>';
+                    . __('Check All', 'room') . '</a>';
                 echo '</td>';
 
                 echo '<td>/</td>';
@@ -583,10 +584,10 @@ EOS;
                     . '<a '
                     . 'onclick="if (unMarkCheckboxes(\'document_form\')) return false;" '
                     . 'href="' . $_SERVER['PHP_SELF'] . '?ID=' . $room_id . '&amp;select=none">'
-                    . __('Uncheck All') . '</a>';
+                    . __('Uncheck All', 'room') . '</a>';
                 echo '</td>';
                 echo '<td align="left" width="80%">';
-                echo '<input type="submit" name="deleteitem" value="' . __('To delete') . '" class="submit">';
+                echo '<input type="submit" name="deleteitem" value="' . __('To delete', 'room') . '" class="submit">';
                 echo '</td>';
                 echo '</table></div>';
             } else {
@@ -631,9 +632,9 @@ EOS;
                 $colsup = 0;
             }
             echo '<div align="center"><table class="tab_cadre_fixe">';
-            echo '<tr><th colspan="' . (1 + $colsup) . '">' . __('This computer is in room:') . '</th></tr>';
-            echo '<th>' . __('Room') . '</th>';
-            echo '<th>' . __('Responsible') . '</th></tr>';
+            echo '<tr><th colspan="' . (1 + $colsup) . '">' . __('This computer is in room:', 'room') . '</th></tr>';
+            echo '<th>' . __('Room', 'room') . '</th>';
+            echo '<th>' . __('Responsible', 'room') . '</th></tr>';
             echo '<th>';
             if ($result = $DB->query($query)) {
                 if ($DB->numrows($result) > 0) {
