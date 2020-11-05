@@ -112,7 +112,7 @@ class PluginRoomProfile extends Profile
                 [
                     'canedit' => $canedit,
                     'default_class' => 'tab_bg_2',
-                    'title' => __('General'),
+                    'title' => __('General', 'room'),
                 ]
             );
         }
@@ -142,7 +142,7 @@ class PluginRoomProfile extends Profile
         return [
             [
                 'itemtype' => 'PluginRoomRoom',
-                'label' => __('Room Management'),
+                'label' => __('Room Management', 'room'),
                 'field' => 'plugin_room',
             ],
         ];
