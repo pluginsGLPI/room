@@ -1,4 +1,4 @@
-Fork of a Fork of a Room Management plugin for [GLPI](www.glpi-project.org)
+Room Management plugin for [GLPI](www.glpi-project.org)
 =======================================================
 
 This is a plugin to add room management feature to [**GLPI** assets inventory
