@@ -11,6 +11,6 @@ class PluginRoomDropdown1 extends CommonDropdown
 
     public static function getTypeName($nb = 0)
     {
-        return __('Room specificities');
+        return __('Room specificities', 'room');
     }
 }

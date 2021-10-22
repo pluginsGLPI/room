@@ -8,7 +8,7 @@ include '../../../inc/includes.php';
 
 PluginRoomRoom::canView();
 
-Html::header(__('Room Management'), '', 'assets', 'pluginroommenu');
+Html::header(__('Room Management', 'room'), '', 'assets', 'pluginroommenu');
 
 Search::show('PluginRoomRoom');
 
