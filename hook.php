@@ -50,7 +50,7 @@ function plugin_room_install()
                 KEY `dropdown2` (`dropdown2`),
                 KEY `tech_num` (`tech_num`),
                 KEY `users_id` (`users_id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC
 EOS;
         $DB->query($query) || die('error adding glpi_plugin_room table ' . __('Error during the database update', 'room') . $DB->error());
     }
@@ -65,7 +65,7 @@ EOS;
                 PRIMARY KEY (`id`),
                 UNIQUE `computers_id` (`computers_id`),
                 KEY `rooms_id` (`rooms_id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 EOS;
         $DB->query($query) || die('error adding glpi_plugin_room_rooms_computers table ' . __('Error during the database update', 'room') . $DB->error());
     }
@@ -79,7 +79,7 @@ EOS;
                 `comment` text collate utf8_unicode_ci,
                 PRIMARY KEY (`id`),
                 KEY `name` (`name`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 EOS;
         $DB->query($query) || die('error adding glpi_plugin_room_roomtypes table ' . __('Error during the database update', 'room') . $DB->error());
     }
@@ -93,7 +93,7 @@ EOS;
                 `comment` text collate utf8_unicode_ci,
                 PRIMARY KEY (`id`),
                 KEY `name` (`name`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 EOS;
         $DB->query($query) || die('error adding glpi_plugin_room_roomaccessconds table ' . __('Error during the database update', 'room') . $DB->error());
     }
@@ -107,7 +107,7 @@ EOS;
                 `comment` text collate utf8_unicode_ci,
                 PRIMARY KEY (`id`),
                 KEY `name` (`name`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 EOS;
         $DB->query($query) || die('error adding glpi_plugin_room_roomspecificities table ' . __('Error during the database update', 'room') . $DB->error());
     }
