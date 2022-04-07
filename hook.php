@@ -143,7 +143,7 @@ function plugin_room_uninstall()
     ];
 
     foreach ($tables_glpi as $table_glpi) {
-        $DB->query('DELETE FROM `$table_glpi` WHERE `itemtype` = "PluginRoomRoom";');
+        $DB->query("DELETE FROM `$table_glpi` WHERE `itemtype` = 'PluginRoomRoom';");
     }
 
     return true;
