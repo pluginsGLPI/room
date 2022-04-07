@@ -11,7 +11,7 @@ function plugin_room_install()
         $query = <<<'EOS'
             CREATE TABLE `glpi_plugin_room_rooms` (
                 `id` int(11) NOT NULL auto_increment,
-                `name` varchar(255) collate utf8_unicode_ci default NULL,
+                `name` varchar(255) collate utf8mb4_unicode_ci default NULL,
                 `entities_id` int(11) NOT NULL default 0,
                 `locations_id` int(11) NOT NULL default 0,
                 `is_recursive` smallint(6) NOT NULL default 0,
@@ -25,11 +25,11 @@ function plugin_room_install()
                 `printer` smallint(6) NOT NULL default 0,
                 `videoprojector` smallint(6) NOT NULL default 0,
                 `wifi` smallint(6) NOT NULL default 0,
-                `comment` text collate utf8_unicode_ci,
-                `opening` varchar(255) collate utf8_unicode_ci default NULL,
-                `limits` varchar(255) collate utf8_unicode_ci default NULL,
-                `text1` varchar(255) collate utf8_unicode_ci default NULL,
-                `text2` varchar(255) collate utf8_unicode_ci default NULL,
+                `comment` text collate utf8mb4_unicode_ci,
+                `opening` varchar(255) collate utf8mb4_unicode_ci default NULL,
+                `limits` varchar(255) collate utf8mb4_unicode_ci default NULL,
+                `text1` varchar(255) collate utf8mb4_unicode_ci default NULL,
+                `text2` varchar(255) collate utf8mb4_unicode_ci default NULL,
                 `dropdown1` int(11) NOT NULL default 0,
                 `dropdown2` int(11) NOT NULL default 0,
                 `tech_num` int(11) NOT NULL default 0,
@@ -50,7 +50,7 @@ function plugin_room_install()
                 KEY `dropdown2` (`dropdown2`),
                 KEY `tech_num` (`tech_num`),
                 KEY `users_id` (`users_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC
 EOS;
         $DB->query($query) || die('error adding glpi_plugin_room table ' . __('Error during the database update', 'room') . $DB->error());
     }
@@ -65,7 +65,7 @@ EOS;
                 PRIMARY KEY (`id`),
                 UNIQUE `computers_id` (`computers_id`),
                 KEY `rooms_id` (`rooms_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 EOS;
         $DB->query($query) || die('error adding glpi_plugin_room_rooms_computers table ' . __('Error during the database update', 'room') . $DB->error());
     }
@@ -75,11 +75,11 @@ EOS;
         $query = <<<'EOS'
             CREATE TABLE `glpi_plugin_room_roomtypes` (
                 `id` int(11) NOT NULL auto_increment,
-                `name` varchar(255) collate utf8_unicode_ci default NULL,
-                `comment` text collate utf8_unicode_ci,
+                `name` varchar(255) collate utf8mb4_unicode_ci default NULL,
+                `comment` text collate utf8mb4_unicode_ci,
                 PRIMARY KEY (`id`),
                 KEY `name` (`name`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 EOS;
         $DB->query($query) || die('error adding glpi_plugin_room_roomtypes table ' . __('Error during the database update', 'room') . $DB->error());
     }
@@ -89,11 +89,11 @@ EOS;
         $query = <<<'EOS'
             CREATE TABLE `glpi_plugin_room_roomaccessconds` (
                 `id` int(11) NOT NULL auto_increment,
-                `name` varchar(255) collate utf8_unicode_ci default NULL,
-                `comment` text collate utf8_unicode_ci,
+                `name` varchar(255) collate utf8mb4_unicode_ci default NULL,
+                `comment` text collate utf8mb4_unicode_ci,
                 PRIMARY KEY (`id`),
                 KEY `name` (`name`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 EOS;
         $DB->query($query) || die('error adding glpi_plugin_room_roomaccessconds table ' . __('Error during the database update', 'room') . $DB->error());
     }
@@ -103,11 +103,11 @@ EOS;
         $query = <<<'EOS'
             CREATE TABLE `glpi_plugin_room_dropdown1s` (
                 `id` int(11) NOT NULL auto_increment,
-                `name` varchar(255) collate utf8_unicode_ci default NULL,
-                `comment` text collate utf8_unicode_ci,
+                `name` varchar(255) collate utf8mb4_unicode_ci default NULL,
+                `comment` text collate utf8mb4_unicode_ci,
                 PRIMARY KEY (`id`),
                 KEY `name` (`name`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 EOS;
         $DB->query($query) || die('error adding glpi_plugin_room_roomspecificities table ' . __('Error during the database update', 'room') . $DB->error());
     }
