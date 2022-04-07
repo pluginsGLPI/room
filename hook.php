@@ -136,7 +136,7 @@ function plugin_room_uninstall()
 
     // Delete reservations
     $DB->query('DELETE FROM `glpi_reservations` WHERE `reservationitems_id` in
-	    (SELECT id FROM `glpi_reservationitems` WHERE `itemtype` = "PluginRoomRoom";)');
+	    (SELECT id FROM `glpi_reservationitems` WHERE `itemtype` = "PluginRoomRoom");');
 
     // Delete logs, items and other things from glpi tables
     $tables_glpi = [
