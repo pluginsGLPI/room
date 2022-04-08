@@ -17,10 +17,10 @@ function plugin_room_install()
                 `is_recursive` smallint(6) NOT NULL default 0,
                 `is_deleted` smallint(6) NOT NULL default 0,
                 `type` int unsigned NOT NULL default 0,
-                `date_mod` datetime default NULL,
+                `date_mod` timestamp NULL default NULL,
                 `size` smallint(6) NOT NULL default 0,
                 `count_linked` smallint(6) NOT NULL default 0,
-                `buy` datetime default NULL,
+                `buy` timestamp NULL default NULL,
                 `access` int unsigned NOT NULL default 0,
                 `printer` smallint(6) NOT NULL default 0,
                 `videoprojector` smallint(6) NOT NULL default 0,
@@ -37,8 +37,8 @@ function plugin_room_install()
                 `is_template` smallint(6) NOT NULL default 0, # not used / for reservation search engine
                 `location` smallint(6) NOT NULL default 0, # not used / for reservation search engine
                 `state` smallint(6) NOT NULL default 0, # not used / for reservation search engine
-                `manufacturers_id` smallint(6) NOT NULL default 0, # not used / for reservation search engine
-                `groups_id` smallint(6) NOT NULL default 0, # not used / for reservation search engine
+                `manufacturers_id` int unsigned NOT NULL default 0, # not used / for reservation search engine
+                `groups_id` int unsigned NOT NULL default 0, # not used / for reservation search engine
                 `groups_id_tech` int unsigned NOT NULL default 0 COMMENT "Group in charge of the hardware. RELATION to glpi_groups (id)",
                 PRIMARY KEY (`id`),
                 KEY `entities_id` (`entities_id`),
