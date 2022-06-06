@@ -301,7 +301,7 @@ class PluginRoomRoom extends CommonDBTM
         // Nom de la salle
         echo '<tr class="tab_bg_1"><td>' . __('Name', 'room') . ':		</td>';
         echo '<td>';
-        Html::autocompletionTextField($this, 'name');
+        //Html::autocompletionTextField($this, 'name');
         echo '</td>';
         echo '<td>' . __('Location', 'room') . ':		</td>';
         echo '<td>';
@@ -417,7 +417,7 @@ class PluginRoomRoom extends CommonDBTM
         // Spécificité 1
         echo '<tr class="tab_bg_1"><td>' . __('Specificity 1', 'room') . ':		</td>';
         echo '<td>';
-        Html::autocompletionTextField($this, 'text1');
+        //Html::autocompletionTextField($this, 'text1');
         echo '</td>';
 
         // Spécificité 3
@@ -435,7 +435,7 @@ class PluginRoomRoom extends CommonDBTM
         // Spécificité 2
         echo '<tr class="tab_bg_1"><td>' . __('Specificity 2', 'room') . ':		</td>';
         echo '<td>';
-        Html::autocompletionTextField($this, 'text2');
+        //Html::autocompletionTextField($this, 'text2');
         echo '</td>';
 
         // Spécificité 4
@@ -453,13 +453,13 @@ class PluginRoomRoom extends CommonDBTM
         // Horaires d'ouverture
         echo '<tr class="tab_bg_1"><td>' . __('Opening Times', 'room') . ':		</td>';
         echo '<td colspan="3">';
-        Html::autocompletionTextField($this, 'opening');
+        //Html::autocompletionTextField($this, 'opening');
         echo '</td></tr>';
 
         // limitations
         echo '<tr class="tab_bg_1"><td>' . __('Limitations', 'room') . ':		</td>';
         echo '<td colspan="3">';
-        Html::autocompletionTextField($this, 'limits');
+        //Html::autocompletionTextField($this, 'limits');
         echo '</td></tr>';
 
         // Commentaires
