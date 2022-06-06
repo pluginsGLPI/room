@@ -299,10 +299,10 @@ function plugin_room_getAddSearchOptions($itemtype)
 
 function plugin_room_addSelect($type, $ID, $num)
 {
-    global $SEARCH_OPTION;
+    $searchopt = &Search::getOptions($type);
 
-    $table = $SEARCH_OPTION[$type][$ID]['table'];
-    $field = $SEARCH_OPTION[$type][$ID]['field'];
+    $table = $searchopt[$ID]['table'];
+    $field = $searchopt[$ID]['field'];
 
     // Example of standard Select clause but use it ONLY for specific Select
     // No need of the function if you do not have specific cases
