@@ -2,11 +2,19 @@
 
 class PluginRoomRoom extends CommonDBTM
 {
-    public $dohistory = true;
+    use Glpi\Features\Clonable;
+
+	public $dohistory = true;
 
     public static $rightname = 'plugin_room';
 
     protected $usenotepad = true;
+
+	public function getCloneRelations() :array {
+		return [
+			Document_Item::class,
+		];
+	}
 
     public static function getTypeName($nb = 0)
     {
