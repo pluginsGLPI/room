@@ -1,0 +1,187 @@
+# GLPI - Room Management plugin
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GLPI - Room plugin 3.2.0-jb\n\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-30 18:48+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: hook.php:55 hook.php:70 hook.php:84 hook.php:98 hook.php:112
+msgid "Error during the database update"
+msgstr ""
+
+#: hook.php:276 hook.php:284 hook.php:362 front/room.form.php:82
+#: front/room.php:11 inc/profile.class.php:145
+msgid "Room Management"
+msgstr ""
+
+#: hook.php:276 inc/room.class.php:51 inc/room.class.php:302
+#: inc/room.class.php:517
+msgid "Name"
+msgstr ""
+
+#: hook.php:284
+msgid "Type of Room"
+msgstr ""
+
+#: hook.php:317
+msgid "Add a Room"
+msgstr ""
+
+#: hook.php:333
+msgid "Post"
+msgstr ""
+
+#: setup.php:46 inc/room.class.php:13 inc/room.class.php:635
+msgid "Room"
+msgid_plural "Rooms"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/dropdown1.class.php:14
+msgid "Room specificities"
+msgstr ""
+
+#: inc/profile.class.php:115
+msgid "General"
+msgstr ""
+
+#: inc/roomaccesscond.class.php:14 inc/room.class.php:113
+#: inc/room.class.php:330
+msgid "Conditions of Access"
+msgstr ""
+
+#: inc/room.class.php:61 inc/room.class.php:318
+msgid "Type"
+msgstr ""
+
+#: inc/room.class.php:69 inc/room.class.php:377
+msgid "Group in charge of the hardware"
+msgstr ""
+
+#: inc/room.class.php:79 inc/room.class.php:353
+msgid "Technician in charge of the hardware"
+msgstr ""
+
+#: inc/room.class.php:87 inc/room.class.php:342
+msgid "Alternate username"
+msgstr ""
+
+#: inc/room.class.php:95 inc/room.class.php:153 inc/room.class.php:468
+msgid "Comments"
+msgstr ""
+
+#: inc/room.class.php:105 inc/room.class.php:364
+msgid "Seating"
+msgstr ""
+
+#: inc/room.class.php:121 inc/room.class.php:387
+msgid "Date of purchase"
+msgstr ""
+
+#: inc/room.class.php:129
+msgid "Printer"
+msgstr ""
+
+#: inc/room.class.php:137 inc/room.class.php:406
+msgid "Video Projector"
+msgstr ""
+
+#: inc/room.class.php:145 inc/room.class.php:412
+msgid "WiFi"
+msgstr ""
+
+#: inc/room.class.php:161 inc/room.class.php:454
+msgid "Opening Times"
+msgstr ""
+
+#: inc/room.class.php:169 inc/room.class.php:460
+msgid "Limitations"
+msgstr ""
+
+#: inc/room.class.php:177 inc/room.class.php:418
+msgid "Specificity 1"
+msgstr ""
+
+#: inc/room.class.php:185 inc/room.class.php:436
+msgid "Specificity 2"
+msgstr ""
+
+#: inc/room.class.php:193 inc/room.class.php:424
+msgid "Specificity 3"
+msgstr ""
+
+#: inc/room.class.php:201 inc/room.class.php:442
+msgid "Specificity 4"
+msgstr ""
+
+#: inc/room.class.php:209
+msgid "ID"
+msgstr ""
+
+#: inc/room.class.php:217
+msgid "Computers"
+msgstr ""
+
+#: inc/room.class.php:228
+msgid "Number of Computers"
+msgstr ""
+
+#: inc/room.class.php:237
+msgid "Entity"
+msgstr ""
+
+#: inc/room.class.php:294
+msgid "Last update"
+msgstr ""
+
+#: inc/room.class.php:306
+msgid "Location"
+msgstr ""
+
+#: inc/room.class.php:400
+msgid "Whiteboard"
+msgstr ""
+
+#: inc/room.class.php:513
+msgid "Associated items"
+msgstr ""
+
+#: inc/room.class.php:518
+msgid "Select the desired entity"
+msgstr ""
+
+#: inc/room.class.php:566
+msgid "Add"
+msgstr ""
+
+#: inc/room.class.php:578
+msgid "Check All"
+msgstr ""
+
+#: inc/room.class.php:586
+msgid "Uncheck All"
+msgstr ""
+
+#: inc/room.class.php:589
+msgid "To delete"
+msgstr ""
+
+#: inc/room.class.php:634
+msgid "This computer is in room:"
+msgstr ""
+
+#: inc/room.class.php:636
+msgid "Responsible"
+msgstr ""

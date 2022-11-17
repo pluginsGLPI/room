@@ -1,0 +1,2 @@
+script:
+        - vendor/bin/robo --no-interaction code:cs
