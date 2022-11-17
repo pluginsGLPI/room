@@ -11,8 +11,6 @@ class PluginRoomRoomType extends CommonDropdown
 
     public static function getTypeName($nb = 0)
     {
-        global $LANG;
-
-        return $LANG['plugin_room']['dropdown'][0];
+        return _n('Type', 'Types', $nb, 'room');
     }
 }

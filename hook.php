@@ -2,7 +2,7 @@
 
 function plugin_room_install()
 {
-    global $DB, $LANG;
+    global $DB;
 
     include_once GLPI_ROOT . '/plugins/room/inc/profile.class.php';
 
@@ -52,7 +52,7 @@ function plugin_room_install()
                 KEY `users_id` (`users_id`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 EOS;
-        $DB->query($query) || die('error adding glpi_plugin_room table ' . __('Error during the database update') . $DB->error());
+        $DB->query($query) || die('error adding glpi_plugin_room table ' . __('Error during the database update', 'room') . $DB->error());
     }
 
     // Table to link Rooms to Computers
@@ -67,7 +67,7 @@ EOS;
                 KEY `rooms_id` (`rooms_id`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 EOS;
-        $DB->query($query) || die('error adding glpi_plugin_room_rooms_computers table ' . __('Error during the database update') . $DB->error());
+        $DB->query($query) || die('error adding glpi_plugin_room_rooms_computers table ' . __('Error during the database update', 'room') . $DB->error());
     }
 
     // Table for Room types
@@ -81,7 +81,7 @@ EOS;
                 KEY `name` (`name`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 EOS;
-        $DB->query($query) || die('error adding glpi_plugin_room_roomtypes table ' . __('Error during the database update') . $DB->error());
+        $DB->query($query) || die('error adding glpi_plugin_room_roomtypes table ' . __('Error during the database update', 'room') . $DB->error());
     }
 
     // Table for access conditions
@@ -95,7 +95,7 @@ EOS;
                 KEY `name` (`name`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 EOS;
-        $DB->query($query) || die('error adding glpi_plugin_room_roomaccessconds table ' . __('Error during the database update') . $DB->error());
+        $DB->query($query) || die('error adding glpi_plugin_room_roomaccessconds table ' . __('Error during the database update', 'room') . $DB->error());
     }
 
     // Table for dropdowns
@@ -109,7 +109,7 @@ EOS;
                 KEY `name` (`name`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 EOS;
-        $DB->query($query) || die('error adding glpi_plugin_room_roomspecificities table ' . __('Error during the database update') . $DB->error());
+        $DB->query($query) || die('error adding glpi_plugin_room_roomspecificities table ' . __('Error during the database update', 'room') . $DB->error());
     }
 
     PluginRoomProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
@@ -121,16 +121,17 @@ function plugin_room_uninstall()
 {
     global $DB;
 
-    $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_rooms_computers`';
-    $DB->query($query);
-    $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_roomtypes`';
-    $DB->query($query);
-    $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_roomaccessconds`';
-    $DB->query($query);
-    $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_dropdown1s`';
-    $DB->query($query);
-    $query = 'DROP TABLE IF EXISTS `glpi_plugin_room_rooms`';
-    $DB->query($query);
+    $tables = [
+        'glpi_plugin_room_rooms_computers',
+        'glpi_plugin_room_roomtypes',
+        'glpi_plugin_room_roomaccessconds',
+        'glpi_plugin_room_dropdown1s',
+        'glpi_plugin_room_rooms',
+    ];
+
+    foreach ($tables as $table) {
+        $DB->query("DROP TABLE IF EXISTS `$table`;");
+    }
 
     $tables_glpi = [
         'glpi_displaypreferences',
@@ -198,15 +199,13 @@ function plugin_room_getDatabaseRelations()
 // Definit les tables qui sont gérables via les intitulés
 function plugin_room_getDropdown()
 {
-    global $LANG;
-
     $plugin = new Plugin();
 
     if ($plugin->isActivated('room')) {
         return [
-            'PluginRoomRoomType' => $LANG['plugin_room'][9],
-            'PluginRoomRoomAccessCond' => $LANG['plugin_room'][5],
-            'PluginRoomDropdown1' => $LANG['plugin_room']['dropdown'][2],
+            'PluginRoomRoomType' => PluginRoomRoomType::getTypeName(2),
+            'PluginRoomRoomAccessCond' => PluginRoomRoomAccessCond::getTypeName(2),
+            'PluginRoomDropdown1' => PluginRoomDropdown1::getTypeName(2),
         ];
     } else {
         return [];
@@ -268,14 +267,13 @@ function plugin_room_forceGroupBy($type)
 // Define search option for types of the plugins
 function plugin_room_getAddSearchOptions($itemtype)
 {
-    global $LANG;
     $sopt = [];
     if ($itemtype == 'Computer') {
         if (PluginRoomRoom::canView()) {
             $sopt[1050]['table'] = 'glpi_plugin_room_rooms';
             $sopt[1050]['field'] = 'name';
             $sopt[1050]['linkfield'] = '';
-            $sopt[1050]['name'] = $LANG['plugin_room'][0] . ' - ' . __('Name');
+            $sopt[1050]['name'] = __('Room Management', 'room') . ' - ' . __('Name', 'room');
             $sopt[1050]['forcegroupby'] = true;
             $sopt[1050]['datatype'] = 'itemlink';
             $sopt[1050]['itemlink_type'] = 'PluginRoomRoom';
@@ -283,7 +281,7 @@ function plugin_room_getAddSearchOptions($itemtype)
             $sopt[1051]['table'] = 'glpi_plugin_room_roomtypes';
             $sopt[1051]['field'] = 'name';
             $sopt[1051]['linkfield'] = '';
-            $sopt[1051]['name'] = $LANG['plugin_room'][0] . ' - ' . $LANG['plugin_room'][9];
+            $sopt[1051]['name'] = __('Room Management', 'room') . ' - ' . __('Type of Room', 'room');
             $sopt[1050]['forcegroupby'] = true;
         }
     }
@@ -313,11 +311,10 @@ function plugin_room_addSelect($type, $ID, $num)
 // Define actions :
 function plugin_room_MassiveActions($type)
 {
-    global $LANG;
     switch ($type) {
         case 'Computer':
             return [
-                'plugin_room_addComputer' => $LANG['plugin_room'][17],
+                'plugin_room_addComputer' => __('Add a Room', 'room'),
             ];
             break;
     }
@@ -327,15 +324,13 @@ function plugin_room_MassiveActions($type)
 // How to display specific actions ?
 function plugin_room_MassiveActionsDisplay($options = [])
 {
-    global $LANG;
-
     $PluginRoomRoom = new PluginRoomRoom();
     switch ($options['itemtype']) {
         case 'Computer':
             switch ($options['action']) {
                 case 'plugin_room_addComputer':
                     Dropdown::show('PluginRoomRoom');
-                    echo '&nbsp;<input type="submit" name="massiveaction" class="submit" value="' . __('Post') . '" >';
+                    echo '&nbsp;<input type="submit" name="massiveaction" class="submit" value="' . __('Post', 'room') . '" >';
                     break;
             }
             break;
@@ -346,8 +341,6 @@ function plugin_room_MassiveActionsDisplay($options = [])
 // How to process specific actions ?
 function plugin_room_MassiveActionsProcess($data)
 {
-    global $LANG;
-
     $PluginRoomRoom = new PluginRoomRoom();
 
     switch ($data['action']) {
@@ -365,10 +358,8 @@ function plugin_room_MassiveActionsProcess($data)
 
 function plugin_room_AssignToTicket($types)
 {
-    global $LANG;
-
     if (in_array('PluginRoomRoom', $_SESSION['glpiactiveprofile']['helpdesk_item_type'])) {
-        $types['PluginRoomRoom'] = $LANG['plugin_room'][0];
+        $types['PluginRoomRoom'] = __('Room Management', 'room');
     }
     return $types;
 }
