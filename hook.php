@@ -121,6 +121,7 @@ function plugin_room_uninstall()
 {
     global $DB;
 
+    // Drop plugin tables
     $tables = [
         'glpi_plugin_room_rooms_computers',
         'glpi_plugin_room_roomtypes',
@@ -133,6 +134,11 @@ function plugin_room_uninstall()
         $DB->query("DROP TABLE IF EXISTS `$table`;");
     }
 
+    // Delete reservations
+    $DB->query('DELETE FROM `glpi_reservations` WHERE `reservationitems_id` in
+	    (SELECT id FROM `glpi_reservationitems` WHERE `itemtype` = "PluginRoomRoom");');
+
+    // Delete logs, items and other things from glpi tables
     $tables_glpi = [
         'glpi_displaypreferences',
         'glpi_documents_items',
@@ -143,7 +149,7 @@ function plugin_room_uninstall()
     ];
 
     foreach ($tables_glpi as $table_glpi) {
-        $DB->query('DELETE FROM `$table_glpi` WHERE `itemtype` = "PluginRoomRoom";');
+        $DB->query("DELETE FROM `$table_glpi` WHERE `itemtype` = 'PluginRoomRoom';");
     }
 
     return true;
