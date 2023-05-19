@@ -1,4 +1,7 @@
 Room Management plugin for [GLPI](www.glpi-project.org)
+
+This is a fork of the official plugin, fixed for glpi 9.5 and glpi 10 (glpi_9.5-fixes and glpi-10 branches, respectively)
+
 =======================================================
 
 This is a plugin to add room management feature to [**GLPI** assets inventory
@@ -10,9 +13,6 @@ Description
 This plugin allows you to manage the rooms and the elements that are included
 in. A room is not the same as a location that already exists in GLPI because it
 can not contain items nor be loaned (which a room can be).
-
-GLPI 9.5.1 compatibility added and tested. Translation fixed (gettext domain). 
-I also added a basic hungarian translation :)
 
 Installation
 ------------
