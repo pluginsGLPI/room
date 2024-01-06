@@ -1,0 +1,190 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Rooms Development Team
+# This file is distributed under the same license as the GLPI - Rooms plugin package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GLPI - Rooms plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-07 21:15+0000\n"
+"PO-Revision-Date: 2024-01-06 20:40-0300\n"
+"Last-Translator: Fernando Toledo <ftoledo@docksud.com.ar>\n"
+"Language-Team: Fernando Toledo <ftoledo@docksud.com.ar>\n"
+"Language: es_AR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2.2\n"
+
+#: hook.php:55 hook.php:70 hook.php:84 hook.php:98 hook.php:112
+msgid "Error during the database update"
+msgstr "Error durante la actualización de base de datos"
+
+#: hook.php:276 hook.php:284 hook.php:362 index.php:11 front/room.form.php:82
+#: front/room.php:11 inc/profile.class.php:145
+msgid "Room Management"
+msgstr "Administración de Salas"
+
+#: hook.php:276 inc/room.class.php:51 inc/room.class.php:302
+#: inc/room.class.php:517
+msgid "Name"
+msgstr "Nombre"
+
+#: hook.php:284
+msgid "Type of Room"
+msgstr "Tipo de Sala"
+
+#: hook.php:317
+msgid "Add a Room"
+msgstr "Agregar Sala"
+
+#: hook.php:333
+msgid "Post"
+msgstr "Enviar"
+
+#: setup.php:46 inc/room.class.php:13 inc/room.class.php:635
+msgid "Room"
+msgid_plural "Rooms"
+msgstr[0] "Sala"
+msgstr[1] "Salas"
+
+#: inc/dropdown1.class.php:14
+msgid "Room specificities"
+msgstr "Especificaciones"
+
+#: inc/profile.class.php:115
+msgid "General"
+msgstr "General"
+
+#: inc/room.class.php:61 inc/room.class.php:318 inc/roomtype.class.php:14
+msgid "Type"
+msgid_plural "Types"
+msgstr[0] "Tipo"
+msgstr[1] "Tipos"
+
+#: inc/room.class.php:69 inc/room.class.php:377
+msgid "Group in charge of the hardware"
+msgstr "Grupo a cargo"
+
+#: inc/room.class.php:79 inc/room.class.php:353
+msgid "Technician in charge of the hardware"
+msgstr "Técnico a cargo"
+
+#: inc/room.class.php:87 inc/room.class.php:342
+msgid "Alternate username"
+msgstr "Nombre de usuario alternativo"
+
+#: inc/room.class.php:95 inc/room.class.php:153 inc/room.class.php:468
+msgid "Comments"
+msgstr "Comentarios"
+
+#: inc/room.class.php:105 inc/room.class.php:364
+msgid "Seating"
+msgstr "Asientos"
+
+#: inc/room.class.php:113 inc/room.class.php:330
+#: inc/roomaccesscond.class.php:14
+msgid "Conditions of Access"
+msgstr "Condiciones de acceso"
+
+#: inc/room.class.php:121 inc/room.class.php:387
+msgid "Date of purchase"
+msgstr "Fecha de compra"
+
+#: inc/room.class.php:129
+msgid "Printer"
+msgstr "Impresora"
+
+#: inc/room.class.php:137 inc/room.class.php:406
+msgid "Video Projector"
+msgstr "Proyector de video"
+
+#: inc/room.class.php:145 inc/room.class.php:412
+msgid "WiFi"
+msgstr "WiFi"
+
+#: inc/room.class.php:161 inc/room.class.php:454
+msgid "Opening Times"
+msgstr "Horarios de Apertura"
+
+#: inc/room.class.php:169 inc/room.class.php:460
+msgid "Limitations"
+msgstr "Limitaciones"
+
+#: inc/room.class.php:177 inc/room.class.php:418
+msgid "Specificity 1"
+msgstr "Especificación 1"
+
+#: inc/room.class.php:185 inc/room.class.php:436
+msgid "Specificity 2"
+msgstr "Especificación 2"
+
+#: inc/room.class.php:193 inc/room.class.php:424
+msgid "Specificity 3"
+msgstr "Especificación 3"
+
+#: inc/room.class.php:201 inc/room.class.php:442
+msgid "Specificity 4"
+msgstr "Especificación 4"
+
+#: inc/room.class.php:209
+msgid "ID"
+msgstr "ID"
+
+#: inc/room.class.php:217
+msgid "Computers"
+msgstr "Computadoras"
+
+#: inc/room.class.php:228
+msgid "Number of Computers"
+msgstr "Número de Computadoras"
+
+#: inc/room.class.php:237
+msgid "Entity"
+msgstr "Entidad"
+
+#: inc/room.class.php:294
+msgid "Last update"
+msgstr "Última modificación"
+
+#: inc/room.class.php:306
+msgid "Location"
+msgstr "Lugar"
+
+#: inc/room.class.php:400
+msgid "Whiteboard"
+msgstr "Pizarra"
+
+#: inc/room.class.php:513
+msgid "Associated items"
+msgstr "Items Asociados"
+
+#: inc/room.class.php:518
+msgid "Select the desired entity"
+msgstr "Seleccionar entidad"
+
+#: inc/room.class.php:566
+msgid "Add"
+msgstr "Agregar"
+
+#: inc/room.class.php:578
+msgid "Check All"
+msgstr "Marcar Todos"
+
+#: inc/room.class.php:586
+msgid "Uncheck All"
+msgstr "Desmarcar Todos"
+
+#: inc/room.class.php:589
+msgid "To delete"
+msgstr "Para eliminar"
+
+#: inc/room.class.php:634
+msgid "This computer is in room:"
+msgstr "Esta computadora está en la sala:"
+
+#: inc/room.class.php:636
+msgid "Responsible"
+msgstr "Responsable"
