@@ -2,11 +2,19 @@
 
 class PluginRoomRoom extends CommonDBTM
 {
-    public $dohistory = true;
+    use Glpi\Features\Clonable;
+
+	public $dohistory = true;
 
     public static $rightname = 'plugin_room';
 
     protected $usenotepad = true;
+
+	public function getCloneRelations() :array {
+		return [
+			Document_Item::class,
+		];
+	}
 
     public static function getTypeName($nb = 0)
     {
@@ -263,7 +271,7 @@ class PluginRoomRoom extends CommonDBTM
     // Cette fonction affiche le formulaire de l'objet (en création ou en édition/consultation)
     // Cette fonction est appelée par /front/room.form.php
     // showForm(ID de l'objet,tableau pour les options)
-    public function showForm($ID, $options = [])
+    public function showForm($ID, array $options = [])
     {
         global $CFG_GLPI;
 
@@ -301,7 +309,7 @@ class PluginRoomRoom extends CommonDBTM
         // Nom de la salle
         echo '<tr class="tab_bg_1"><td>' . __('Name', 'room') . ':		</td>';
         echo '<td>';
-        Html::autocompletionTextField($this, 'name');
+	echo Html::input('name', ['value' => $this->fields['name']]);
         echo '</td>';
         echo '<td>' . __('Location', 'room') . ':		</td>';
         echo '<td>';
@@ -417,7 +425,7 @@ class PluginRoomRoom extends CommonDBTM
         // Spécificité 1
         echo '<tr class="tab_bg_1"><td>' . __('Specificity 1', 'room') . ':		</td>';
         echo '<td>';
-        Html::autocompletionTextField($this, 'text1');
+        echo Html::input('text1', ['value' => $this->fields['text1']]);
         echo '</td>';
 
         // Spécificité 3
@@ -435,7 +443,7 @@ class PluginRoomRoom extends CommonDBTM
         // Spécificité 2
         echo '<tr class="tab_bg_1"><td>' . __('Specificity 2', 'room') . ':		</td>';
         echo '<td>';
-        Html::autocompletionTextField($this, 'text2');
+		echo Html::input('text2', ['value' => $this->fields['text2']]);
         echo '</td>';
 
         // Spécificité 4
@@ -453,13 +461,13 @@ class PluginRoomRoom extends CommonDBTM
         // Horaires d'ouverture
         echo '<tr class="tab_bg_1"><td>' . __('Opening Times', 'room') . ':		</td>';
         echo '<td colspan="3">';
-        Html::autocompletionTextField($this, 'opening');
+        echo Html::input('opening', ['value' => $this->fields['opening']]);
         echo '</td></tr>';
 
         // limitations
         echo '<tr class="tab_bg_1"><td>' . __('Limitations', 'room') . ':		</td>';
         echo '<td colspan="3">';
-        Html::autocompletionTextField($this, 'limits');
+        echo Html::input('limits', ['value' => $this->fields['limits']]);
         echo '</td></tr>';
 
         // Commentaires

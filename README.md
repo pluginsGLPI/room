@@ -11,9 +11,6 @@ This plugin allows you to manage the rooms and the elements that are included
 in. A room is not the same as a location that already exists in GLPI because it
 can not contain items nor be loaned (which a room can be).
 
-GLPI 9.5.1 compatibility added and tested. Translation fixed (gettext domain). 
-I also added a basic hungarian translation :)
-
 Installation
 ------------
 

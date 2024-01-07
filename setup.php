@@ -55,13 +55,13 @@ function plugin_version_room()
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_room_check_prerequisites()
 {
-    if (version_compare(GLPI_VERSION, '9.5', '>=') && version_compare(GLPI_VERSION, '9.6', '<=')) {
+    if (version_compare(GLPI_VERSION, '9.5', '>=') && version_compare(GLPI_VERSION, '10.1', '<=')) {
         return true;
     } else {
         if (method_exists('Plugin', 'messageIncompatible')) {
-            echo Plugin::messageIncompatible('core', '9.5', '9.6');
+            echo Plugin::messageIncompatible('core', '9.5', '10.1');
         } else {
-            echo 'This plugin requires GLPI >= 9.5 && <= 9.6';
+            echo 'This plugin requires GLPI >= 9.5 && <= 10.1';
         }
         return false;
     }

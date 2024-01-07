@@ -129,9 +129,10 @@ class PluginRoomProfile extends Profile
                 _sx('button', 'Save'),
                 [
                     'name' => 'update',
+		    'class' => 'btn btn-primary',
                 ]
             );
-            echo '</div>\n';
+            echo "</div>\n";
             Html::closeForm();
         }
         echo '</div>';
